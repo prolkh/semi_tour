@@ -19,6 +19,7 @@
                 <a href="<%=cp%>/member/login.do">로그인</a>
                     &nbsp;|&nbsp;
                 <a href="<%=cp%>/member/member.do">회원가입</a>
+			</div>
 		</div>
 	</div>
 </div>
