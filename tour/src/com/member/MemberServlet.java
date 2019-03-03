@@ -96,7 +96,7 @@ public class MemberServlet extends MyServlet{
 	}
 	
 	private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		// ·Î±×¾Æ¿ô
 		
 	}
 	
