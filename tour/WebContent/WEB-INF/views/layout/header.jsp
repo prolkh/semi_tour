@@ -9,9 +9,7 @@
 
 
 <div class="header-top">
-	<div class="header-left">
-	
-	</div>
+	<div class="header-left">&nbsp;</div>
 
 	<div class="header-right">
 		<div>
@@ -24,13 +22,6 @@
 	</div>
 </div>
 
-<div class="menu">
-	<ul class="nav">
-		<li><a href="#"></a></li>
-		<li><a href="#"></a></li>
-		<li><a href="#"></a></li>
-		<li><a href="#"></a></li>
-		<li><a href="#"></a></li>		
-	</ul>
+<div class="header-main">
 
 </div>
