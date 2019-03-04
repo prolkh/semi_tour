@@ -125,6 +125,7 @@ function sendLogin(){
 						<input type="password" name="userPwd" id="userPwd" class="loginText" maxlength="20"
 								onfocus="document.getElementById('lblUserPwd').style.display='none';"
 								onblur="labelHidden(this, 'lblUserPwd')">
+								
 					</td>
 				</tr>
 				<tr align="center" height="65">

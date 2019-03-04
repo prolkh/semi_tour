@@ -59,4 +59,5 @@ public class MemberDTO {
 		this.userRoll = userRoll;
 	}
 
+	
 }
