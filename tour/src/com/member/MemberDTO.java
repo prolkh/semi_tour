@@ -8,6 +8,7 @@ public class MemberDTO {
 	private String email;
 	private String created_date;
 	private String modify_date;
+	private int userRoll;
 	
 	public String getUserId() {
 		return userId;
@@ -51,4 +52,11 @@ public class MemberDTO {
 	public void setModify_date(String modify_date) {
 		this.modify_date = modify_date;
 	}
+	public int getUserRoll() {
+		return userRoll;
+	}
+	public void setUserRoll(int userRoll) {
+		this.userRoll = userRoll;
+	}
+
 }

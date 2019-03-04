@@ -12,6 +12,89 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+*{ margin:0; padding: 0; }
+
+body{
+	background:#f5f6f7;
+}
+.lbl{
+	position:absolute;
+	margin: 18px 0px 0px 14px;
+	color: #999999; font-size: 16pt;
+}
+
+.loginText{
+	width:330px; height:35px;
+	padding: 5px;
+	padding-left:15px;
+	border : 1px solid #999999;
+	color: #333333;
+	margin: 5px 0px;
+	font-size:14px;
+	
+}
+
+.btnConfirm{
+	font-size: 17px;
+	border: none;
+	color:#ffffff;
+	background: #507CD1;
+	width:352px;
+	height: 50px;
+	line-height: 50px;	
+}
+
+.btn:active, .btn:focus, .btn:hover {
+	background-color:#e6e6e6;
+	border-color: #adadad;
+	color: #333333;
+}
+
+.login-container{
+	background:white;
+	margin: 10px auto;
+	padding : 50px;
+	border: 1px solid lightgrey;
+	width: 365px; 
+}
+
+.login-container a{
+	text-decoration: none;
+}
+</style>
+
+
+<script type="text/javascript">
+function labelHidden(ob, id){
+	if(!ob.value){
+		document.getElementById(id).style.display="";
+	} else {
+		document.getElementById(id).style.display="none";
+	}
+	
+}
+
+function sendLogin(){
+	var f=document.loginForm;
+	
+	if(! f.userId.value){
+		alert("아이디를 입력하세요.");
+		f.userId.focus();
+		return;
+	}
+	
+	if(! f.userPwd.value){
+		alert("패스워드를 입력하세요.");
+		f.userPwd.focus();
+		return;
+	}
+	
+	f.action = "<%=cp%>/member/login_ok.do";
+	f.submit();
+}
+</script>
+
 </head>
 <body>
 
@@ -21,35 +104,39 @@
 </div>
 
 <div class="container">
-	<div>
-		<div>
-			<span>회원 로그인</span>
+	<div  class="login-container">
+		<div style="text-align: center;  margin-top: 5px; margin-bottom: 10px;">
+			<span style="font-weight: bold; font-size: 25px;">회원 로그인</span>
 		</div>
 		
 		<form name="loginForm" method="post" action="">
 			<table>
 				<tr align="center" height="60">
 					<td>
-						<label>아이디</label>
-						<input type="text" name="userId" id="userId" class="" maxlength="15">
+						<label for="userId" id="lblUserId" class="lbl">아이디</label>
+						<input type="text" name="userId" id="userId" class="loginText" maxlength="15"
+								onfocus="document.getElementById('lblUserId').style.display='none';"
+								onblur="labelHidden(this, 'lblUserId')">
 					</td>			
 				</tr>
 				<tr align="center" height="60">
 					<td>
-						<label>패스워드</label>
-						<input type="password" name="userPwd" id="userPwd" class="" maxlength="20">
+						<label for="userPwd" id="lblUserPwd" class="lbl">패스워드</label>
+						<input type="password" name="userPwd" id="userPwd" class="loginText" maxlength="20"
+								onfocus="document.getElementById('lblUserPwd').style.display='none';"
+								onblur="labelHidden(this, 'lblUserPwd')">
 					</td>
 				</tr>
 				<tr align="center" height="65">
 					<td>
-						<button type="button" onclick="sendLogin();" class="">로그인</button>
+						<button type="button" onclick="sendLogin();" class="btnConfirm">로그인</button>
 					</td>
 				</tr>
 				
 				<tr align="center" height="45">
 					<td>
-						<a href="<%=cp%>/">아이디 찾기</a>
-						<a href="<%=cp%>/">패스워드 찾기</a>
+						<a href="<%=cp%>/">아이디 찾기</a> | 
+						<a href="<%=cp%>/">패스워드 찾기</a> | 
 						<a href="<%=cp%>/member/member.do">회원가입</a>
 					</td>
 				</tr>
