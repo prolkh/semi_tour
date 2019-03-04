@@ -11,60 +11,83 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+        <title>로그인</title>
+        <style>
+        #wrap.member.inner{overflow:hidden;position:relative;width:100px;margin:0 auto;}
+   
 
+        </style>
 
-<div class="header">
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-</div>
+    </head>
+    <body>
+        <div id="wrap">
+        <div class="header">헤더</div>
+            <h><a href="#"></a></h>
+        <div>
+            <form>
+                <span>관광 홈페이지 제목</span>
+                <div class="member">
+                    <div class="inner">
+                        <div>
+                            <div style= "margin:0 auto; text-align: center; box-sizing: border-box; font-size: 30px;"><a href="#">어서옵쇼 관광지쇼 </a> </div>
+                        <div style= "margin:20px auto 20px auto;text-align: center; box-sizing: border-box;">
+                            <h2><label>아이디</label></h2>
+                            <span>
+                            <input type="text"; maxlength="40"; style="font-size: 25px; padding: 10px 60px 10px 60px;">
+                            <br><span>아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야됨</span></br>
+                            </span>
+                        </div>
 
-<div class="container">
-	<div>
-		<div>
-			<span>회원 로그인</span>
-		</div>
-		
-		<form name="loginForm" method="post" action="">
-			<table>
-				<tr align="center" height="60">
-					<td>
-						<label>아이디</label>
-						<input type="text" name="userId" id="userId" class="" maxlength="15">
-					</td>			
-				</tr>
-				<tr align="center" height="60">
-					<td>
-						<label>패스워드</label>
-						<input type="password" name="userPwd" id="userPwd" class="" maxlength="20">
-					</td>
-				</tr>
-				<tr align="center" height="65">
-					<td>
-						<button type="button" onclick="sendLogin();" class="">로그인</button>
-					</td>
-				</tr>
-				
-				<tr align="center" height="45">
-					<td>
-						<a href="<%=cp%>/">아이디 찾기</a>
-						<a href="<%=cp%>/">패스워드 찾기</a>
-						<a href="<%=cp%>/member/member.do">회원가입</a>
-					</td>
-				</tr>
-				<tr align="center" height="40">
-					 <td><span style="color:blue;">${message}</span></td>
-				</tr>
-			</table>
-		</form>
-	</div>
-</div>
+                        <div style= "margin:20px auto 20px auto;text-align: center; box-sizing: border-box;">
+                            <h3><label>비밀번호</label></h3>
+                            <span>
+                                <input type="password"; maxlength="40"; style="font-size: 25px; padding: 10px 60px 10px 60px;">
+                                <br><span>비밀번호는 10자 이내로~(이건 알아서설정)</span></br>
+                            </span>
+                        </div>
 
-<div class="footer">
-	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
-</div>
+                        <div style= "margin:20px auto 20px auto;text-align: center; box-sizing: border-box;">
+                            <h3><label>비밀번호 확인</label></h3>
+                            <span>
+                                <input type="password"; maxlength="40"; style="font-size: 25px; padding: 10px 60px 10px 60px;">
+                                 <br><span>비밀번호한번더 입력점</span></br>
+                            </span>
+                        </div>
 
-
-</body>
+                        <div style= "margin:20px auto 20px auto;text-align: center; box-sizing: border-box;">
+                            <h3><label>전화번호</label></h3>
+                            <span>
+                            <select type="text"; style="height: 50px; font-size: 20px; padding: 10px 20px 10px 20px;">
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="016">016</option>
+                                <option value="017">017</option>
+                                <option value="018">018</option>
+                                <option value="019">019</option>
+                            </select>
+                            -
+                            <input type="text" name="" value="" class="boxTF" maxlength="4" style="height: 40px" >
+                            -
+                            <input type="text" name="" value="" class="boxTF" maxlength="4" style="height: 40px">
+                            </span>
+                        </div>
+                        
+                        <div style= "margin:20px auto 20px auto;text-align: center; box-sizing: border-box;">
+                            <h3><label>이메일</label></h3>
+                            <span>
+                                <input type="text"; maxlength="40"; style="font-size: 25px; padding: 10px 60px 10px 60px;">
+                            </span>
+                        </div>
+                        <div style= "margin:20px auto 20px auto;text-align: center; box-sizing: border-box;">
+                            <span>
+                                <button type="text"; maxlength="40"; style="font-size: 25px; padding: 10px 60px 10px 60px;">가입하기</button>
+                            </span>
+                        </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    </body>
 </html>
