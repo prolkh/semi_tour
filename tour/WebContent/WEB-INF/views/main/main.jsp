@@ -66,7 +66,7 @@
 	    
 		<div class="inner">
 			<div class="inner-row">
-				<span></span>
+				<span><a href="<%=cp%>/site/list.do"></a></span>
 				<span></span> 
 				<span></span> 
 			</div>
