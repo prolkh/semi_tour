@@ -1,0 +1,116 @@
+@CHARSET "UTF-8";
+
+.board {
+	margin:30px auto 0px;
+	width:700px;
+	text-align:left;
+	box-sizing: border-box;  /* padding과 border는 크기에 포함되지 않음 */
+}
+
+.board .board-title {
+	width:100%;
+	height:45px;
+	line-height:45px;
+	text-align:left;
+	font-weight: bold;
+	font-size:15px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+}
+
+.board .board-header {
+	margin: 20px auto 0px;
+	height: 35px;
+	line-height:35px;
+	clear: both;
+}
+.board .board-header .left-header{
+	width:50%;
+	float:left;
+	text-align:left;
+}
+.board .board-header .right-header{
+	width:50%;
+	float:right;
+	text-align:right;
+}
+
+.board .board-list {
+	clear:both;
+}
+
+.board-list .list-title {
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #cccccc;
+	background-color: #eeeeee;
+	color: #787878;
+}
+
+.board-list .list-title dl {
+	height:35px;
+}
+
+.board-list .list-title dt {
+	float:left;
+	height:35px;
+	line-height:35px;
+	text-align:center;
+}
+
+.board-list dd {
+	float:left;
+	height:35px;
+	line-height:35px;
+	text-align:center;
+}
+
+.board-list .num {width:60px;}
+.board-list .subject {width:350px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.board-list .name {width:100px;}
+.board-list .created {width:80px;}
+.board-list .hitCount {width:60px;}
+.board-list .file {width:50px;}
+
+.board-list .list-row {
+	clear:both;
+}
+
+.board-list .list-row dl {
+	float:left; /* height 없이 선 표시하기 위해 */
+	border-bottom:1px solid #cccccc;
+}
+
+.board-list dd.subject {
+	padding-left: 10px;
+	width:350px;
+	text-align:left;
+	box-sizing: border-box;
+}
+
+.board .board-paging {
+	clear:both;
+	height:35px;
+	line-height:35px;
+	text-align:center;
+}
+
+.board .board-footer {
+	width:100%;
+	margin: 10px auto 0px;
+	height: 45px;
+	clear: both;
+}
+.board-footer .left-footer{
+	width:100px;
+	float:left;
+	text-align:left;
+}
+.board-footer .center-footer{
+	width:500px;
+	float:left;
+	text-align:center;
+}
+.board-footer .right-footer{
+	width:100px;
+	float:right;
+	text-align:right;
+}

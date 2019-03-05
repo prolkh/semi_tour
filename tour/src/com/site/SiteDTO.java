@@ -3,6 +3,7 @@ package com.site;
 public class SiteDTO {
 	private int num; // 글번호
 	private String userId; // 아이디
+	private String userName;
 	private String subject; // 관광지 이름
 	private String useTime; // 이용시간
 	private int zip; // 우편번호
@@ -28,6 +29,12 @@ public class SiteDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getSubject() {
 		return subject;

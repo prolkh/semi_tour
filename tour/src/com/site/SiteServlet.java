@@ -67,17 +67,15 @@ public class SiteServlet extends MyServlet {
 	
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
-		String cp = req.getContextPath();
-		SiteDAO dao = new SiteDAO();
-		MyUtil util = new MyUtil();
-		
-		String page = req.getParameter("page");
-		int current_page = 1;
-		if(page != null)
-			current_page = Integer.parseInt(page);
-		
-		// 전체 데이터 개수
-		int dataCount = dao.dataCount();
+		/*
+		 * String cp = req.getContextPath(); SiteDAO dao = new SiteDAO(); MyUtil util =
+		 * new MyUtil();
+		 * 
+		 * String page = req.getParameter("page"); int current_page = 1; if(page !=
+		 * null) current_page = Integer.parseInt(page);
+		 * 
+		 * // 전체 데이터 개수 int dataCount = dao.dataCount();
+		 */
 	}
 	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -89,7 +87,27 @@ public class SiteServlet extends MyServlet {
 	}
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 보기
+		String cp = req.getContextPath();
 		
+		SiteDAO dao = new SiteDAO();
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String page = req.getParameter("page");
+		
+		SiteDTO dto = dao.readSite(num);
+		if(dto == null) {
+			resp.sendRedirect(cp + "/site/list.do?page="+page);
+			return;
+		}
+		
+		MyUtil util = new MyUtil();
+		dto.setContent(util.htmlSymbols(dto.getContent()));
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/site/article.jsp");
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
