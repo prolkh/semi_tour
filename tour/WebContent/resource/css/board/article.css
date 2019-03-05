@@ -1,0 +1,156 @@
+@CHARSET "UTF-8";
+
+.board {
+	margin:30px auto 0px;
+	width:700px;
+	text-align:left;
+	box-sizing: border-box;  /* padding과 border는 크기에 포함되지 않음 */
+}
+
+.board .board-title {
+	width:100%;
+	height:45px;
+	line-height:45px;
+	text-align:left;
+	font-weight: bold;
+	font-size:15px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+}
+
+.board .board-article {
+	margin:20px auto 0px;
+	width:100%;
+	border-top:1px solid #cccccc;
+	text-align:left;
+	clear:both;
+}
+
+.board-article .row-line {
+	box-sizing: border-box;
+	clear:both;
+	width:100%;
+	height:35px;
+	line-height:35px;
+	text-align:left;
+	padding-left:5px;
+	padding-right:5px;
+	border-bottom:1px solid #cccccc;	
+}
+
+.row-line .left-line{
+	float:left;
+	height:35px;
+	line-height:35px;
+	text-align:left;
+	padding-left:5px;
+}
+.row-line .right-line{
+	float:right;
+	height:35px;
+	line-height:35px;
+	text-align:right;
+	padding-right:5px;
+}
+
+.board-article .row-content {
+	box-sizing: border-box;
+	padding:10px 5px ;
+	width:100%;
+	min-height:170px;
+	text-align:left;
+	border-bottom:1px solid #cccccc;
+	display: flex;	
+}
+
+.board-article .row-content .left-content {
+	box-sizing: border-box;
+	padding:10px 5px ;
+	width:50%;
+	min-height:170px;
+	text-align:left;
+}
+
+.board-article .row-content .right-content {
+	box-sizing: border-box;
+	padding:10px 5px ;
+	width:50%;
+	min-height:170px;
+}
+
+.board .board-footer {
+	width:100%;
+	margin: 10px auto 0px;
+	height: 45px;
+	clear: both;
+}
+.board .board-footer .left-footer{
+	width:50%;
+	float:left;
+	text-align:left;
+}
+.board .board-footer .right-footer{
+	width:50%;
+	float:right;
+	text-align:right;
+}
+
+ul.tabs{
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 32px;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #999;
+	width: 100%;
+}
+
+ul.tabs li{
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px;
+	line-height:31px;
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px;
+	overflow: hidden;
+	position: relative;
+	background: #e0e0e0;	
+}
+
+ul.tabs li a{
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 1.2em;
+	padding: 0 20px;
+	border:  1px solid #fff;
+	outline: none;
+}
+
+ul.tabs li a:hover{
+	background: #ccc;
+}
+
+ul.tabs li.active, ul.tabs li.active a:hover{
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+
+.tab-container{
+	border: 1px solid #999;
+	border-top: none;
+	overflow: hidden;
+	clear: both;
+	float: left;
+	width: 100%;
+	background: #fff; 
+}
+
+.tab-content{
+	padding: 20px;
+	font-size: 1.2em;
+	height: 150px;
+}
+
