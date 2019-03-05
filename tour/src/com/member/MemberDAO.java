@@ -51,7 +51,7 @@ public class MemberDAO {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			rs = pstmt.executeQuery();
-			
+			 
 			if(rs.next()) {
 				dto = new MemberDTO();
 				dto.setUserId(rs.getString("userId"));
