@@ -96,7 +96,7 @@ public class MemberServlet extends MyServlet{
 		
 		dto.setUserId(req.getParameter("userId"));
 		dto.setUserPwd(req.getParameter("userPwd"));
-		dto.setUserName(req.getParameter("userPwd"));
+		dto.setUserName(req.getParameter("userName"));
 		dto.setTel(req.getParameter("tel"));
 		dto.setEmail(req.getParameter("email"));
 		
@@ -123,7 +123,17 @@ public class MemberServlet extends MyServlet{
 	
 	private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 로그아웃
+		HttpSession session=req.getSession();
+		String cp = req.getContextPath();
 		
+		// 세션에 저장된 정보를 지운다.
+		session.removeAttribute("member");
+		
+		// 세션에 저장된 정보를 모두 지우고 초기화한다.
+		session.invalidate();
+		
+		// 루트로 리다이렉트
+		resp.sendRedirect(cp);
 	}
 	
 }

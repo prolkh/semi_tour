@@ -22,9 +22,9 @@
                 <c:if test="${not empty sessionScope.member }">
                 	<span> ${sessionScope.member.userName}</span>님
                 	&nbsp;|&nbsp;
-                    <a href="<%=cp%>">로그아웃</a>
+                    <a href="<%=cp%>/member/logout.do">로그아웃</a>
                     &nbsp;|&nbsp;
-                    <a href="<%=cp%>">정보수정</a>
+                    <a href="<%=cp%>/member/pwd.do?mode=update">정보수정</a>
                 </c:if>
 			</div>
 		</div>

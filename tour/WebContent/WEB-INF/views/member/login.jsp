@@ -23,7 +23,7 @@ body{
 }
 .lbl{
 	position:absolute;
-	margin: 18px 0px 0px 14px;
+	margin: 14px 0px 0px 14px;
 	color: #999999; font-size: 16pt;
 }
 
@@ -42,7 +42,7 @@ body{
 	font-size: 17px;
 	border: none;
 	color:#ffffff;
-	background: #507CD1;
+	background: chocolate;
 	width:352px;
 	height: 50px;
 	line-height: 50px;	
@@ -100,12 +100,10 @@ function sendLogin(){
 
 </head>
 <body>
-<div class="header">
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-</div>
+<div style="height: 150px; background:grey;">&nbsp;</div>
 
 <div class="container" style="margin-top:50px; margin-bottom:50px;">
-	<div  class="login-container">
+	<div class="login-container">
 		<div style="text-align: center;  margin-top: 5px; margin-bottom: 10px;">
 			<span style="font-weight: bold; font-size: 25px;">회원 로그인</span>
 		</div>
