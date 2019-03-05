@@ -51,6 +51,32 @@ public class MemberServlet extends MyServlet{
 		String userId = req.getParameter("userId");
 		String userPwd = req.getParameter("userPwd");
 		
+		MemberDTO dto=dao.readMember(userId);
+		if(dto!=null) {
+			if(userPwd.equals(dto.getUserPwd())){
+				// 로그인 성공 : 로그인 정보를 서버에 저장
+				// 세션의 유지시간을 30분으로 설정(기본 30분)
+				session.setMaxInactiveInterval(30*60);
+				
+				//세션에 저장할 내용
+				SessionInfo info=new SessionInfo();
+				info.setUserId(dto.getUserId());
+				info.setUserName(dto.getUserName());
+				info.setUserRoll(dto.getUserRoll());
+				//세션에 member라는  이름으로 저장
+				session.setAttribute("member", info);
+				
+				//메인화면으로 리다이렉트
+				resp.sendRedirect(cp);
+				return;
+			}
+		}
+		
+		//로그인 실패인 경우(다시 로그인 폼으로)
+		String msg="아이디 또는 패스워드가 일치하지 않습니다.";
+		req.setAttribute("message", msg);
+		
+		forward(req, resp, "/WEB-INF/views/member/login.jsp");	
 	}
 	
 	private void memberForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

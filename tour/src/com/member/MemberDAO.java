@@ -45,7 +45,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT userId, userName, userPwd, tel, created_date, modify_date, userRoll"
+			sql = "SELECT userId, userName, userPwd, tel, created_date, modify_date, userRoll "
 					+ "FROM member WHERE userId = ?";
 			
 			pstmt=conn.prepareStatement(sql);
@@ -55,12 +55,12 @@ public class MemberDAO {
 			if(rs.next()) {
 				dto = new MemberDTO();
 				dto.setUserId(rs.getString("userId"));
-				dto.setUserName(rs.getString("userId"));
-				dto.setUserPwd(rs.getString("userId"));
-				dto.setTel(rs.getString("userId"));
-				dto.setCreated_date(rs.getString("userId"));
-				dto.setModify_date(rs.getString("userId"));
-				dto.setUserRoll(rs.getInt("userId"));				
+				dto.setUserName(rs.getString("userName"));
+				dto.setUserPwd(rs.getString("userPwd"));
+				dto.setTel(rs.getString("tel"));
+				dto.setCreated_date(rs.getString("created_date"));
+				dto.setModify_date(rs.getString("modify_date"));
+				dto.setUserRoll(rs.getInt("userRoll"));				
 			}
 			
 			

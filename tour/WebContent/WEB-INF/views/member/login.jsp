@@ -12,6 +12,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <style type="text/css">
 *{ margin:0; padding: 0; }
 
@@ -97,13 +100,11 @@ function sendLogin(){
 
 </head>
 <body>
-
-
 <div class="header">
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>
 
-<div class="container" style="height: 800px;">
+<div class="container" style="margin-top:50px; margin-bottom:50px;">
 	<div  class="login-container">
 		<div style="text-align: center;  margin-top: 5px; margin-bottom: 10px;">
 			<span style="font-weight: bold; font-size: 25px;">회원 로그인</span>
