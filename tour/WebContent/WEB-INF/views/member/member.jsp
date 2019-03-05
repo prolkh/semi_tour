@@ -18,7 +18,7 @@
 <style>
 	.body-container .member {font-size: 15px; }
 	.body-container .member .inner{margin-top: 5px; margin-bottom: 15px; text-align: center;}
-	.body-container .member .inner > p {line-height: 150%;}
+	.body-container .member .inner > p {line-heig    ht: 150%;}
 	.body-container .member .inner .memberTF {width: 50%; padding-top:10px; padding-bottom:10px;}
 	.body-container .member .inner > .block-title {font-weight: 700; font-size: 22px;}
 	.body-container .member .inner > .block-msg {color: #333333;}
@@ -63,9 +63,9 @@
 				<div class="inner">
 					<p class="block-title">전화번호</p>
 					<p>
-					   <input type="text" name="tel1" class="boxTF" maxlength="3" style="width: 14%; padding-top:10px; padding-bottom:10px; "> -
-					   <input type="text" name="tel2" class="boxTF" maxlength="4" style="width: 14%; padding-top:10px; padding-bottom:10px; "> -
-					   <input type="text" name="tel3" class="boxTF" maxlength="4" style="width: 14%; padding-top:10px; padding-bottom:10px; ">
+					   <input type="text" name="tel1" class="boxTF" maxlength="3" style="width: 15%; padding-top:10px; padding-bottom:10px; "> -
+					   <input type="text" name="tel2" class="boxTF" maxlength="4" style="width: 15%; padding-top:10px; padding-bottom:10px; "> -
+					   <input type="text" name="tel3" class="boxTF" maxlength="4" style="width: 15%; padding-top:10px; padding-bottom:10px; ">
 					</p>
 				</div>
 
