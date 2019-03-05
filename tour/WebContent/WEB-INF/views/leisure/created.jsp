@@ -1,0 +1,88 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	String cp=request.getContextPath();
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>여행지 올리기</title>
+<link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<style>
+*{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+</style>
+</head>
+<body>
+<div class="header">
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+</div>
+<div class="container" style="width:940px; height:1040px;">
+<h1>글쓰기</h1>
+	<div style="width:680px; margin:10px auto; border:1px solid darkblue;">
+		<ul class="" style="width:660px; height:40px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">제&nbsp;&nbsp;목</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:40px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">개&nbsp;장&nbsp;기&nbsp;간</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:40px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">이&nbsp;용&nbsp;시&nbsp;간</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:40px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">주&nbsp;소</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<textarea class="" name="" style="width:95%; height:20px; margin:3px"></textarea>			
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:40px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">위&nbsp;도</li>
+			<li class="" style="width:210px; height:30px; margin:5px auto; float:left;">
+				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+			</li>
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">경&nbsp;도</li>
+			<li class="" style="width:210px; height:30px; margin:5px auto; float:left;">
+				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:40px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">전&nbsp;화&nbsp;번&nbsp;호</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:100px; margin:0px auto; border-bottom:1px solid darkblue;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">개&nbsp;요</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<textarea class="" name="" style="width:95%; height:80px; margin:3px"></textarea>			
+			</li>
+		</ul>
+		<ul class="" style="width:660px; height:150px; margin:0px auto;">
+			<li class="" style="width:100px; text-align:center; margin:5px; height:25px; float:left; padding-top:5px;">상&nbsp;세&nbsp;정&nbsp;보</li>
+			<li class="" style="width:550px; height:30px; margin:5px auto; float:left;">
+				<textarea class="" name="" style="width:95%; height:130px; margin:3px"></textarea>			
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="footer">
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+</div>
+</body>
+</html>
