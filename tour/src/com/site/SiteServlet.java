@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.Util.FileManager;
 import com.Util.MyServlet;
 import com.Util.MyUtil;
 import com.member.SessionInfo;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @WebServlet("/site/*")
 public class SiteServlet extends MyServlet {
@@ -67,22 +70,94 @@ public class SiteServlet extends MyServlet {
 	
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
-		/*
-		 * String cp = req.getContextPath(); SiteDAO dao = new SiteDAO(); MyUtil util =
-		 * new MyUtil();
-		 * 
-		 * String page = req.getParameter("page"); int current_page = 1; if(page !=
-		 * null) current_page = Integer.parseInt(page);
-		 * 
-		 * // 전체 데이터 개수 int dataCount = dao.dataCount();
-		 */
+		
+		  String cp = req.getContextPath(); 
+		  SiteDAO dao = new SiteDAO();
+		  MyUtil util = new MyUtil();
+		  
+		  String page = req.getParameter("page"); 
+		  int current_page = 1; 
+		  if(page !=  null) 
+			  current_page = Integer.parseInt(page);
+		  
+		  // 전체 데이터 개수 
+		  int dataCount = dao.dataCount();
+		  
+		  // 전체 페이지 수
+		  
+		  // JSP로 포워딩
+		  forward(req, resp, "/WEB-INF/views/site/list.jsp");
+		  
+		 
 	}
 	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 글 쓰기 폼
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String cp = req.getContextPath();
 		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		if(info.getUserRoll() > 3) {
+			resp.sendRedirect(cp+"/site/list.do");
+			return;
+		}
+		
+		req.setAttribute("mode", "created");
+		
+		forward(req, resp, "/WEB-INF/views/site/created.jsp");
 	}
 	
 	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 저장
+		String cp = req.getContextPath();
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		SiteDAO dao = new SiteDAO();		
+
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		if(info.getUserRoll() > 3) {
+			resp.sendRedirect(cp+"/site/list.do");
+			return;
+		}
+		
+		
+		String encType = "UTF-8";
+		int maxSize = 5 * 1024 * 1024;
+		
+		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
+		
+		SiteDTO dto = new SiteDTO();
+		if(mreq.getFile("upload") != null) {
+			dto.setUserId(info.getUserId());
+			dto.setUserName(info.getUserName());
+			dto.setSubject(mreq.getParameter("subject"));
+			dto.setUseTime(mreq.getParameter("useTime"));
+			dto.setZip(Integer.parseInt(mreq.getParameter("zip")));
+			dto.setAddress(mreq.getParameter("address"));
+			dto.setLongitude(Float.parseFloat(mreq.getParameter("longitude")));
+			dto.setLatitude(Float.parseFloat(mreq.getParameter("latitude")));
+			dto.setContent(mreq.getParameter("content"));
+			dto.setIntroduction(mreq.getParameter("introduction"));
+			
+			
+			String saveFilename = mreq.getFilesystemName("upload");
+			
+			saveFilename = FileManager.dofilerename(pathname, saveFilename);
+			dto.setImageFilename(saveFilename);
+			
+			dao.insertSite(dto);
+		}
+		resp.sendRedirect(cp+"/site/list.do");
 		
 	}
 	

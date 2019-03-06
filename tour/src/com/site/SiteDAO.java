@@ -10,6 +10,47 @@ import com.Util.DBConn;
 public class SiteDAO {
 	private Connection conn = DBConn.getConnection();
 	
+	// 글 작성
+	public int insertSite(SiteDTO dto) {
+		int result=0;
+		
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("INSERT INTO site(num, userId, subject, useTime, zip, address,");
+			sb.append("					latitude, longitude, content, introduction, imageFilename)");
+			sb.append("VALUES(site_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, dto.getUserId());
+			pstmt.setString(2, dto.getSubject());
+			pstmt.setString(3, dto.getUseTime());
+			pstmt.setInt(4, dto.getZip());
+			pstmt.setString(5, dto.getAddress());
+			pstmt.setFloat(6, dto.getLatitude());
+			pstmt.setFloat(7, dto.getLongitude());
+			pstmt.setString(8, dto.getContent());
+			pstmt.setString(9, dto.getIntroduction());
+			pstmt.setString(10, dto.getImageFilename());
+			
+			result = pstmt.executeUpdate();			
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	// 글 삭제
 	public int deleteSite(int num) {
 		int result = 0;

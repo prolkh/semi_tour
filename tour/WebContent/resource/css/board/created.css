@@ -1,77 +1,63 @@
 @CHARSET "UTF-8";
-
-.board {
-	margin:30px auto 0px;
-	width:700px;
-	text-align:left;
-	box-sizing: border-box;  /* padding과 border는 크기에 포함되지 않음 */
+*{
+	margin:0;
+	padding:0;
+	list-style-type:none;
 }
 
-.board .board-title {
-	width:100%;
-	height:45px;
-	line-height:45px;
-	text-align:left;
-	font-weight: bold;
-	font-size:15px;
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+textarea{
+	width: 95%;
+	margin: 3px;
 }
 
-.board .board-form {
-	clear:both;
-	margin:20px auto 0px;
-	width:100%;
-	border-top:1px solid #cccccc;
-	text-align:left;
+.cinput{
+	width: 95%;
+	height: 20px;
+	margin: 3px;
+	
+}
+.container{
+	width:940px; 
+	height:1040px;
+}
+.backForm{
+	width:680px;
+	margin:10px auto;
+	border:1px solid darkblue;
 }
 
-.board-form .row-line, .board-form .row-content {
+.btn-div{
+	width:680px;
+	margin:10px auto;
+	height: 40px;
+	border: none;
+}
+
+.front{
+	width:100px; 
+	text-align:center; 
+	margin:5px; 
+	height:25px; 
+	float:left; 
+	padding-top:5px;
+}
+.writeForm{
+	width:660px; 
+	height:40px; 
+	margin:0px auto; 
+	border-bottom:1px solid darkblue;
+}
+.line{
+	width:550px; 
+	height:30px; 
+	margin:5px auto; 
+	float:left;
+}
+.photo{
+	margin:3px;
+}
+
+.li-btn {
 	float: left;
-	border-bottom:1px solid #cccccc;
-}
-
-.board-form .row-line dt {
-	float:left;
-	width:100px;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-	background-color:#eeeeee;
-}
-.board-form .row-line dd {
-	float:left;
-	width:600px;
-	height:40px;
-	padding-left:10px;
-	line-height:40px;
-	text-align:left;
-	box-sizing: border-box;
-}
-
-.board-form .row-content dt {
-	float:left;
-	width:100px;
-	height:170px;
-	padding-top:10px;
-	text-align:center;
-	background-color:#eeeeee;
-	box-sizing: border-box;
-}
-.board-form .row-content dd {
-	padding-left:10px;
-	padding-top:10px;
-	float:left;
-	width:600px;
-	height:170px;
-	line-height:170px;
-	text-align:left;
-	box-sizing: border-box;
-}
-
-.board .board-footer {
-	clear:both;
-	width:100%;
-	height:45px;
-	line-height:45px;
-	text-align:center;
+	margin: 10px 5px;
 }

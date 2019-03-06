@@ -77,6 +77,12 @@
 	min-height:170px;
 }
 
+.board .guest-write {
+    border: #d5d5d5 solid 1px;
+    padding: 10px;
+    min-height: 50px;
+}
+
 .board .board-footer {
 	width:100%;
 	margin: 10px auto 0px;
@@ -123,7 +129,7 @@ ul.tabs li a{
 	text-decoration: none;
 	color: #000;
 	display: block;
-	font-size: 1.2em;
+	font-size: 15px;
 	padding: 0 20px;
 	border:  1px solid #fff;
 	outline: none;
@@ -150,7 +156,7 @@ ul.tabs li.active, ul.tabs li.active a:hover{
 
 .tab-content{
 	padding: 20px;
-	font-size: 1.2em;
+	font-size: 15px;
 	height: 150px;
 }
 

@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
+<title>관광지 둘러보기</title>
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
@@ -19,6 +19,9 @@
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
+
 <script type="text/javascript">
 	function deleteSite(num) {
 	<c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
@@ -119,14 +122,62 @@
         	
         	</div>
         	
-        	<div class="row-line">
+        	<div class="row-content">
         		<h3>개요</h3>
         		${dto.introduction}
         	</div>
         	
-        	<div class="row-line">
-        	
+        	<div>
+            
+             <form name="replyForm" method="post" action="">
+             <div class="reply-write">
+                 <div style="clear: both; padding: 10px 5px;">
+                         <span style="font-weight: bold;">전체댓글</span>
+                 </div>
+                 <div style="clear: both; padding-top: 10px;">
+                       <textarea name="content" id="content" class="boxTF" rows="3" style="display:block; width: 100%; padding: 6px 12px; box-sizing:border-box;" required="required"></textarea>
+                  </div>
+                  <div style="text-align: right; padding-top: 10px;">
+                       <button type="button" class="btn" onclick="sendReply();" style="padding:8px 25px;"> 등록하기 </button>
+                  </div>           
+            </div>
+           </form>
+         
+           <div id="listReply" style="width:100%; margin: 0px auto;">
+             <c:if test="${dataCount != 0}">
+                 <table style='width: 100%; margin: 10px auto 0px; border-spacing: 0px; border-collapse: collapse;'>
+                    <tr height='35'>
+                        <td width='50%'>
+                            <span style='color: #3EA9CD; font-weight: 700;'>댓글 ${dataCount}개</span>
+                            <span>[목록, ${page}/${total_page} 페이지]</span>
+                        </td>
+                        <td width='50%'>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    
+                    <c:forEach var="dto" items="${list}">
+                         <tr height='35' bgcolor='#eeeeee'>
+                               <td width='50%' style='padding-left: 5px; border:1px solid #cccccc; border-right:none;'>
+                                       작성자 : ${dto.userName}
+                                </td>
+                                <td width='50%' align='right' style='padding-right: 5px; border:1px solid #cccccc; border-left:none;'>
+                                       ${dto.created}
+                                       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">    
+                                           | <a href="javascript:deleteReply('${dto.num}');">삭제</a>
+                                        </c:if>
+                                    </td>
+                         </tr>
+                          
+                         <tr height='50'><td colspan='2' style='padding: 5px;' valign='top'>${dto.content}</td></tr>
+                    </c:forEach>  
+                          
+                         <tr><td colspan='2' height='30' align='center'>${paging}</td></tr>
+                 </table>
+             </c:if>
+           </div>
         	</div>
+        	
         	
 			<div class="board-footer">
 				<div class="left-footer">
@@ -151,7 +202,5 @@
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>
 
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
 </body>
 </html>
