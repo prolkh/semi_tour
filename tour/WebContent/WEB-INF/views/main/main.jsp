@@ -67,7 +67,7 @@
 		<div class="inner">
 			<div class="inner-row">
 				<span onclick="location.href = '<%=cp%>/site/list.do'"></span>
-				<span></span> 
+				<span onclick="location.href='<%=cp%>/leisure/list.do'"></span> 
 				<span></span> 
 			</div>
 			<div class="inner-row">
