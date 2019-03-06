@@ -97,7 +97,13 @@ public class MemberServlet extends MyServlet{
 		dto.setUserId(req.getParameter("userId"));
 		dto.setUserPwd(req.getParameter("userPwd"));
 		dto.setUserName(req.getParameter("userName"));
-		dto.setTel(req.getParameter("tel"));
+		String tel1 = req.getParameter("tel1");
+		String tel2 = req.getParameter("tel2");
+		String tel3 = req.getParameter("tel3");
+		if (tel1 != null && tel1.length() != 0 && tel2 != null
+				&& tel2.length() != 0 && tel3 != null && tel3.length() != 0) {
+			dto.setTel(tel1 + "-" + tel2 + "-" + tel3);
+		}
 		dto.setEmail(req.getParameter("email"));
 		
 		int result=dao.insertMember(dto);
