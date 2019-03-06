@@ -27,10 +27,11 @@
 	background:none;
 	
 }
-.btn:hover, .btn:action, .btn:focus{
-	background-color: #57667e;
-	border-color: #adadad;
-	color: orange;	
+.btn:hover, .btn:focus{
+	background-color: darkblue;
+	border-color: none;
+	color: white;
+	border-radius:15px;
 }
 #wrap{
 	width:940px;
@@ -51,13 +52,18 @@
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
     <div id="wrap">
-	    <div class="contents">
+	    <div class="contents" style="float:left;">	    
+        	<ul style="weight:650px; margin:70px auto;">
+        		<li style="float:right;">
+        		<button name="write" onclick="location.href='<%=cp%>/leisure/created.do'">글쓰기</button>
+        		</li>
+        	</ul>                
         	<div class="inner"style="margin:100px auto 0px auto; text-align:center; box-sizing:border-box;">                    
-            	<ul class=""style="width:600px; height:30px; background-color:darkblue; float:left;">
+            	<ul class=""style="width:650px; height:30px; background-color:darkblue; float:left;">
                   	<li class="" style="color:white; float:left; margin:4px;"><strong>총&nbsp;</strong>0000<strong>건</strong></li>                 		
                 </ul>                    
                 <ul class="">
-                    <li class="" style="width:600px; height:136px; margin:22px auto 0px auto; float:left; border-bottom:1px solid darkblue;">
+                    <li class="" style="width:650px; height:136px; margin:22px auto 0px auto; float:left; border-bottom:1px solid darkblue;">
                         <div class="lei_name" style="width:140px; height:95px; float:left;">
                             <a href="" onclick=""><img src="" alt="사진"></a>
                         </div>
@@ -72,7 +78,7 @@
                     </li>
                 </ul>                    
                 <ul class="">
-                    <li class="" style="width:600px; height:136px; margin:22px auto 0px auto; float:left; border-bottom:1px solid darkblue;">
+                    <li class="" style="width:650px; height:136px; margin:22px auto 0px auto; float:left; border-bottom:1px solid darkblue;">
                         <div class="lei_name" style="width:140px; height:95px; float:left;">
                             <a href="" onclick=""><img src="" alt="사진"></a>
                         </div>
@@ -88,7 +94,7 @@
                 </ul>
             </div>
         </div>
-        <div class="area_tag">
+        <div class="area_tag" style="padding-right:30px; padding-top:100px;">
             <div class="tag">
              	<ul class="tag_ul" id="">		
                     <li id="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
@@ -111,7 +117,7 @@
                     <li id="39"><button type="button" class="btn" onclick=""><span>#제주</span></button></li>                    
                 </ul>
             </div>
-        </div>
+        </div>        
 	</div>
     <div class="footer">
     	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>"
