@@ -8,7 +8,7 @@ public class NoticeDTO {
 	private String content;
 	private String saveFilename;
 	private String originalFilename;
-	private int filesize;
+	private long filesize;
 	private int hitCount;
 	private String created;
 	public int getNum() {
@@ -53,10 +53,10 @@ public class NoticeDTO {
 	public void setOriginalFilename(String originalFilename) {
 		this.originalFilename = originalFilename;
 	}
-	public int getFilesize() {
+	public long getFilesize() {
 		return filesize;
 	}
-	public void setFilesize(int filesize) {
+	public void setFilesize(long filesize) {
 		this.filesize = filesize;
 	}
 	public int getHitCount() {

@@ -25,7 +25,7 @@ public class NoticeDAO   {
 			pstmt.setString(4, dto.getContent());
 			pstmt.setString(5, dto.getSaveFilename());
 			pstmt.setString(6, dto.getOriginalFilename());
-			pstmt.setInt(7, dto.getFilesize());
+			pstmt.setLong(7, dto.getFilesize());
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {

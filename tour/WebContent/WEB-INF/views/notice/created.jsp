@@ -12,37 +12,78 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<script type="text/javascript">
+function sendNotice() {
+	var f=document.noticeForm;
+	
+	var str=f.subject.value;
+	if(!str){
+		alert("제목을 입력하세요")
+		f.subject.focus();
+		return;
+	}
+	str=f.content.value;
+	if(!str){
+		alert("내용을 입력하세요.")
+		f.content.focus();
+		return;
+	}
+	var mode="${mode}";
+	if(mode=="created")
+		f.action="<%=cp%>/notice/created_ok.do";
+	else if(mode=="update")
+		f.action="<%=cp%>/notice/update_ok.do";
+		
 
+	f.submit();
+}
+
+<c:if test="${mode=='update'}">
+	function deleteFile(num) {
+		var url="<%=cp%>/notice/deleteFile.do?num="+num+"&page=${page}";
+		location.href=url;
+	}
+
+</c:if>
+</script>
 
 
 </head>
 <body>
-<div class="container">
 	<div class="header">
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
 	
+<div class="container">
+	 <div class="body-container" style="width: 700px;">
 	<div>
-		<form name="noticeForm" method="post" enctype="application/x-www-form-urlencoded">
+		<form name="noticeForm" method="post" enctype= >
 		<table style="width: 50%; margin:80px auto; border-spacing:3px; border-collapse:collapse; border:2px solid gray;">
 		<tr align="left" height="40" style="border-top: 1px solid #ccccccc; border-bottom: 1px solid #cccccc;">
 			<td width="100" bgcolor="#eeeeee" style="text-align:center; ">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			<td style="padding-left:10px;">
-			<input type="checkbox" name="notice" value="1">공지
+			     <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
 			</td>
 		</tr>
+		
+		<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
+			<td width="100" bgcolor="#eeeeee" style="text-align: center;">공지여부</td>
+			<td style="padding-left:10px;"> 
+			    <input type="checkbox" name="notice" value="1" ${dto.notice==1 ? "checked='checked' ":"" } > 공지
+			 </td>
+			  </tr>
 		
 		<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			<td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			<td style="padding-left: 10px;">
-				유저이름
+				${sessionScope.member.userName}
 			</td>
 		</tr>
 		
 		<tr align="left" style="border-bottom: 1px solid #cccccc;">
 			<td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			<td valign="top" style="padding:5px 0px 5px 10px;">
-			<textarea name="content" rows="12" class="boxTA" style="width: 95%;">내용넣기</textarea>
+			<textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content }</textarea>
 			</td>
 			
 		</tr>
@@ -54,27 +95,40 @@
 			</td>
 		</tr>
 		
-		<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-			<td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
-			<td style="padding-left:10px;"><a href="#"></a> </td>
-		</tr>		
+	  <c:if test="${mode=='update'}">
+		 <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+			 <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
+			 <td style="padding-left:10px;"> 
+				<c:if test="${not empty dto.saveFilename}">
+				       ${dto.originalFilename}
+				             | <a href="javascript:deleteFile('${dto.num}');">삭제</a>
+				</c:if>     
+			 </td>
+		 </tr> 
+		</c:if>
+		
+			
 		</table>
 		
+		<!--수정시 파일 없애는 방시 추가  -->
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		<tr height="45">
 			<td align="center">
-			<button type="button" class="btn" onclick="">등록할랭 수정할랭</button>
+			<button type="button" class="btn" onclick="sendNotice()">${mode=='update'? '수정완료':'등록하기' }</button>
 			<button type="reset" class="btn">다시입력</button>
-			<button type="button" class="btn" onclick="">등록취소할랭 수정취소할랭</button>
-				<input type="hidden" name="num" value="">
-				<input type="hidden" name="page" value="">
-				<input type="hidden" name="filesize" value="">
-				<input type="hidden" name="saveFilename" value="">
-				<input type="hidden" name="origianlFilename" value="">
+			<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do';">${mode=='update'?'수정취소':'등록취소' }</button>
+<%-- 			<c:if test=${mode=='update' }>
+				<input type="hidden" name="num" value="${dto.num }">
+				<input type="hidden" name="page" value="${page }">
+				<input type="hidden" name="filesize" value="${dto.filesize }">
+				<input type="hidden" name="saveFilename" value="${dto.saveFilename }">
+				<input type="hidden" name="origianlFilename" value="${dto.originalFilname }">
+			</c:if> --%>
 			</td>
 		</tr>		
 		</table>
 </form>
+</div>
 </div>
 </div>
 

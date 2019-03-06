@@ -12,7 +12,7 @@
 <title>어서옵쇼 관광지쇼</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp %>/resource/css/layout.css" type="text/css">
-<script type="text/javascript" src="<%=cp%>/resource/js/urtil.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript">
 	function searchList() {
 		var f=document.searchForm;
@@ -72,7 +72,10 @@
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left" width="100">
-					<button type="button" class="btn">새로고침</button>
+					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do'">새로고침</button>
+					
+					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created.do'">글올리기</button>
+					
 				</td>
 				<td align="center">
 					<form name="searchForm" action="center" method="post">
