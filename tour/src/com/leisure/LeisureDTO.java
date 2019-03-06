@@ -14,7 +14,7 @@ public class LeisureDTO {
 	private String content;
 	private int hitCount;
 	private String created;
-	private String imageFileName;
+	private String imageFilename;
 		
 	public int getNum() {
 		return num;
@@ -94,10 +94,10 @@ public class LeisureDTO {
 	public void setCreated(String created) {
 		this.created = created;
 	}
-	public String getImageFileName() {
-		return imageFileName;
+	public String getImageFilename() {
+		return imageFilename;
 	}
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName = imageFileName;
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
 	}	
 }

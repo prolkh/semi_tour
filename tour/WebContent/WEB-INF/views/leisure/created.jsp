@@ -121,12 +121,10 @@
 		</ul>
 	</div>
 	<div class="backForm" style="height:40px; border:none;">
-		<ul style="float:right;">
-			<li style="weight:225px;"></li>
+		<ul style="float:right;">			
 			<li style="float:left; margin:10px 5px;"><button>올리기</button></li>
 			<li style="float:left; margin:10px 5px;"><button>다시쓰기</button></li>
-			<li style="float:left; margin:10px 5px;"><button>취소</button></li>
-			<li style="weight:225px;"></li>
+			<li style="float:left; margin:10px 5px;"><button>취소</button></li>			
 		</ul>
 	</div>
 </div>
