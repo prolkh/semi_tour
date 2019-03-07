@@ -16,7 +16,7 @@
 			<div style="padding-top: 20px;  float: right;">
 				<c:if test="${empty sessionScope.member}">
 	                <a href="<%=cp%>/member/login.do">로그인</a>
-	                    &nbsp;|&nbsp;
+	                    <span>&nbsp;|&nbsp;</span>
 	                <a href="<%=cp%>/member/member.do">회원가입</a>
                 </c:if>
                 <c:if test="${not empty sessionScope.member }">

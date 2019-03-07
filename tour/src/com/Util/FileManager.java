@@ -1,5 +1,8 @@
 package com.Util;
 
+import java.io.File;
+import java.util.Calendar;
+
 public class FileManager {
 	/**
 	 * 파일 다운로드 메소드
@@ -21,8 +24,25 @@ public class FileManager {
 	 * @param filename 변경할 파일명
 	 * @return 새로운파일명
 	 */
-	public static String dofilerename(String pathname, String filename) {
+	public static String doFilerename(String pathname, String filename) {
 		String newname="";
+		
+    	String fileExt = filename.substring(
+    			       filename.lastIndexOf("."));
+    	String s = String.format(
+    			"%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", 
+				 Calendar.getInstance());
+    	s += System.nanoTime();
+    	s += fileExt;
+    	
+    	try {
+	    	File f1=new File(pathname+File.separator+filename);
+	    	File f2=new File(pathname+File.separator+s);
+	    	f1.renameTo(f2);
+	    	
+	    	newname = s;
+    	}catch(Exception e) {
+    	}
 		
 		return newname;
 	}
