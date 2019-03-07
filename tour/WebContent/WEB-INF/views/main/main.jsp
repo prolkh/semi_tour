@@ -74,10 +74,10 @@
 			<div class="inner-row">
 				<span onclick="location.href='<%=cp%>/site/list.do'" class="site-bg">관광지</span>
 				<span onclick="location.href='<%=cp%>/leisure/list.do'">레포츠</span> 
-				<span>일정</span> 
+				<span onclick="location.href='<%=cp%>/fest/list.do'">일정</span>
 			</div>
 			<div class="inner-row">
-				<span></span> 
+				<span onclick="location.href='<%=cp%>/notice/list.do'"></span> 
 				<span></span> 
 				<span></span> 
 			</div>       
