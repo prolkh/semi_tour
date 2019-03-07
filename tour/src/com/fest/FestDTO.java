@@ -4,6 +4,7 @@ public class FestDTO {
 	private int num;
 	private String userId;
 	private String eventName;
+	private String content;
 	private String address;
 	private String startDate;
 	private String endDate;
@@ -12,7 +13,7 @@ public class FestDTO {
 	private String host;
 	private String price;
 	private String createdDate;
-	private String imagFilename;
+	private String imageFilename;
 	
 	public int getNum() {
 		return num;
@@ -31,6 +32,12 @@ public class FestDTO {
 	}
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getAddress() {
 		return address;
@@ -80,10 +87,11 @@ public class FestDTO {
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
-	public String getImagFilename() {
-		return imagFilename;
+	public String getImageFilename() {
+		return imageFilename;
 	}
-	public void setImagFilename(String imagFilename) {
-		this.imagFilename = imagFilename;
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
 	}
+
 }

@@ -10,7 +10,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <style>
 *{
@@ -28,12 +27,17 @@ body{
 	background:none;
 	border-radius: 35px;
 	padding: 5px 10px 6px;
+	font-weight:500;
+	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+	cursor:pointer;
+	text-align:center;
 }
 .btn:hover{
 	background-color: #57667e;
 	border-color: #adadad;
 	color:white;
 }
+
 .active {
 	background-color: #57667e;
 	border-color: #adadad;
@@ -102,20 +106,40 @@ dl, ul, ol, menu, li {
 	list-style: none;
 }
 </style>
-
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(function() {
-	var btn = "area_tag .btn";
-	$("area_tag .btn").click(function() {
-		if($("area_tag .btn").hasClass("active")){
-			$("area_tag .btn").removeClass("active");
-		} 
-		if($("area_tag .btn").is(".active")==false){
-			$("area_tag .btn").addClass("active");
+	$("#monthlist .btn").click(function() {
+		if($(this).parent().hasClass("All")){
+			if($(this).hasClass("active")){
+				$("#monthlist .btn").removeClass("active");
+			} else {
+				$("#monthlist .btn").addClass("active");
+			}
+		} else {
+			$("#monthlist .btn").find(".All").removeClass("active");
+			// $(this).parent().parent().find(".All").children().removeClass("active");
+			if($(this).hasClass("active")){
+				$(this).removeClass("active");
+			} else {
+				$(this).addClass("active");
+			}
+		}
+		
+		
+	});	
+});
+
+$(function() {
+	$("#arealist .btn").click(function() {
+		$("#arealist .btn").not($(this)).removeClass("active");
+		if($(this).hasClass("active")){
+			$(this).removeClass("active");
+		} else {
+			$(this).addClass("active");
 		}
 	});	
-})
-
+});
 
 </script>
 
@@ -125,10 +149,9 @@ $(function() {
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
 	
-	
-	
     <div id="wrap">
     	<div class="header">
+    	
     	
     	</div>
 	    <div class="contents">
@@ -211,16 +234,25 @@ $(function() {
             </div>
         </div>
         <div class="area_tag">
-            	<ul class="tag_ul" id="monthlist">
-                    <li id="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
+        		<ul class="tag_ul" id="edit" style="margin-bottom:10px; height:32px;">
+        			<li>
+        				<button style="border:1px solid #57667e;" type="button" class="btn" onclick="location.href='<%=cp%>/fest/created.do';">글 올리기</button>
+        			</li>
+        			<li>
+        				<button style="border:1px solid #57667e; padding-left:110px;" type="button" class="btn">검색</button>
+        			</li>
+        		</ul>
+        
+            	<ul class="tag_ul" id="monthlist" style="height:144px;">
+                    <li class="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
             		<c:forEach var="i" begin="1" end="12" step="1">
             			<li id="${i<=9?'0':''}${i}"><button type="button" class="btn" onclick=""><span>#${i}월</span></button></li>
             		</c:forEach>
             	</ul>
             
             
-             	<ul class="tag_ul" id="">		
-                    <li id="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
+             	<ul class="tag_ul" id="arealist" style="height:180px;">		
+                    <li class="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
                     <li id="1"><button type="button" class="btn" onclick=""><span>#서울</span></button></li>
                     <li id="6"><button type="button" class="btn" onclick=""><span>#부산</span></button></li>
                     <li id="4"><button type="button" class="btn" onclick="">#대구</button></li>
