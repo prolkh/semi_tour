@@ -50,7 +50,31 @@
 .photo{
 	margin:3px;
 }
+.line_input{
+	width:95%; 
+	height:20px; 
+	margin:3px;
+}
+
+.line_text{
+	width:95%;
+	margin:3px;
+}
+.under{
+	float:left; 
+	margin:10px 5px;
+}
 </style>
+<script type="text/javascript">
+	function sendOk(){
+		var f = document.board;
+		
+		f.action="<%=cp%>/leisure/${mode}_ok.do";
+		
+		f.submit();
+	}
+
+</script>
 </head>
 <body>
 <div class="header">
@@ -60,57 +84,58 @@
 	<div class="backForm" style="border:none;">
 	<h1>글쓰기</h1>
 	</div>	
+	<form name="board" method="post" enctype="multipart/form-data">	
 	<div class="backForm">
 		<ul class="writeForm">
 			<li class="front">제&nbsp;&nbsp;목</li>
 			<li class="line">
-				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">
+				<input type="text" class="line_input" name="subject" value="${dto.subject}">
 			</li>
 		</ul>
 		<ul class="writeForm">
 			<li class="front">개&nbsp;장&nbsp;기&nbsp;간</li>
 			<li class="line">
-				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">
+				<input type="text" class="line_input" name="opening" value="${dto.opening}">
 			</li>
 		</ul>
 		<ul class="writeForm">
 			<li class="front">이&nbsp;용&nbsp;시&nbsp;간</li>
 			<li class="line">
-				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+				<input type="text" class="line_input" name="useTime" value="${dto.useTime}">				
 			</li>
 		</ul>
 		<ul class="writeForm">
 			<li class="front">주&nbsp;소</li>
 			<li class="line">
-				<textarea class="" name="" style="width:95%; height:20px; margin:3px"></textarea>			
+				<textarea class="line_text" name="line_text" style="height:20px;">${dto.address}</textarea>			
 			</li>
 		</ul>
 		<ul class="writeForm">
 			<li class="front">위&nbsp;도</li>
 			<li class="line" style="width:210px;">
-				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+				<input type="text" class="line_input" name="longtitude" value="${dto.longtitude}" >				
 			</li>
 			<li class="front">경&nbsp;도</li>
 			<li class="line" style="width:210px;">
-				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+				<input type="text" class="line_input" name="latitude" value="${dto.latitude}">				
 			</li>
 		</ul>
 		<ul class="writeForm">
 			<li class="front">전&nbsp;화&nbsp;번&nbsp;호</li>
 			<li class="line">
-				<input type="text" class="" name="" style="width:95%; height:20px; margin:3px">				
+				<input type="text" class="line_input" name="tel" value="${dto.tel }" >				
 			</li>
 		</ul>
 		<ul class="writeForm" style="height:100px;">
 			<li class="front">개&nbsp;요</li>
 			<li class="line">
-				<textarea class="" name="" style="width:95%; height:80px; margin:3px"></textarea>			
+				<textarea class="line_text" name="introduction" style="height:80px;">${dto.introduction}</textarea>			
 			</li>
 		</ul>
 		<ul class="writeForm" style="height:150px;">
 			<li class="front">상&nbsp;세&nbsp;정&nbsp;보</li>
 			<li class="line">
-				<textarea class="" name="" style="width:95%; height:130px; margin:3px"></textarea>	
+				<textarea class="line_text" name="content" style="height:130px;">${dto.content}</textarea>	
 			</li>
 		</ul>
 		<ul class="writeForm" style="border-bottom:none;">
@@ -122,11 +147,13 @@
 	</div>
 	<div class="backForm" style="height:40px; border:none;">
 		<ul style="float:right;">			
-			<li style="float:left; margin:10px 5px;"><button>올리기</button></li>
-			<li style="float:left; margin:10px 5px;"><button>다시쓰기</button></li>
-			<li style="float:left; margin:10px 5px;"><button>취소</button></li>			
+			<li class="under"><button class="btn" type="button" onclick="sendOk()">${mode=='update'?'수정완료':'등록하기'}</button></li>
+			<li class="under"><button class="btn" type="reset">다시쓰기</button></li>
+			<li class="under"><button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/WEB-INF/views/leisure/list.do';">취소</button></li>			
 		</ul>
 	</div>
+	</form>
+	
 </div>
 <div class="footer">
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

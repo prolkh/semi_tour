@@ -1,4 +1,4 @@
-package com.leisure;
+	package com.leisure;
 
 public class LeisureDTO {
 	private int num;
@@ -8,8 +8,8 @@ public class LeisureDTO {
 	private String useTime;
 	private String tel;
 	private String address;
-	private int longitude;
-	private int latitude;
+	private float longitude;
+	private float latitude;
 	private String introduction;
 	private String content;
 	private int hitCount;
@@ -58,16 +58,16 @@ public class LeisureDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getLongitude() {
+	public float getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(int longitude) {
+	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
-	public int getLatitude() {
+	public float getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(int latitude) {
+	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
 	public String getIntroduction() {

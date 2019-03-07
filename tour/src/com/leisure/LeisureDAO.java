@@ -14,28 +14,29 @@ public class LeisureDAO {
 	
 	public int insertLeisure(LeisureDTO dto) {
 		PreparedStatement pstmt=null;
-		String sql;
+		StringBuffer sb = new StringBuffer();
 		int result=0;
 		
 		try {
-			sql="insert into leisure set(num, userId, subject, opening, useTime, address,";
-			sql="longitude, latitude, tel, content, introduction, imageFilename)";
-			sql="values(lei_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sb.append("insert into leisure(NUM, USERID, SUBJECT, OPENING, USETIME, ADDRESS,");
+			sb.append(" LATITUDE, LONGITUDE, TEL, CONTENT, INTRODUCTION, IMAGEFILENAME)");
+			sb.append(" values(LEISURE_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
-			pstmt=conn.prepareStatement(sql);
+			pstmt=conn.prepareStatement(sb.toString());
+			
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getSubject());
 			pstmt.setString(3, dto.getOpening());
 			pstmt.setString(4, dto.getUseTime());
 			pstmt.setString(5, dto.getAddress());
-			pstmt.setInt(6, dto.getLongitude());
-			pstmt.setInt(7, dto.getLatitude());
+			pstmt.setFloat(6, dto.getLatitude());
+			pstmt.setFloat(7, dto.getLongitude());
 			pstmt.setString(8, dto.getTel());
 			pstmt.setString(9, dto.getContent());
 			pstmt.setString(10, dto.getIntroduction());
 			pstmt.setString(11, dto.getImageFilename());
 			
-			pstmt.executeUpdate();
+			result=pstmt.executeUpdate();
 			
 		}catch(Exception e){
 			System.out.println(e.toString());
@@ -101,8 +102,8 @@ public class LeisureDAO {
 				dto.setOpening(rs.getString("opening"));
 				dto.setUseTime(rs.getString("useTime"));
 				dto.setAddress(rs.getString("address"));
-				dto.setLongitude(rs.getInt("longtitude"));
-				dto.setLatitude(rs.getInt("latitude"));
+				dto.setLongitude(rs.getFloat("longtitude"));
+				dto.setLatitude(rs.getFloat("latitude"));
 				dto.setTel(rs.getString("tel"));
 				dto.setContent(rs.getString("content"));
 				dto.setIntroduction(rs.getString("introduction"));
@@ -145,8 +146,8 @@ public class LeisureDAO {
 			pstmt.setString(2, dto.getOpening());
 			pstmt.setString(3, dto.getUseTime());
 			pstmt.setString(4, dto.getAddress());
-			pstmt.setInt(5, dto.getLongitude());
-			pstmt.setInt(6, dto.getLatitude());
+			pstmt.setFloat(5, dto.getLongitude());
+			pstmt.setFloat(6, dto.getLatitude());
 			pstmt.setString(7, dto.getTel());
 			pstmt.setString(8, dto.getContent());
 			pstmt.setString(9, dto.getIntroduction());
@@ -195,7 +196,7 @@ public class LeisureDAO {
 				dto.setOpening(rs.getString("opening"));
 				dto.setUseTime(rs.getString("useTime"));
 				dto.setAddress(rs.getString("address"));
-				dto.setLongitude(rs.getInt("longtitude"));
+				dto.setLongitude(rs.getInt("longitude"));
 				dto.setLatitude(rs.getInt("latitude"));
 				dto.setTel(rs.getString("tel"));
 				dto.setContent(rs.getString("content"));
@@ -225,7 +226,7 @@ public class LeisureDAO {
 		return list;
 	}
 	
-	public int datacount() {
+	public int dataCount() {
 		PreparedStatement pstmt=null;
 		String sql;
 		ResultSet rs = null;
@@ -248,6 +249,29 @@ public class LeisureDAO {
 				}catch(Exception e2) {					
 				}
 			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}		
+		return result;
+	}
+	
+	public int dataCount(String searchKey, String searchValue) {
+		int result=0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql="";
+			
+			
+			
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}finally {
 			if(pstmt!=null) {
 				try {
 					pstmt.close();
