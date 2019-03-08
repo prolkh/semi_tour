@@ -4,6 +4,7 @@ public class NoticeDTO {
 	private int num;
 	private int notice;
 	private String userId;
+	private String userName;
 	private String subject;
 	private String content;
 	private String saveFilename;
@@ -11,6 +12,9 @@ public class NoticeDTO {
 	private long filesize;
 	private int hitCount;
 	private String created;
+	private int listNum;
+	private long gap;
+	
 	public int getNum() {
 		return num;
 	}
@@ -70,5 +74,23 @@ public class NoticeDTO {
 	}
 	public void setCreated(String created) {
 		this.created = created;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
 	}
 }

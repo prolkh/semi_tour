@@ -28,23 +28,12 @@ function sendNotice() {
 		f.content.focus();
 		return;
 	}
-	var mode="${mode}";
-	if(mode=="created")
-		f.action="<%=cp%>/notice/created_ok.do";
-	else if(mode=="update")
-		f.action="<%=cp%>/notice/update_ok.do";
-		
+
+	f.action="<%=cp%>/notice/${mode}_ok.do";
 
 	f.submit();
 }
 
-<c:if test="${mode=='update'}">
-	function deleteFile(num) {
-		var url="<%=cp%>/notice/deleteFile.do?num="+num+"&page=${page}";
-		location.href=url;
-	}
-
-</c:if>
 </script>
 
 
@@ -57,7 +46,7 @@ function sendNotice() {
 <div class="container">
 	 <div class="body-container" style="width: 700px;">
 	<div>
-		<form name="noticeForm" method="post" enctype= >
+		<form name="noticeForm" method="post" enctype="multipart/form-data" >
 		<table style="width: 50%; margin:80px auto; border-spacing:3px; border-collapse:collapse; border:2px solid gray;">
 		<tr align="left" height="40" style="border-top: 1px solid #ccccccc; border-bottom: 1px solid #cccccc;">
 			<td width="100" bgcolor="#eeeeee" style="text-align:center; ">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -95,35 +84,22 @@ function sendNotice() {
 			</td>
 		</tr>
 		
-	  <c:if test="${mode=='update'}">
 		 <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			 <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 			 <td style="padding-left:10px;"> 
-				<c:if test="${not empty dto.saveFilename}">
-				       ${dto.originalFilename}
-				             | <a href="javascript:deleteFile('${dto.num}');">삭제</a>
-				</c:if>     
+				              <a href="#">삭제</a>   
 			 </td>
 		 </tr> 
-		</c:if>
 		
 			
 		</table>
 		
-		<!--수정시 파일 없애는 방시 추가  -->
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		<tr height="45">
 			<td align="center">
 			<button type="button" class="btn" onclick="sendNotice()">${mode=='update'? '수정완료':'등록하기' }</button>
 			<button type="reset" class="btn">다시입력</button>
 			<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do';">${mode=='update'?'수정취소':'등록취소' }</button>
-<%-- 			<c:if test=${mode=='update' }>
-				<input type="hidden" name="num" value="${dto.num }">
-				<input type="hidden" name="page" value="${page }">
-				<input type="hidden" name="filesize" value="${dto.filesize }">
-				<input type="hidden" name="saveFilename" value="${dto.saveFilename }">
-				<input type="hidden" name="origianlFilename" value="${dto.originalFilname }">
-			</c:if> --%>
 			</td>
 		</tr>		
 		</table>
