@@ -176,15 +176,15 @@ public class LeisureDAO {
 		
 		try {
 			sb.append("select * from (");
-			sb.append("	select ROWNUM rnum, tb.*from(");
-			sb.append("	select subject, opening, useTime, tel, address, longitude,");
+			sb.append("	select ROWNUM rnum, tb.* from(");
+			sb.append("	select num, subject, opening, useTime, tel, address, longitude,");
 			sb.append("	latitude, created, introduction, content, hitCount");
 			sb.append("	from leisure order by num DESC) tb where ROWNUM <=?");
 			sb.append("	)where rnum >= ?");
 			
 			pstmt=conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, start);
-			pstmt.setInt(2, end);
+			pstmt.setInt(1, end);
+			pstmt.setInt(2, start);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -208,7 +208,7 @@ public class LeisureDAO {
 				list.add(dto);
 			}			
 		}catch(Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}finally {
 			if(rs!=null) {
 				try {
@@ -226,6 +226,64 @@ public class LeisureDAO {
 		return list;
 	}
 	
+	public List<LeisureDTO> listLeisure(int start, int end, String search){
+		List<LeisureDTO> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("select * from (");
+			sb.append("	select ROWNUM rnum, tb.*from(");
+			sb.append("	select num, subject, opening, useTime, tel, address, longitude,");
+			sb.append("	latitude, created, introduction, content, hitCount");
+			sb.append("	from leisure where INSTR(address,?)>=1 order by num DESC) tb where ROWNUM <=?");
+			sb.append("	)where rnum >= ?");
+			
+			pstmt=conn.prepareStatement(sb.toString());
+			pstmt.setString(1, search);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				LeisureDTO dto = new LeisureDTO();
+				
+				dto.setNum(rs.getInt("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setOpening(rs.getString("opening"));
+				dto.setUseTime(rs.getString("useTime"));
+				dto.setAddress(rs.getString("address"));
+				dto.setLongitude(rs.getInt("longitude"));
+				dto.setLatitude(rs.getInt("latitude"));
+				dto.setTel(rs.getString("tel"));
+				dto.setContent(rs.getString("content"));
+				dto.setIntroduction(rs.getString("introduction"));
+				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setCreated(rs.getDate("created").toString());
+				dto.setImageFilename(rs.getString("imageFilename"));
+				
+				list.add(dto);
+			}			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				}catch(Exception e2) {
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {
+				}
+			}
+		}
+		return list;
+	}
 	public int dataCount() {
 		PreparedStatement pstmt=null;
 		String sql;
@@ -241,7 +299,7 @@ public class LeisureDAO {
 				result=rs.getInt(1);
 			}
 		}catch(Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}finally {
 			if(rs!=null) {
 				try {
@@ -259,18 +317,23 @@ public class LeisureDAO {
 		return result;
 	}
 	
-	public int dataCount(String searchKey, String searchValue) {
+	public int dataCount(String search) {
 		int result=0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql="";
-			
+			sql="select NVL(count(*),0) from leisure where instr(address,?)>=1";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				result=rs.getInt(1);
+			}
 			
 			
 		}catch(Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}finally {
 			if(pstmt!=null) {
 				try {

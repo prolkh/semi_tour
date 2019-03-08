@@ -3,6 +3,8 @@ package com.leisure;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,15 +29,10 @@ public class LeisureServlet extends MyServlet{
 		req.setCharacterEncoding("UTF-8");
 		
 		String uri = req.getRequestURI();
-		String cp = req.getContextPath();
-		
+				
 		//세션 정보
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		if(info==null) {
-			forward(req, resp, "/WEB-INF/views/member/login.jsp");
-			return;
-		}
+				
 		//이미지를 저장할 경로
 		String root = session.getServletContext().getRealPath("/");
 		pathname = root+"update"+File.separator+"leisure";
@@ -76,31 +73,81 @@ public class LeisureServlet extends MyServlet{
 			current_page=Integer.parseInt(page);
 		}
 		//검색
-		String searchKey=req.getParameter("searchKey");
-		String searchValue=req.getParameter("searchValue");
-		if(searchKey==null) {
-			searchKey="subject";
-			searchValue="";
+		String search=req.getParameter("search");
+		if(search==null) {
+			search="";
 		}
+		
 		//GET 방식인 경우 디코딩
 		if(req.getMethod().equalsIgnoreCase("GET")) {
-			searchValue=URLDecoder.decode(searchValue, "UTF-8");
+			search=URLDecoder.decode(search, "UTF-8");
 		}
 		
-		//전테 데이터 개수
+		//전체 데이터 개수
+		int rows=5;
 		int dataCount;
-		if(searchValue.length()==0) {
+		int total_page;
+		if(search.length()!=0) {
+			dataCount=dao.dataCount(search);
+		}else {
 			dataCount=dao.dataCount();
-		}else{
-			dataCount=dao.dataCount(searchKey, searchValue);
 		}
 		
-		forward(req,resp, "/WEB-INF/views/leisure/list.jsp");
 		
+		//전체 페이지 수
+		total_page=util.pageCount(rows, dataCount);
+		if(current_page>total_page) {
+			current_page=total_page;
+		}
+		
+		//게시물 가져올 시작과 끝 위치
+		int start=(current_page-1)*rows+1;
+		int end=current_page*rows;
+		
+		//게시물 가져오기
+		List<LeisureDTO> list;
+		if(search.length()!=0) {
+			list=dao.listLeisure(start,end,search);
+		}else {
+			list=dao.listLeisure(start, end);
+		}
+		
+		//페이징 처리
+		String query="";
+		String listUrl;
+		String articleUrl;
+		
+		if(search.length()==0) {
+			listUrl=cp+"/leisure/list.do";
+			articleUrl=cp+"/leisure/article.do?page="+current_page;
+		}else {
+			query +="&search="+URLEncoder.encode(search,"UTF-8");
+			
+			listUrl=cp+"/leisure/list.do?"+query;
+			articleUrl=cp+"/leisure/article.do?page="+current_page+"&"+query;
+		}
+		
+		String paging=util.paging(current_page, total_page, listUrl);
+		//포워딩할 list.jsp에 넘길 값
+		req.setAttribute("list", list);
+		req.setAttribute("dataCount", dataCount);
+		req.setAttribute("articleUrl", articleUrl);
+		req.setAttribute("page", current_page);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("paging", paging);
+		
+		forward(req,resp, "/WEB-INF/views/leisure/list.jsp");		
 	}
 	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		String cp=req.getContextPath();
+		//세션 정보
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.jsp");
+			return;
+		}
 		
 		req.setAttribute("mode","created");
 				
@@ -147,7 +194,8 @@ public class LeisureServlet extends MyServlet{
 	}
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		//게시물 보기
+	
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

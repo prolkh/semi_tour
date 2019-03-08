@@ -107,13 +107,13 @@
 		<ul class="writeForm">
 			<li class="front">주&nbsp;소</li>
 			<li class="line">
-				<textarea class="line_text" name="line_text" style="height:20px;">${dto.address}</textarea>			
+				<textarea class="line_text" name="address" style="height:20px;">${dto.address}</textarea>			
 			</li>
 		</ul>
 		<ul class="writeForm">
 			<li class="front">위&nbsp;도</li>
 			<li class="line" style="width:210px;">
-				<input type="text" class="line_input" name="longtitude" value="${dto.longtitude}" >				
+				<input type="text" class="line_input" name="longitude" value="${dto.longitude}">			
 			</li>
 			<li class="front">경&nbsp;도</li>
 			<li class="line" style="width:210px;">
