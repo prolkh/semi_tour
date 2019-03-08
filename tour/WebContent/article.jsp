@@ -80,7 +80,7 @@
         
         <div class="board-article">
         	<div class="row-line" style="text-align: center;">
-        		 <h2>${dto.subject}</h2>
+        		 ${dto.subject}
         	</div>
         	
         	<div class="row-line" style="text-align: center;">
@@ -94,7 +94,7 @@
         	
         	<div class="row-content">
         		<div class="left-content">
-        			<img src="<%=cp%>/uploads/site/${dto.imageFilename}" style="max-width:100%; height:auto; resize:both;">
+        			<img src="<%=cp%>/uploads/site/${dto.imageFilename}" style="max-width:40%; height:auto; resize:both;">
         		</div>
         		
         		<div class="right-content">        		
@@ -122,11 +122,9 @@
         	
         	</div>
         	
-        	<div style="padding: 10px 0px 0px 5px; ">        	
-        		<h3>개요</h3>
-        	</div>
         	<div class="row-content">
-				${dto.introduction}
+        		<h3>개요</h3>
+        		${dto.introduction}
         	</div>
         	
         	<div>
