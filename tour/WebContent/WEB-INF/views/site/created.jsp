@@ -14,7 +14,60 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/board/created.css" type="text/css">
 
+<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 
+<script type="text/javascript">
+	function sendSite() {
+		var f = document.siteForm;
+		
+		// 제목입력
+		var str = f.subject.value;
+		if(!str) {
+			f.subject.focus();
+			return;
+		}
+		
+		// 주소 입력
+		str = f.address.value;
+		if(!str) {
+			f.address.focus();
+			return;
+		}
+		
+		// 위도
+		str = f.latitude.value;
+		if(!str) {
+			f.latitude.focus();
+			return;
+		}
+		
+		// 경도
+		str = f.longitude.value;
+		if(!str) {
+			f.longitude.focus();
+			return;
+		}
+		
+		// 개요
+		str = f.introduction.value;
+		if(!str) {
+			f.introduction.focus();
+			return;
+		}		
+		
+		// 상세정보
+		str = f.content.value;
+		if(!str) {
+			f.content.focus();
+			return;
+		}
+		
+		
+		
+	}
+
+</script>
 
 </head>
 <body>

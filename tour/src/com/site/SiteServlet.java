@@ -90,7 +90,7 @@ public class SiteServlet extends MyServlet {
 			search = URLDecoder.decode(search, "utf-8");
 		}
 		
-		int rows = 10;
+		int rows = 5;
 		int dataCount, total_page;
 		
 		// 전체 데이터 개수
@@ -214,12 +214,21 @@ public class SiteServlet extends MyServlet {
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 보기
-		String cp = req.getContextPath();
-
+		
 		SiteDAO dao = new SiteDAO();
+		String cp = req.getContextPath();		
 
 		int num = Integer.parseInt(req.getParameter("num"));
-		String page = req.getParameter("page");
+		String page = req.getParameter("page");		
+
+		String search = req.getParameter("search");
+
+		if(search==null) {
+			search="";
+		}
+		
+		// 조회수
+		dao.updateHitCount(num);
 
 		SiteDTO dto = dao.readSite(num);
 		if (dto == null) {

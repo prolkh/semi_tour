@@ -310,7 +310,7 @@ public class SiteDAO {
 			sb.append("       imageFilename, hitCount, created");
 			sb.append("       FROM site s");
 			sb.append("       JOIN member m ON s.userId=m.userId");
-			sb.append("       WHERE num=?;");
+			sb.append("       WHERE num=?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1,  num);
@@ -353,6 +353,32 @@ public class SiteDAO {
 		}
 		
 		return dto;
+	}
+	
+	public int updateHitCount(int num) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE site SET hitCount= hitCount+1 WHERE num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
 	}
 
 }
