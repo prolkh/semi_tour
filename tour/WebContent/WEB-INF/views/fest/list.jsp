@@ -19,7 +19,7 @@
 }
 
 body{
-	font-size: 13px;
+	font:13px NotoSansKR,NotoSansJP,"돋움",Dotum,AppleGothic,Sans-serif
 }
 .btn{
 	border:0;
@@ -51,6 +51,7 @@ body{
 }
 .contents{
 	float: left;
+	width:600px;
 }
 .area_tag{
 	width:300px;
@@ -90,11 +91,13 @@ body{
 	border-bottom: 1px solid #e6e6e6;
 }
 
-.list > li .photo {
+.list > li .photo{
 	position: absolute;
 	width: 140px;
 	height: 94px;
 }
+
+
 
 .list > li .area_txt{
 	min-height: 94px;
@@ -105,6 +108,22 @@ body{
 dl, ul, ol, menu, li {
 	list-style: none;
 }
+
+.list > li .photo img{
+	width: 140px;
+	height: 94px;
+}
+.list > li .area_txt a{
+	text-decoration:none;
+	font-size:20px;
+	font-weight:bold;
+	width:100%;
+	display:inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
@@ -150,87 +169,32 @@ $(function() {
 	</div>
 	
     <div id="wrap">
-    	<div class="header">
-    	
-    	
-    	</div>
 	    <div class="contents">
         	<div class="inner">                    
-            	<strong>총&nbsp;</strong>0000<strong>건</strong>
+            	<strong>총&nbsp;</strong>${dataCount}<strong>건</strong>
             </div>
-            <div class="total_check">                
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
+            <div class="total_check"> 
+            
+			<ul class="list">
+<c:forEach var="dto" items="${list}">               
+				<li>
+					<div class="photo">
+						<a href="${articleUrl}&num=${dto.num}">
+							<img src="<%=cp%>/uploads/fest/${dto.imageFilename}" alt="${dto.eventName}">
+						</a>
+                    </div>
+					<div class="area_txt">
+						<div class="title">
+							<a href="${articleUrl}&num=${dto.num}">${dto.eventName}</a>
+						</div>
+						<br>
+						<p>[ ${dto.startDate}~${dto.endDate} ]</p>
+						<br>
+						<p>${dto.address}</p>
+					</div>
+				</li>
+</c:forEach>
+			</ul>
             </div>
         </div>
         <div class="area_tag">
@@ -253,23 +217,23 @@ $(function() {
             
              	<ul class="tag_ul" id="arealist" style="height:180px;">		
                     <li class="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
-                    <li id="1"><button type="button" class="btn" onclick=""><span>#서울</span></button></li>
-                    <li id="6"><button type="button" class="btn" onclick=""><span>#부산</span></button></li>
-                    <li id="4"><button type="button" class="btn" onclick="">#대구</button></li>
-                    <li id="2"><button type="button" class="btn" onclick=""><span>#인천</span></button></li>
-                    <li id="5"><button type="button" class="btn" onclick=""><span>#광주</span></button></li>
-                    <li id="3"><button type="button" class="btn" onclick=""><span>#대전</span></button></li>
-                    <li id="7"><button type="button" class="btn" onclick="">#울산</button></li>
-                    <li id="8"><button type="button" class="btn" onclick=""><span>#세종</span></button></li>
-                    <li id="31"><button type="button" class="btn" onclick=""><span>#경기</span></button></li>
-                    <li id="32"><button type="button" class="btn" onclick=""><span>#강원</span></button></li>
-                    <li id="33"><button type="button" class="btn" onclick=""><span>#충북</span></button></li>
-                    <li id="34"><button type="button" class="btn" onclick=""><span>#충남</span></button></li>
-                    <li id="35"><button type="button" class="btn" onclick=""><span>#경북</span></button></li>
-                    <li id="36"><button type="button" class="btn" onclick=""><span>#경남</span></button></li>
-                    <li id="37"><button type="button" class="btn" onclick=""><span>#전북</span></button></li>
-                    <li id="38"><button type="button" class="btn" onclick=""><span>#전남</span></button></li>
-                    <li id="39"><button type="button" class="btn" onclick=""><span>#제주</span></button></li>                    
+                    <li id="1"><button type="button" class="btn" data-search="서울"><span>#서울</span></button></li>
+                    <li id="6"><button type="button" class="btn" data-search="부산"><span>#부산</span></button></li>
+                    <li id="4"><button type="button" class="btn" data-search="대구">#대구</button></li>
+                    <li id="2"><button type="button" class="btn" data-search="인천"><span>#인천</span></button></li>
+                    <li id="5"><button type="button" class="btn" data-search="광주"><span>#광주</span></button></li>
+                    <li id="3"><button type="button" class="btn" data-search="대전"><span>#대전</span></button></li>
+                    <li id="7"><button type="button" class="btn" data-search="울산">#울산</button></li>
+                    <li id="8"><button type="button" class="btn" data-search="세종"><span>#세종</span></button></li>
+                    <li id="31"><button type="button" class="btn" data-search="경기"><span>#경기</span></button></li>
+                    <li id="32"><button type="button" class="btn" data-search="강원"><span>#강원</span></button></li>
+                    <li id="33"><button type="button" class="btn" data-search="충청북도"><span>#충북</span></button></li>
+                    <li id="34"><button type="button" class="btn" data-search="충청남도"><span>#충남</span></button></li>
+                    <li id="35"><button type="button" class="btn" data-search="경상북도"><span>#경북</span></button></li>
+                    <li id="36"><button type="button" class="btn" data-search="경상남도"><span>#경남</span></button></li>
+                    <li id="37"><button type="button" class="btn" data-search="전라북도"><span>#전북</span></button></li>
+                    <li id="38"><button type="button" class="btn" data-search="전라남도"><span>#전남</span></button></li>
+                    <li id="39"><button type="button" class="btn" data-search="제주"><span>#제주</span></button></li>                    
                 </ul>
         </div>
 	</div>
