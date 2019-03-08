@@ -3,6 +3,8 @@ package com.site;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -70,7 +72,7 @@ public class SiteServlet extends MyServlet {
 
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
-		// String cp = req.getContextPath();
+		String cp = req.getContextPath();
 		SiteDAO dao = new SiteDAO();
 		MyUtil util = new MyUtil();
 
@@ -79,22 +81,21 @@ public class SiteServlet extends MyServlet {
 		if (page != null)
 			current_page = Integer.parseInt(page);
 		
-		String searchKey = req.getParameter("searchKey");
-		String searchValue = req.getParameter("searchValue");
-		if(searchKey==null) {
-			searchKey="subject";
-			searchValue="";
+		String search = req.getParameter("search");
+
+		if(search==null) {
+			search="";
 		}
 		if(req.getMethod().equalsIgnoreCase("GET")) {
-			searchValue = URLDecoder.decode(searchValue, "utf-8");
+			search = URLDecoder.decode(search, "utf-8");
 		}
 		
 		int rows = 10;
 		int dataCount, total_page;
 		
 		// 전체 데이터 개수
-		if(searchValue.length() != 0 )
-			dataCount = dao.dataCount(); //searchKey, searchValue
+		if(search.length() != 0 )
+			dataCount = dao.dataCount(search); // search
 		else
 			dataCount = dao.dataCount();
 		total_page = util.pageCount(rows, dataCount);
@@ -102,10 +103,40 @@ public class SiteServlet extends MyServlet {
 		if(current_page>total_page)
 			current_page=total_page;
 		
-		// int start = (current_page-1)*rows+1;
-		// int end = current_page*rows;
+		int start = (current_page-1)*rows+1;
+		int end = current_page*rows;
 		
+		List<SiteDTO> list;
+		if(search.length() != 0)
+			list = dao.listSite(start, end, search);
+		else
+			list = dao.listSite(start, end);
 		
+		String query = "";
+		String listUrl;
+		String articleUrl;
+		
+		if(search.length()==0) {
+			listUrl = cp +"/site/list.do";
+			articleUrl = cp +"/site/article.do?page=" + current_page;
+		} else {
+			query += "&search=" + URLEncoder.encode(search, "utf-8");
+			
+			
+			listUrl = cp + "/site/list.do?"+query;
+			articleUrl = cp + "/site/article.do?page="+current_page+"&"+query;
+		}
+		
+		String paging = util.paging(current_page, total_page, listUrl);
+		
+		// 포워딩 jsp에 넘길 데이터
+		req.setAttribute("list", list);
+		req.setAttribute("articleUrl", articleUrl);
+		req.setAttribute("dataCount", dataCount);
+		req.setAttribute("page", current_page);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("paging", paging);		
+		req.setAttribute("search", search);	
 		
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/site/list.jsp");

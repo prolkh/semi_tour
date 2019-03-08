@@ -13,7 +13,8 @@
     text-align:left;
     background-image: url("/tour/resource/img/header3.jpg");
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;    
+    z-index: -1;
     
 }
 
@@ -35,9 +36,10 @@
 
 .header-left {
     width: 50%;
-    height: 70px;
+    height: 80px;
     float: left;    
-    background-image: url("/tour/resource/img/back.jpg");
+    background-image: url("/tour/resource/img/home.png");
+    background-position: left;
     background-repeat: no-repeat;
 }
 

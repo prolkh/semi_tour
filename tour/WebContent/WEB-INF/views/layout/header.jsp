@@ -9,7 +9,7 @@
 
 
 <div class="header-top">
-	<div class="header-left">&nbsp;</div>
+	<div class="header-left" onclick="location.href='<%=cp%>/main.do'">&nbsp;</div>
 
 	<div class="header-right">
 		<div>
