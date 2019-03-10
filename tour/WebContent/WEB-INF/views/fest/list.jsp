@@ -150,12 +150,21 @@ $(function() {
 });
 
 $(function() {
+	var areacode = "#arealist .${areacode} .btn";
+	$(areacode).addClass("active");
+	
 	$("#arealist .btn").click(function() {
 		$("#arealist .btn").not($(this)).removeClass("active");
 		if($(this).hasClass("active")){
 			$(this).removeClass("active");
 		} else {
 			$(this).addClass("active");
+			
+			var search = $(this).attr("data-search");
+			var url = "<%=cp%>/fest/list.do";
+			if(search !="전체")
+				url+="?search="+encodeURIComponent(search);
+			location.href=url;
 		}
 	});	
 });
@@ -216,7 +225,7 @@ $(function() {
             
             
              	<ul class="tag_ul" id="arealist" style="height:180px;">		
-                    <li class="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
+                    <li class="All"><button type="button" class="btn" data-search="전체"><span>#전체</span></button></li>
                     <li id="1"><button type="button" class="btn" data-search="서울"><span>#서울</span></button></li>
                     <li id="6"><button type="button" class="btn" data-search="부산"><span>#부산</span></button></li>
                     <li id="4"><button type="button" class="btn" data-search="대구">#대구</button></li>

@@ -86,6 +86,41 @@ public class FestDAO {
 		return result;
 	}
 	
+	public int dataCount(String search) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql;
+		
+		try {
+			sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rs=pstmt.executeQuery();
+			if(rs.next())
+				result=rs.getInt(1);
+
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	public List<FestDTO> listFest(int start, int end){
 		List<FestDTO> list = new ArrayList<FestDTO>();
 		
@@ -147,4 +182,67 @@ public class FestDAO {
 		return list;
 	}
 	
+	// 검색 있는 리스트
+	public List<FestDTO> listFest(int start, int end, String search){
+		List<FestDTO> list = new ArrayList<FestDTO>();
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		StringBuffer sb=new StringBuffer();
+		
+		try {
+			sb.append("SELECT * FROM (");
+			sb.append("	    SELECT ROWNUM rnum, tb.* FROM (");
+			sb.append("	        SELECT num, userId, eventName, address, startDate, endDate, tel, homepage, host, price, created, imageFilename, content");
+			sb.append("	        FROM event");
+			sb.append("			WHERE INSTR(address, ?) >=1");
+			sb.append("	        ORDER BY num DESC");
+			sb.append("	    )tb WHERE ROWNUM  <= ?");
+			sb.append(") WHERE rnum>=?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, search);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				FestDTO dto=new FestDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setEventName(rs.getString("eventName"));
+				dto.setContent(rs.getString("content"));
+				dto.setAddress(rs.getString("address"));
+				dto.setStartDate(rs.getDate("startDate").toString());
+				dto.setEndDate(rs.getDate("endDate").toString());
+				dto.setTel(rs.getString("tel"));
+				dto.setHomepage(rs.getString("homepage"));
+				dto.setHost(rs.getString("host"));
+				dto.setPrice(rs.getString("price"));
+				dto.setCreatedDate(rs.getDate("created").toString());
+				dto.setImageFilename(rs.getString("imageFilename"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return list;
+	}
 }

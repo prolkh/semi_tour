@@ -3,6 +3,7 @@ package com.fest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -60,24 +61,29 @@ public class FestServlet extends MyServlet{
 		if(page!=null)
 			current_page=Integer.parseInt(page);
 		
-		String search = req.getParameter("search");
+		String areacode = req.getParameter("areacode");
 		
-		if(search==null) {
-			search="";
+		if(areacode==null) {
+			areacode="All";
 		}
 		if(req.getMethod().equalsIgnoreCase("GET")) {
-			search = URLDecoder.decode(search, "utf-8");
+			areacode = URLDecoder.decode(areacode, "utf-8");
 		}
+						
+		int rows=5;
+		int dataCount;
+		int total_page;
 		
-				
-		//전체 데이터 개수
-		if(search.length() != 0)
-			dataCount 
-		int dataCount=dao.dataCount();
+		//전체 데이터 개수		
+		if(areacode.length() != 0)
+			dataCount=dao.dataCount(areacode);	//search
+		else
+			dataCount = dao.dataCount();
+		
+		
 		
 		//전체 페이지 수
-		int rows=5;
-		int total_page=util.pageCount(rows,  dataCount);
+		total_page=util.pageCount(rows,  dataCount);
 		if(current_page>total_page)
 			current_page=total_page;
 		
@@ -86,11 +92,26 @@ public class FestServlet extends MyServlet{
 		int end=current_page*rows;
 		
 		//게시물 가져오기
-		List<FestDTO> list=dao.listFest(start, end);
+		List<FestDTO> list;
+		if(areacode.length() != 0)
+			list = dao.listFest(start, end, areacode);
+		else 
+			list =dao.listFest(start, end);
 		
 		//페이징 처리
+		String query="";
 		String listUrl=cp+"/fest/list.do";
-		String articleUrl = cp + "/fest/article.do?page="+current_page;
+		String articleUrl;
+		if(areacode.length()==0) {
+			listUrl = cp+"/fest/list.do";
+			articleUrl = cp + "/fest/article.do?page=" + current_page;
+		} else {
+			query += "&search=" + URLEncoder.encode(areacode, "utf-8");
+			
+			listUrl = cp + "/fest/list.do?"+query;
+			articleUrl = cp + "/fest/article.do?page="+current_page+"&"+query;
+		}
+		
 		String paging=util.paging(current_page, total_page, listUrl);
 		
 		//포워딩할 list.jsp에 넘길 값
@@ -99,6 +120,7 @@ public class FestServlet extends MyServlet{
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
+		req.setAttribute("areacode", areacode);
 		
 		forward(req, resp, "/WEB-INF/views/fest/list.jsp");
 	}
