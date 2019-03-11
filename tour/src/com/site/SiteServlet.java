@@ -30,14 +30,15 @@ public class SiteServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		String uri = req.getRequestURI();
 
-		String cp = req.getContextPath();
+		// String cp = req.getContextPath();
 
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info == null) { // 로그인되지 않은 경우
-			resp.sendRedirect(cp + "/member/login.do"); // 포워딩이나 리다이렉팅
-			return;
-		}
+		/*
+		 * SessionInfo info = (SessionInfo) session.getAttribute("member");
+		 * 
+		 * if (info == null) { // 로그인되지 않은 경우 resp.sendRedirect(cp +
+		 * "/member/login.do"); // 포워딩이나 리다이렉팅 return; }
+		 */
 
 		// 이미지를 저장할 경로
 		String root = session.getServletContext().getRealPath("/");
@@ -246,11 +247,90 @@ public class SiteServlet extends MyServlet {
 	}
 
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		// 수정 폼
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		SiteDAO dao = new SiteDAO();
+		String cp = req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String page = req.getParameter("page");
+		int num = Integer.parseInt(req.getParameter("num"));
+		
+		SiteDTO dto = dao.readSite(num);
+		
+		if(dto==null) {
+			resp.sendRedirect(cp+"/site/list.do?page="+page);
+			return;
+		}
+		
+		// 글을 등록한 사람만 수정가능
+		if(! info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp+"/site/list.do?page="+page);
+			return;
+		}
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		req.setAttribute("mode", "update");
+		
+		forward(req, resp, "/WEB-INF/views/site/created.jsp");
 	}
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 완료
+		String cp = req.getContextPath();
+		SiteDAO dao = new SiteDAO();
 
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+				
+		String encType = "UTF-8";
+		int maxSize = 5 * 1024 * 1024;
+
+		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
+
+		String page = mreq.getParameter("page");
+		if(! mreq.getParameter("uesrId").equals(info.getUserId())) {
+			resp.sendRedirect(cp+"/site/list.do?page="+page);
+		}
+		
+		int num = Integer.parseInt(mreq.getParameter("num"));
+		
+		SiteDTO dto = new SiteDTO();
+		
+		dto.setNum(num);		
+		dto.setSubject(mreq.getParameter("subject"));
+		dto.setUseTime(mreq.getParameter("useTime"));
+		dto.setZip(Integer.parseInt(mreq.getParameter("zip")));
+		dto.setAddress(mreq.getParameter("address"));
+		dto.setLongitude(Float.parseFloat(mreq.getParameter("longitude")));
+		dto.setLatitude(Float.parseFloat(mreq.getParameter("latitude")));
+		dto.setContent(mreq.getParameter("content"));
+		dto.setIntroduction(mreq.getParameter("introduction"));
+		dto.setImageFilename(mreq.getParameter("imageFilename"));
+		
+		if(mreq.getFile("upload") != null) {
+			// 기존 파일 지우기
+			FileManager.doFiledelete(pathname, dto.getImageFilename());
+
+			// 서버에 저장된 새로운 파일명
+			String saveFilename = mreq.getFilesystemName("upload");
+
+			// 이름 변경
+			saveFilename = FileManager.doFilerename(pathname, saveFilename);
+
+			dto.setImageFilename(saveFilename);
+		}
+
+		dao.updateSite(dto);
+		
+		resp.sendRedirect(cp + "/site/article.do?num="+dto.getNum()+"&page="+page);
 	}
 
 	protected void replyForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -262,7 +342,28 @@ public class SiteServlet extends MyServlet {
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		// 삭제 완료
+		// 수정 완료
+		String cp = req.getContextPath();
+		SiteDAO dao = new SiteDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String page = req.getParameter("page");
+		
+		// DB에서 가져오기
+		SiteDTO dto = dao.readSite(num);
+		if(dto == null || (!dto.getUserId().equals(info.getUserId()) && info.getUserRoll() < 3)) {
+			resp.sendRedirect(cp +"/site/list.do?page="+page);
+			return;
+		}
+		
+		FileManager.doFiledelete(pathname, dto.getImageFilename());
+		
+		dao.deleteSite(num);
+		resp.sendRedirect(cp+"/site/list.do?page="+page);
 	}
 
 }

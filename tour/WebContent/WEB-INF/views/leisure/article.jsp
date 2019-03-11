@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관광지 둘러보기</title>
+<title>레포츠 명소 둘러보기</title>
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
@@ -21,13 +21,12 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=077360eee8a1e1c82e55602b5c5bcf32"></script>
 
 <script type="text/javascript">
-	function deleteSite(num) {
+	function deleteLeisure(num) {
 	<c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
 	    if(confirm("게시물을 삭제 하시겠습니까 ?")) {
-	    	 var url="<%=cp%>/site/delete.do?num="+num+"&page=${page}";
+	    	 var url="<%=cp%>/leisure/delete.do?num="+num+"&page=${page}";
 	    	 location.href=url;
 	    }	
 	</c:if>
@@ -37,9 +36,9 @@
 	</c:if>
 	}
 	
-	function updateSite(num) {
+	function updateLeisure(num) {
 	<c:if test="${sessionScope.member.userId==dto.userId}">
-	    var url="<%=cp%>/site/update.do?num="+num+"&page=${page}";
+	    var url="<%=cp%>/leisure/update.do?num="+num+"&page=${page}";
 	    location.href=url;
 	</c:if>
 	
@@ -59,8 +58,6 @@
 			$(".tab-content").hide();
 			
 			var activeTab = $(this).find("a").attr("href");
-			
-			
 			$(activeTab).fadeIn();			
 			return false;
 		});
@@ -78,17 +75,17 @@
 <div class="container">
     <div class="board" style="width: 700px;">
         <div class="board-title">
-            <h3><span>|</span> 관광지 </h3>
+            <h3><span>|</span> 레포츠 </h3>
         </div>
         
         <div class="board-article">
         	<div class="row-line" style="text-align: center;">
-        		 <h2>${dto.subject}</h2>
+        		 ${dto.subject}
         	</div>
         	
         	<div class="row-line" style="text-align: center;">
         		<div class="left-line">
-        			이름 : ${dto.userName}
+        			이름 : 관리자
         		</div>
         		<div class="right-line">
         		 	${dto.created} |  조회  ${dto.hitCount}
@@ -97,7 +94,7 @@
         	
         	<div class="row-content">
         		<div class="left-content">
-        			<img src="<%=cp%>/uploads/site/${dto.imageFilename}" style="max-width:100%; height:auto; resize:both;">
+        			<img src="<%=cp%>/uploads/leisure/${dto.imageFilename}" style="max-width:40%; height:auto; resize:both;">
         		</div>
         		
         		<div class="right-content">        		
@@ -108,56 +105,35 @@
         			</ul>
         			
         			<div class="tab-container">
-        				<div id="tab-basic" class="tab-content">
-        				   <h4>기본정보</h4><br>
-        				       주소 :
-        				   ${dto.address}<br>
-        				     우편번호 :
-        				   ${dto.zip}
+        				<div id="tab-basic" class="tab-content">        				
+        					<p>주소: ${dto.address}<p>
+        					<p>전화: ${dto.tel}<p> 
         				</div>
         				
-        				<div id="tab-detail" class="tab-content">
-        				   <h4>상세정보</h4><br>
-        				   ${dto.content}<br>
-        				   ${dto.inquiry}
-        				
+        				<div id="tab-detail" class="tab-content">        				
+        					<p>시기: ${dto.opening}<p>
+        					<p>시간: ${dto.useTime}<p>        					
+        					<p>위도: ${dto.latitude} 경도: ${dto.longitude}<p><br>
         				</div>
         				
-        				<div id="tab-map" class="tab-content">
-        				    <h4>지도</h4>
-        				    <script type="text/javascript">    				    
-	        				    var mapContainer = document.getElementById('tab-map'), // 지도를 표시할 div 
-	        				    mapOption = { 
-	        				        center: new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"), // 지도의 중심좌표
-	        				        level: 3 // 지도의 확대 레벨
-	        				    };
-	
-	        					var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	        					
-	        					// 마커가 표시될 위치입니다 
-	        					var markerPosition  = new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"); 
-	        					
-	        					// 마커를 생성합니다
-	        					var marker = new daum.maps.Marker({
-	        					    position: markerPosition
-	        					});
-	        					
-	        					// 마커가 지도 위에 표시되도록 설정합니다
-	        					marker.setMap(map);
-        				    </script>
+        				<div id="tab-map" class="tab-content">        				
+        					<h5>지도</h5>        			
         				</div>
-        			</div>
-        		
+        			</div>        		
         		</div>
         	
         	</div>
         	
-        	<div style="padding: 10px 0px 0px 5px; ">        	
+        	<div class="boxTA">
         		<h3>개요</h3>
+        		<br>
+        		${dto.introduction}
         	</div>
-        	<div class="row-content">
-				${dto.introduction}
-        	</div>
+        	<div class="boxTA">
+        		<h3>세부설명</h3>
+        		<br>
+        		${dto.content}        	
+        	</div>  	
         	
         	<div>
             
@@ -181,7 +157,7 @@
                     <tr height='35'>
                         <td width='50%'>
                             <span style='color: #3EA9CD; font-weight: 700;'>댓글 ${dataCount}개</span>
-                            <span>[목록, ${page}/${total_page} 페이지]</span>
+                            <span>[목록 ${page}/${total_page} 페이지]</span>
                         </td>
                         <td width='50%'>
                             &nbsp;
@@ -191,7 +167,7 @@
                     <c:forEach var="dto" items="${list}">
                          <tr height='35' bgcolor='#eeeeee'>
                                <td width='50%' style='padding-left: 5px; border:1px solid #cccccc; border-right:none;'>
-                                       작성자 : ${dto.userName}
+                                       작성자 : 으디보자
                                 </td>
                                 <td width='50%' align='right' style='padding-right: 5px; border:1px solid #cccccc; border-left:none;'>
                                        ${dto.created}
@@ -214,15 +190,15 @@
 			<div class="board-footer">
 				<div class="left-footer">
 					<c:if test="${sessionScope.member.userId==dto.userId}">				    
-			          <button type="button" class="btn" onclick="updateSite('${dto.num}');">수정</button>
+			          <button type="button" class="btn" onclick="updateLeisure('${dto.num}');">수정</button>
 			       </c:if>
-			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userRoll > 3}">				    
-			          <button type="button" class="btn" onclick="deleteSite('${dto.num}');">삭제</button>
+			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
+			          <button type="button" class="btn" onclick="deleteLeisure('${dto.num}');">삭제</button>
 			       </c:if>
 				</div>
 				
 				<div class="right-footer">
-					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/site/list.do?page=${page}';">리스트</button>
+					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/leisure/list.do?page=${page}';">리스트</button>
 				</div>
 			</div>
         </div>
