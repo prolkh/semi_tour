@@ -22,10 +22,10 @@
 function sendOk() {
     var f = document.festForm;
 
-	var str = f.subject.value;
+	var str = f.eventName.value;
     if(!str) {
         alert("제목을 입력하세요. ");
-        f.subject.focus();
+        f.eventName.focus();
         return;
     }
 
@@ -99,7 +99,7 @@ $(function(){
 <div class="container">
     <div class="body-container" style="width: 700px; margin-top:20px;">
         <div class="body-title">
-            <h3><span style="font-family: Webdings">2</span> 아기동물 갤러리 </h3>
+            <h3><span style="font-family: Webdings">2</span> 축제 일정 등록 </h3>
         </div>
         
         <div>
@@ -108,7 +108,7 @@ $(function(){
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">축제 이름</td>
 			      <td style="padding-left:10px;" colspan="3"> 
-			        <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
+			        <input type="text" name="eventName" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.eventName}">
 			      </td>
 			  </tr>
 			
