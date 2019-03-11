@@ -2,6 +2,7 @@ package com.notice;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
+import com.Util.FileManager;
 import com.Util.MyServlet;
 import com.Util.MyUtil;
 import com.member.SessionInfo;
@@ -65,8 +68,34 @@ public class NoticeServlet extends MyServlet {
 		}
 	}
 
-	private void download(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+	private void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		NoticeDTO dto=dao.readNotice(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do"+page);
+			return;
+		}
+		
+		boolean b=FileManager.doFiledownload(dto.getSaveFilename(), dto.getOriginalFilename(), pathname, resp);
+		
+		if(! b) {
+			resp.setContentType("text/html; charset=utf-8");
+			PrintWriter pw=resp.getWriter();
+			pw.print("<script> alert('파일다운로가 실패했습니다.!!'); history.back();</script>");
+		}
 		
 	}
 
@@ -90,15 +119,61 @@ public class NoticeServlet extends MyServlet {
 		
 	}
 
-	private void article(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-	}
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		String searchKey=req.getParameter("searchKey");
+		String searchValue=req.getParameter("searchValue");
+		
+		if(searchKey==null) {
+			searchKey="subject";
+			searchValue="";
+		} 
+		searchValue=URLDecoder.decode(searchValue,"utf-8");
+		
+		dao.updateHitCount(num);
+		
+		NoticeDTO dto=dao.readNotice(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+
+		NoticeDTO preReadDto= dao.preReadNotice(dto.getNum(), searchKey, searchValue);
+		NoticeDTO nextReadDto=dao.nextReadNotice(dto.getNum(), searchKey, searchValue);
+		
+		String query="page="+page;
+		if(searchValue.length()!=0) {
+			query+="&searchKey="+searchKey;
+			query+="&searchValue="+URLEncoder.encode(searchValue, "utf-8");
+		}
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("preReadDto", preReadDto);
+		req.setAttribute("nextReadDto", nextReadDto);
+		req.setAttribute("query", query);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/notice/article.jsp");		
+}
 
 	private void createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
 		
-		  HttpSession session=req.getSession(); SessionInfo
-		  info=(SessionInfo)session.getAttribute("member");
+		  HttpSession session=req.getSession(); 
+		  SessionInfo info=(SessionInfo)session.getAttribute("member");
 		 
 		  NoticeDAO dao=new NoticeDAO(); String cp=req.getContextPath();
 		  

@@ -28,7 +28,8 @@ function sendNotice() {
 		f.content.focus();
 		return;
 	}
-
+	
+	
 	f.action="<%=cp%>/notice/${mode}_ok.do";
 
 	f.submit();

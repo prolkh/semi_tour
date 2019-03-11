@@ -61,7 +61,7 @@
 				</span></td>
 				<td align="center" style="padding-left:10px; width:400px;">
 				<a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
-				<c:if test="${dto.gap<=1}"><img src="<%=cp %>/resource/image/new.gif"></c:if>
+				<c:if test="${dto.gap<=1}"><img src="<%=cp %>/resource/images/new.gif"></c:if>
 				</td>
 				<td>${dto.userName }</td>
 				<td>${dto.created }</td>
@@ -120,12 +120,12 @@
 							<option value="created">등록일</option>						
 						</select>
 						<input type="text" name="searchValue" class="boxTF">
-						<button type="button" class="btn" onclick="">검색</button>	
+						<button type="button" class="btn" onclick="searchList()">검색</button>	
 					</form>
 				<td align="right" width="100">
-					<c:if test="${sessionScope.member.userId=='admin'}">
+			          
 					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created.do'">글올리기</button>					
-					</c:if>
+				
 				</td>		
 			</tr>
 		</table>

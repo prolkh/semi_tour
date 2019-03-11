@@ -30,43 +30,50 @@
 		<table style="width:80%; margin: 50px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 		<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="center">
-				제목넣으시옹
+				${dto.subject }
 			</td>
 		</tr>
 		
 		<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			<td width="50%" align="left" style="padding-left: 5px;">
-				이름넣으시옹
+				이름 : ${dto.userName }
 			</td>	
 			<td width="50%" align="right" style="padding-right: 5px;">
-				올린시간넣으세용 | 조회수 조회숫자넣으세용
+				${dto.created }| 조회수 ${dto.hitCount }
 			</td>
 		</tr>
 		
 		<tr style="border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
-				내용넣으세용
+				${dto.content }
 			</td>
 		</tr>
 		
 		<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="left" style="padding-left: 5px;">
 			   첨&nbsp;&nbsp;부 :
-			   <a href="#"></a>
+			   <c:if test="${not empty dto.saveFilename }">
+			   <a href="<%=cp%>/notice/download.do?num=${dto.num}">${dto.originalFilename}</a>
+				(<fmt:formatNumber value="${dto.fileSize/1024}" pattern="0.00"/> Kbyte)
+				</c:if>
 			</td>
 		</tr>
 		
 		<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="left" style="padding-left: 5px;">
-				이전글 : 
-				<a href="#"></a>
+				이전글 :
+				<c:if test="${not empty preReadDto }"> 
+				<a href="<%=cp%>/notice/article.do?${query}&num=${preReadDto.num}">${preReadDto.subject }</a>
+				</c:if>
 			</td>
 		</tr>
 		
 		<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="left" style="padding-left: 5px;">
 			다음글 : 
-			<a href="#"></a>
+			<c:if test="${not empty nextReadDto}">
+			<a href="<%=cp%>/notice/article.do?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+			</c:if>
 			</td>
 		</tr>
 		</table>
@@ -74,11 +81,15 @@
 		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 		<tr>
 			<td width="300" align="left">
+			<c:if test="${sessionScope.member.userId=dto.userId }">
 				<button type="button" class="btn" onclick="">수정</button>
-				<button type="button" class="btn" onclick="">삭제</button>			
+			</c:if>	
+			<c:if test="${sessionScope.member.userId=dto.userId || sessionScope.member.userId=='admin'}">
+				<button type="button" class="btn" onclick="">삭제</button>	
+			</c:if>			
 			</td>
 			<td align="right">
-				<button type="button" class="btn" onclick="">리스트</button>
+				<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do?${query}';">리스트</button>
 			</td>
 		</tr>
 		</table>	
