@@ -118,6 +118,18 @@ dl, ul, ol, menu, li {
 <script type="text/javascript">
 
 $(function() {
+	var s = "${search}";
+	if(s==""){
+		s="전체";
+	}
+	
+	$("#arealist.btn").each(function(){
+		if($(this).attr("data-search")==s){
+			$(this).addClass("active");
+			return;
+		}
+	});
+	
 	$("#arealist .btn").click(function() {
 		$("#arealist .btn").not($(this)).removeClass("active");
 		if($(this).hasClass("active")){
@@ -136,7 +148,7 @@ $(function() {
 });
 
 </script>
-
+<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 </head>
 <body>
 	<div class="header">
@@ -146,7 +158,7 @@ $(function() {
     <div id="wrap">    	
 	    <div class="contents">
         	<div class="inner">                    
-            	<strong>총&nbsp;</strong>0000<strong>건</strong>
+            	<strong>총&nbsp;</strong>${dataCount}<strong>건</strong>
             </div>
             <div class="total_check">                
                 <ul class="list">
@@ -166,64 +178,6 @@ $(function() {
                         </div>
                     </li>
                     </c:forEach>
-                </ul>
-                
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list">
-                    <li>
-                        <div class="photo">
-                            <a href="" onclick=""><img src="" alt="사진"></a>
-                        </div>
-                        <div class="area_txt">
-                            <div class="title">
-                                <a href="" onclick="">이름</a>
-                            </div>
-                          	<p>주소</p>
-                           	<p>전화번호</p>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>

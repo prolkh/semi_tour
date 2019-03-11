@@ -85,9 +85,9 @@ public class LeisureDAO {
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql="select userId, subject, opening, useTime, address, ";
-			sql="longitude, latitude, tel, content, introduction, hitCount, created, imageFilename";
-			sql=" from leisure where num=?";
+			sql="select num, userId, subject, opening, useTime, address, ";
+			sql+="longitude, latitude, tel, content, introduction, hitCount, created, imageFilename";
+			sql+=" from leisure where num=?";
 			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
@@ -102,7 +102,7 @@ public class LeisureDAO {
 				dto.setOpening(rs.getString("opening"));
 				dto.setUseTime(rs.getString("useTime"));
 				dto.setAddress(rs.getString("address"));
-				dto.setLongitude(rs.getFloat("longtitude"));
+				dto.setLongitude(rs.getFloat("longitude"));
 				dto.setLatitude(rs.getFloat("latitude"));
 				dto.setTel(rs.getString("tel"));
 				dto.setContent(rs.getString("content"));
@@ -138,8 +138,8 @@ public class LeisureDAO {
 		
 		try {
 			sql="update set subject=?, opening=?, useTime=?, address=?,";
-			sql="longitude=?, latitude=?, tel=?, content=?, introduction=?, imageFilename=?";
-			sql="from leisure where num=?";
+			sql+="longitude=?, latitude=?, tel=?, content=?, introduction=?, imageFilename=?";
+			sql+="from leisure where num=?";
 			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getSubject());
@@ -175,12 +175,13 @@ public class LeisureDAO {
 		StringBuffer sb = new StringBuffer();
 		
 		try {
-			sb.append("select * from (");
-			sb.append("	select ROWNUM rnum, tb.* from(");
-			sb.append("	select num, subject, opening, useTime, tel, address, longitude,");
-			sb.append("	latitude, created, introduction, content, hitCount");
-			sb.append("	from leisure order by num DESC) tb where ROWNUM <=?");
-			sb.append("	)where rnum >= ?");
+			sb.append("SELECT * FROM (");
+			sb.append("	SELECT ROWNUM rnum, tb.* FROM(");
+			sb.append("	SELECT num, l.userId, subject, opening, useTime, l.tel, address, longitude,");
+			sb.append("	latitude, created, introduction, content, hitCount, imageFilename");
+			sb.append("	FROM leisure l JOIN member m ON l.userId=m.userId ");
+			sb.append(" ORDER BY num DESC) tb WHERE ROWNUM <=?");
+			sb.append("	)WHERE rnum >= ?");
 			
 			pstmt=conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, end);
@@ -324,9 +325,11 @@ public class LeisureDAO {
 		String sql;
 		try {
 			sql="select NVL(count(*),0) from leisure where instr(address,?)>=1";
+			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, search);
 			rs=pstmt.executeQuery();
+			
 			if(rs.next()) {
 				result=rs.getInt(1);
 			}
@@ -343,5 +346,30 @@ public class LeisureDAO {
 			}
 		}		
 		return result;
+	}
+	
+	public int updateHitCount(int num) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="update leisure set hitCount=hitCount+1 where num=?";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			result=pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}		
+		return result;		
 	}
 }

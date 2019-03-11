@@ -35,7 +35,7 @@ public class LeisureServlet extends MyServlet{
 				
 		//이미지를 저장할 경로
 		String root = session.getServletContext().getRealPath("/");
-		pathname = root+"update"+File.separator+"leisure";
+		pathname = root+"uploads"+File.separator+"leisure";
 		File f = new File(pathname);
 		if(! f.exists()) {
 			f.mkdirs();
@@ -63,7 +63,6 @@ public class LeisureServlet extends MyServlet{
 		//게시물 리스트
 		
 		String cp = req.getContextPath();
-		
 		LeisureDAO dao = new LeisureDAO();
 		MyUtil util = new MyUtil();
 		
@@ -196,13 +195,106 @@ public class LeisureServlet extends MyServlet{
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//게시물 보기
 	
+		String cp=req.getContextPath();		
+		LeisureDAO dao = new LeisureDAO();
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		String search=req.getParameter("search");
+		if(search==null) {
+			search="";					
+		}	
+		
+		LeisureDTO dto=dao.readLeisure(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/leisure/list.do?page="+page);
+			return;
+		}
+		//조회수 증가
+		dao.updateHitCount(num);		
+		
+		MyUtil util=new MyUtil();
+		dto.setContent(util.htmlSymbols(dto.getContent()));
+				
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req,resp,"/WEB-INF/views/leisure/article.jsp");
+		
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		String cp=req.getContextPath();
+		
+		LeisureDAO dao=new LeisureDAO();
+		
+		HttpSession session= req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		//DB에서 게시물 가져오기
+		LeisureDTO dto = dao.readLeisure(num);
+		if(dto==null || ! dto.getUserId().equals(info.getUserId()))	{
+			resp.sendRedirect(cp+"/leisure/list.do?page="+page);
+			return;
+		}
+		
+		req.setAttribute("mode", "update");
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req,resp,"/WEB-INF/views/leisure/created.jsp");
 	}
 	
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		LeisureDAO dao = new LeisureDAO();
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		String encType="UTF-8";
+		int maxSize=8*1024*1024;
+		
+		MultipartRequest mreq=new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
+		
+		String page=mreq.getParameter("page");
+		
+		if(!mreq.getParameter("userId").equals(info.getUserId())) {
+			resp.sendRedirect(cp+"/leisure/list.do?page="+page);
+		}
+				
+		LeisureDTO dto=new LeisureDTO();
+		
+		dto.setNum(Integer.parseInt(mreq.getParameter("num")));
+		dto.setSubject(mreq.getParameter("subject"));
+		dto.setOpening(mreq.getParameter("opening"));
+		dto.setUseTime(mreq.getParameter("useTime"));
+		dto.setTel(mreq.getParameter("tel"));			
+		dto.setAddress(mreq.getParameter("address"));
+		dto.setLongitude(Float.parseFloat(mreq.getParameter("longitude")));
+		dto.setLatitude(Float.parseFloat(mreq.getParameter("latitude")));
+		dto.setImageFilename(mreq.getParameter("imageFilename"));
+		dto.setContent(mreq.getParameter("content"));
+		dto.setIntroduction(mreq.getParameter("introduction"));
+		
+		if(mreq.getFile("upload")!=null) {
+			//기존 파일 지우기
+			FileManager.doFiledelete(pathname, dto.getImageFilename());
+			//서버에 저장되는 새로운 파일
+			String saveFilename=mreq.getFilesystemName("upload");
+			//이름변경
+			saveFilename=FileManager.doFilerename(pathname, saveFilename);
+			
+			dto.setImageFilename(saveFilename);			
+		}
+		dao.updateLeisure(dto);
+		
+		resp.sendRedirect(cp+"/leisure/article.do?num="+dto.getNum()+"&page="+page);
 		
 	}
 	

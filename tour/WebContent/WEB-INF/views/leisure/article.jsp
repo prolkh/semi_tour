@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관광지 둘러보기</title>
+<title>레포츠 명소 둘러보기</title>
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
@@ -23,7 +23,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
 
 <script type="text/javascript">
-	function deleteSite(num) {
+	function deleteLeisure(num) {
 	<c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
 	    if(confirm("게시물을 삭제 하시겠습니까 ?")) {
 	    	 var url="<%=cp%>/leisure/delete.do?num="+num+"&page=${page}";
@@ -36,9 +36,9 @@
 	</c:if>
 	}
 	
-	function updateSite(num) {
+	function updateLeisure(num) {
 	<c:if test="${sessionScope.member.userId==dto.userId}">
-	    var url="<%=cp%>/site/update.do?num="+num+"&page=${page}";
+	    var url="<%=cp%>/leisure/update.do?num="+num+"&page=${page}";
 	    location.href=url;
 	</c:if>
 	
@@ -75,7 +75,7 @@
 <div class="container">
     <div class="board" style="width: 700px;">
         <div class="board-title">
-            <h3><span>|</span> 관광지 </h3>
+            <h3><span>|</span> 레포츠 </h3>
         </div>
         
         <div class="board-article">
@@ -85,7 +85,7 @@
         	
         	<div class="row-line" style="text-align: center;">
         		<div class="left-line">
-        			이름 : ${dto.userName}
+        			이름 : 관리자
         		</div>
         		<div class="right-line">
         		 	${dto.created} |  조회  ${dto.hitCount}
@@ -106,26 +106,34 @@
         			
         			<div class="tab-container">
         				<div id="tab-basic" class="tab-content">        				
-        					<h5>기본정보</h5> 
+        					<p>주소: ${dto.address}<p>
+        					<p>전화: ${dto.tel}<p> 
         				</div>
         				
         				<div id="tab-detail" class="tab-content">        				
-        					<h5>상세정보</h5>        			
+        					<p>시기: ${dto.opening}<p>
+        					<p>시간: ${dto.useTime}<p>        					
+        					<p>위도: ${dto.latitude} 경도: ${dto.longitude}<p><br>
         				</div>
         				
         				<div id="tab-map" class="tab-content">        				
         					<h5>지도</h5>        			
         				</div>
-        			</div>
-        		
+        			</div>        		
         		</div>
         	
         	</div>
         	
-        	<div class="row-content">
+        	<div class="boxTA">
         		<h3>개요</h3>
+        		<br>
         		${dto.introduction}
         	</div>
+        	<div class="boxTA">
+        		<h3>세부설명</h3>
+        		<br>
+        		${dto.content}        	
+        	</div>  	
         	
         	<div>
             
@@ -149,7 +157,7 @@
                     <tr height='35'>
                         <td width='50%'>
                             <span style='color: #3EA9CD; font-weight: 700;'>댓글 ${dataCount}개</span>
-                            <span>[목록, ${page}/${total_page} 페이지]</span>
+                            <span>[목록 ${page}/${total_page} 페이지]</span>
                         </td>
                         <td width='50%'>
                             &nbsp;
@@ -159,7 +167,7 @@
                     <c:forEach var="dto" items="${list}">
                          <tr height='35' bgcolor='#eeeeee'>
                                <td width='50%' style='padding-left: 5px; border:1px solid #cccccc; border-right:none;'>
-                                       작성자 : ${dto.userName}
+                                       작성자 : 으디보자
                                 </td>
                                 <td width='50%' align='right' style='padding-right: 5px; border:1px solid #cccccc; border-left:none;'>
                                        ${dto.created}
@@ -182,15 +190,15 @@
 			<div class="board-footer">
 				<div class="left-footer">
 					<c:if test="${sessionScope.member.userId==dto.userId}">				    
-			          <button type="button" class="btn" onclick="updateSite('${dto.num}');">수정</button>
+			          <button type="button" class="btn" onclick="updateLeisure('${dto.num}');">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="deleteSite('${dto.num}');">삭제</button>
+			          <button type="button" class="btn" onclick="deleteLeisure('${dto.num}');">삭제</button>
 			       </c:if>
 				</div>
 				
 				<div class="right-footer">
-					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/site/list.do?page=${page}';">리스트</button>
+					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/leisure/list.do?page=${page}';">리스트</button>
 				</div>
 			</div>
         </div>
