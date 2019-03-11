@@ -373,9 +373,73 @@ public class NoticeDAO   {
 					pstmt.setInt(2, num);
 			
 				} else {
-		
+					sb.append("SELECT ROWNUM, tb.*FROM (");
+					sb.append(" 	SELECT num, subject FROM notice n JOIN member m ON n.userId=m.userId");
+					sb.append("	  WHERE num>?");
+					sb.append("	ORDER BY num ASC");
+					sb.append(")tb WHERE ROWNUM=1");
 					
-
+					pstmt=conn.prepareStatement(sb.toString());
+					pstmt.setInt(1, num);
+			}
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto=new NoticeDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setSubject(rs.getString("subject"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return dto;
+	}
+	
+	public NoticeDTO nextReadNotice(int num, String searchKey, String searchValue) {
+		NoticeDTO dto=new NoticeDTO();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		StringBuffer sb=new StringBuffer();
+		
+		try {
+			if(searchValue.length()!=0) {
+				sb.append("SELECT ROWNUM, tb.*FROM(");
+				sb.append(" SELECT num, subject FROM notice n JOIN member m ON n.userId=m.userId");
+				if(searchKey.equalsIgnoreCase("created")) {
+					searchValue=searchValue.replaceAll("-", "");
+					sb.append(" 	WHERE (TO_CHAR(create, 'YYYYMMDD') =?)");
+				}else {
+					sb.append("WHERE (INSTR("+searchKey+", ?)>=1");
+				}
+				sb.append("		AND(num<?");
+				sb.append("		ORDER BY num DESC");
+				sb.append("	 )tb WHERE ROWNUM=1");
+				
+				pstmt=conn.prepareStatement(sb.toString());
+				pstmt.setString(1, searchValue);
+				pstmt.setInt(2, num);
+			}else {
+				sb.append("SELECT ROWNUM, tb*FROM ( ");
+				sb.append("		SELECT num, subject FROM notice n JOIN member n ON n.userId=m.userId");
+				sb.append("		WHERE num<?");
+				sb.append(" )tb WHERE ROWNUM=1");
+				
+				pstmt=conn.prepareStatement(sb.toString());
+				pstmt.setInt(1, num);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
