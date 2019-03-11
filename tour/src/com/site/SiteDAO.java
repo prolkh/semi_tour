@@ -53,6 +53,46 @@ public class SiteDAO {
 		return result;
 	}
 	
+	// 글 수정
+	public int updateSite(SiteDTO dto) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("UPDATE site SET subject=?, useTime=?, zip=?, address=?,");
+			sb.append("latitude=?, longitude=?, content=?, introduction=?,");
+			sb.append("inquiry=?, imageFilename=? ");
+			sb.append("WHERE num = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getUseTime());
+			pstmt.setInt(3, dto.getZip());
+			pstmt.setString(4, dto.getAddress());
+			pstmt.setFloat(5, dto.getLatitude());
+			pstmt.setFloat(6, dto.getLongitude());
+			pstmt.setString(7, dto.getContent());
+			pstmt.setString(8, dto.getIntroduction());
+			pstmt.setString(9, dto.getImageFilename());
+			pstmt.setString(10, dto.getUserId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	// 글 삭제
 	public int deleteSite(int num) {
 		int result = 0;
@@ -355,6 +395,7 @@ public class SiteDAO {
 		return dto;
 	}
 	
+	// 조회수 증가
 	public int updateHitCount(int num) {
 		int result = 0;
 		PreparedStatement pstmt = null;

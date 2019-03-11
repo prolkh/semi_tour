@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=077360eee8a1e1c82e55602b5c5bcf32"></script>
 
 <script type="text/javascript">
 	function deleteSite(num) {
@@ -58,6 +59,8 @@
 			$(".tab-content").hide();
 			
 			var activeTab = $(this).find("a").attr("href");
+			
+			
 			$(activeTab).fadeIn();			
 			return false;
 		});
@@ -105,16 +108,43 @@
         			</ul>
         			
         			<div class="tab-container">
-        				<div id="tab-basic" class="tab-content">        				
-        					<h5>기본정보</h5> 
+        				<div id="tab-basic" class="tab-content">
+        				   <h4>기본정보</h4><br>
+        				       주소 :
+        				   ${dto.address}<br>
+        				     우편번호 :
+        				   ${dto.zip}
         				</div>
         				
-        				<div id="tab-detail" class="tab-content">        				
-        					<h5>상세정보</h5>        			
+        				<div id="tab-detail" class="tab-content">
+        				   <h4>상세정보</h4><br>
+        				   ${dto.content}<br>
+        				   ${dto.inquiry}
+        				
         				</div>
         				
-        				<div id="tab-map" class="tab-content">        				
-        					<h5>지도</h5>        			
+        				<div id="tab-map" class="tab-content">
+        				    <h4>지도</h4>
+        				    <script type="text/javascript">    				    
+	        				    var mapContainer = document.getElementById('tab-map'), // 지도를 표시할 div 
+	        				    mapOption = { 
+	        				        center: new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"), // 지도의 중심좌표
+	        				        level: 3 // 지도의 확대 레벨
+	        				    };
+	
+	        					var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	        					
+	        					// 마커가 표시될 위치입니다 
+	        					var markerPosition  = new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"); 
+	        					
+	        					// 마커를 생성합니다
+	        					var marker = new daum.maps.Marker({
+	        					    position: markerPosition
+	        					});
+	        					
+	        					// 마커가 지도 위에 표시되도록 설정합니다
+	        					marker.setMap(map);
+        				    </script>
         				</div>
         			</div>
         		
@@ -186,7 +216,7 @@
 					<c:if test="${sessionScope.member.userId==dto.userId}">				    
 			          <button type="button" class="btn" onclick="updateSite('${dto.num}');">수정</button>
 			       </c:if>
-			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
+			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userRoll > 3}">				    
 			          <button type="button" class="btn" onclick="deleteSite('${dto.num}');">삭제</button>
 			       </c:if>
 				</div>

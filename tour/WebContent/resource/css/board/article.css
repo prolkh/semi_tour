@@ -157,6 +157,8 @@ ul.tabs li.active, ul.tabs li.active a:hover{
 .tab-content{
 	padding: 20px;
 	font-size: 15px;
-	height: 175px;
+	height: 160px;
+	overflow: scroll;
+	font-size: 13px;
 }
 
