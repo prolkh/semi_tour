@@ -86,22 +86,42 @@ public class FestDAO {
 		return result;
 	}
 	
-	public int dataCount(String search) {
+	public int dataCount(String area, String month) {
 		int result=0;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String sql;
 		
 		try {
-			sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1";
+			if(month.equals("")) {
+				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1";
+			} else if(area.equals("")) {
+				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE TO_CHAR(startdate, 'MM') = ?";
+			} else {
+				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1 AND TO_CHAR(startdate, 'MM') = ?";
+			}
+			
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, search);
+			
+			if(month.equals("")) {
+				pstmt.setString(1, area);
+			} else if(area.equals("")) {
+				pstmt.setString(1, month);
+			} else {
+				pstmt.setString(1, area);
+				pstmt.setString(2, month);
+			}
+//			sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1 AND (TO_CHAR(startdate, 'MM') = ?";
+//			pstmt.setString(1, area);
+//			pstmt.setString(2, month);
+//			pstmt.setString(3, month);
+
 			rs=pstmt.executeQuery();
 			if(rs.next())
 				result=rs.getInt(1);
 
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if(rs!=null) {
 				try {
@@ -183,7 +203,7 @@ public class FestDAO {
 	}
 	
 	// 검색 있는 리스트
-	public List<FestDTO> listFest(int start, int end, String search){
+	public List<FestDTO> listFest(int start, int end, String area, String month){
 		List<FestDTO> list = new ArrayList<FestDTO>();
 		
 		PreparedStatement pstmt=null;
@@ -195,16 +215,34 @@ public class FestDAO {
 			sb.append("	    SELECT ROWNUM rnum, tb.* FROM (");
 			sb.append("	        SELECT num, userId, eventName, address, startDate, endDate, tel, homepage, host, price, created, imageFilename, content");
 			sb.append("	        FROM event");
-			sb.append("			WHERE INSTR(address, ?) >=1");
+			if(month.equals("")) {
+				sb.append("		WHERE INSTR(address, ?) >= 1");
+			} else if(area.equals("")) {
+				sb.append("		WHERE TO_CHAR(startdate, 'MM') = ?");
+			} else {
+				sb.append("		WHERE INSTR(address, ?) >= 1 AND TO_CHAR(startdate, 'MM') = ?");
+			}
 			sb.append("	        ORDER BY num DESC");
 			sb.append("	    )tb WHERE ROWNUM  <= ?");
 			sb.append(") WHERE rnum>=?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setString(1, search);
-			pstmt.setInt(2, end);
-			pstmt.setInt(3, start);
-			
+
+			if(month.equals("")) {
+				pstmt.setString(1, area);
+				pstmt.setInt(2, end);
+				pstmt.setInt(3, start);
+			} else if(area.equals("")) {
+				pstmt.setString(1, month);
+				pstmt.setInt(2, end);
+				pstmt.setInt(3, start);
+			} else {
+				pstmt.setString(1, area);
+				pstmt.setString(2, month);
+				pstmt.setInt(3, end);
+				pstmt.setInt(4, start);
+			}
+
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {

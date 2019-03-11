@@ -60,11 +60,18 @@ public class FestServlet extends MyServlet{
 		int current_page=1;
 		if(page!=null)
 			current_page=Integer.parseInt(page);
+		// 달 검색
+		String monthcode = req.getParameter("monthcode");
 		
+		if(monthcode==null) {
+			monthcode="";
+		}
+		
+		// 지역검색
 		String areacode = req.getParameter("areacode");
 		
 		if(areacode==null) {
-			areacode="All";
+			areacode="";
 		}
 		if(req.getMethod().equalsIgnoreCase("GET")) {
 			areacode = URLDecoder.decode(areacode, "utf-8");
@@ -75,8 +82,8 @@ public class FestServlet extends MyServlet{
 		int total_page;
 		
 		//전체 데이터 개수		
-		if(areacode.length() != 0)
-			dataCount=dao.dataCount(areacode);	//search
+		if(areacode.length() != 0 || monthcode.length() !=0)
+			dataCount=dao.dataCount(areacode, monthcode);
 		else
 			dataCount = dao.dataCount();
 		
@@ -93,8 +100,8 @@ public class FestServlet extends MyServlet{
 		
 		//게시물 가져오기
 		List<FestDTO> list;
-		if(areacode.length() != 0)
-			list = dao.listFest(start, end, areacode);
+		if(areacode.length() != 0 || monthcode.length() != 0)
+			list = dao.listFest(start, end, areacode, monthcode);
 		else 
 			list =dao.listFest(start, end);
 		
@@ -102,11 +109,12 @@ public class FestServlet extends MyServlet{
 		String query="";
 		String listUrl=cp+"/fest/list.do";
 		String articleUrl;
-		if(areacode.length()==0) {
+		if(areacode.length() == 0 && monthcode.length() == 0) {
 			listUrl = cp+"/fest/list.do";
 			articleUrl = cp + "/fest/article.do?page=" + current_page;
 		} else {
-			query += "&search=" + URLEncoder.encode(areacode, "utf-8");
+			query += "&areacode=" + URLEncoder.encode(areacode, "utf-8");
+			query += "&monthcode=" + monthcode;
 			
 			listUrl = cp + "/fest/list.do?"+query;
 			articleUrl = cp + "/fest/article.do?page="+current_page+"&"+query;
@@ -121,6 +129,7 @@ public class FestServlet extends MyServlet{
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
 		req.setAttribute("areacode", areacode);
+		req.setAttribute("monthcode", monthcode);
 		
 		forward(req, resp, "/WEB-INF/views/fest/list.jsp");
 	}

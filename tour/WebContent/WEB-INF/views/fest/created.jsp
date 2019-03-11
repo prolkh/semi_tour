@@ -148,7 +148,7 @@ $(function(){
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">홈페이지</td>
 			      <td style="padding-left:10px;" colspan="3"> 
-			        <input type="text" name="homepage" maxlength="30" class="boxTF" style="width: 55%;" value="${dto.homepage}">
+			        <input type="text" name="homepage" maxlength="40" class="boxTF" style="width: 55%;" value="${dto.homepage}">
 			      </td>
 			  </tr>
 			  
@@ -160,18 +160,19 @@ $(function(){
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">주소</td>
+			      <td style="padding-left:10px;" colspan="3"> 
+			        <input type="text" name="address" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.address}">
+			      </td>
+			  </tr>
+			  
+			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">이용요금</td>
 			      <td style="padding-left:10px;" colspan="3"> 
 			        <input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.price}">
 			      </td>
 			  </tr>
 			  
-			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">주소</td>
-			      <td style="padding-left:10px;" colspan="3"> 
-			        <input type="text" name="address" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.address}">
-			      </td>
-			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">이미지</td>
