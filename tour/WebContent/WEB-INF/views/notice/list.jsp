@@ -45,7 +45,7 @@
 		
 		<table style="width 100%; margin: 20px auto 0px; border-spacing: 0px; ">
 			<tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc; "> 
-				<th width="60" style="color: #787878;">번호</th>
+				<th width="100" style="color: #787878;">번호</th>
 				<th style="color: #787878; width: 200" >제목</th>
 				<th width="100" style="color: #787878;">작성자</th>		
 				<th width="80" style="color: #787878;">작성일</th>
@@ -56,7 +56,7 @@
 			<c:forEach var="dto" items="${listNotice}">
 			<tr align="center" bgcolor="#ffffff" height="35" style="border-bottom:1px solid #cccccc; ">
 				<td>
-				<span style="display: inline-block; width:28px; height: 18px; line-height:18px; background: #ED4C00; color: #FFFFFF; ">
+				<span style="display: inline-block; width:38px; height: 18px; line-height:18px; background: #ED4C00; color: #FFFFFF; ">
 				공지
 				</span></td>
 				<td align="center" style="padding-left:10px; width:400px;">
