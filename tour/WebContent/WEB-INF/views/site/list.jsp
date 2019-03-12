@@ -140,7 +140,7 @@ $(function() {
 			if(search != "전체")
 				url+="?search="+encodeURIComponent(search);
 			location.href=url;
-		}
+		} 
 	});	
 });
 
