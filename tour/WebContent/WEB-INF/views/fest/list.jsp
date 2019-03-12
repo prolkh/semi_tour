@@ -182,7 +182,7 @@ $(function() {
 	$("#arealist .btn").click(function() {
 		$("#arealist .btn").not($(this)).removeClass("active");
 		var area = $(this).attr("data-area");
-		var month = "${monthcode}"
+		var month = "${monthcode}";
 		
 		var url = "<%=cp%>/fest/list.do";
 		if(area !="전체" && month !="")
@@ -259,24 +259,24 @@ $(function() {
             
             
              	<ul class="tag_ul" id="arealist" style="height:180px;">		
-                    <li class="All"><button type="button" class="btn" data-area="전체"><span>#전체</span></button></li>
-                    <li id="1"><button type="button" class="btn" data-area="서울"><span>#서울</span></button></li>
-                    <li id="6"><button type="button" class="btn" data-area="부산"><span>#부산</span></button></li>
+                    <li class="All"><button type="button" class="btn" data-area="전체">#전체</button></li>
+                    <li id="1"><button type="button" class="btn" data-area="서울">#서울</button></li>
+                    <li id="6"><button type="button" class="btn" data-area="부산">#부산</button></li>
                     <li id="4"><button type="button" class="btn" data-area="대구">#대구</button></li>
-                    <li id="2"><button type="button" class="btn" data-area="인천"><span>#인천</span></button></li>
-                    <li id="5"><button type="button" class="btn" data-area="광주"><span>#광주</span></button></li>
-                    <li id="3"><button type="button" class="btn" data-area="대전"><span>#대전</span></button></li>
+                    <li id="2"><button type="button" class="btn" data-area="인천">#인천</button></li>
+                    <li id="5"><button type="button" class="btn" data-area="광주">#광주</button></li>
+                    <li id="3"><button type="button" class="btn" data-area="대전">#대전</button></li>
                     <li id="7"><button type="button" class="btn" data-area="울산">#울산</button></li>
-                    <li id="8"><button type="button" class="btn" data-area="세종"><span>#세종</span></button></li>
-                    <li id="31"><button type="button" class="btn" data-area="경기"><span>#경기</span></button></li>
-                    <li id="32"><button type="button" class="btn" data-area="강원"><span>#강원</span></button></li>
-                    <li id="33"><button type="button" class="btn" data-area="충청북도"><span>#충북</span></button></li>
-                    <li id="34"><button type="button" class="btn" data-area="충청남도"><span>#충남</span></button></li>
-                    <li id="35"><button type="button" class="btn" data-area="경상북도"><span>#경북</span></button></li>
-                    <li id="36"><button type="button" class="btn" data-area="경상남도"><span>#경남</span></button></li>
-                    <li id="37"><button type="button" class="btn" data-area="전라북도"><span>#전북</span></button></li>
-                    <li id="38"><button type="button" class="btn" data-area="전라남도"><span>#전남</span></button></li>
-                    <li id="39"><button type="button" class="btn" data-area="제주"><span>#제주</span></button></li>                    
+                    <li id="8"><button type="button" class="btn" data-area="세종">#세종</button></li>
+                    <li id="31"><button type="button" class="btn" data-area="경기">#경기</button></li>
+                    <li id="32"><button type="button" class="btn" data-area="강원">#강원</button></li>
+                    <li id="33"><button type="button" class="btn" data-area="충청북도">#충북</button></li>
+                    <li id="34"><button type="button" class="btn" data-area="충청남도">#충남</button></li>
+                    <li id="35"><button type="button" class="btn" data-area="경상북도">#경북</button></li>
+                    <li id="36"><button type="button" class="btn" data-area="경상남도">#경남</button></li>
+                    <li id="37"><button type="button" class="btn" data-area="전라북도">#전북</button></li>
+                    <li id="38"><button type="button" class="btn" data-area="전라남도">#전남</button></li>
+                    <li id="39"><button type="button" class="btn" data-area="제주">#제주</button></li>                    
                 </ul>
         </div>
 	</div>

@@ -283,4 +283,118 @@ public class FestDAO {
 		}
 		return list;
 	}
+	
+	public FestDTO readFest(int num) {
+		FestDTO dto=null;
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql;
+		
+		try {
+			sql="SELECT num, e.userId userId, eventname, address, startdate, enddate, e.tel tel, homepage, host, price,"
+					+ " created, imagefilename, content FROM event e JOIN member m ON e.userId = m.userId WHERE num= ?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto=new FestDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setEventName(rs.getString("eventname"));
+				dto.setAddress(rs.getString("address"));
+				dto.setStartDate(rs.getDate("startdate").toString());
+				dto.setEndDate(rs.getDate("enddate").toString());
+				dto.setTel(rs.getString("tel"));
+				dto.setHomepage(rs.getString("homepage"));
+				dto.setHost(rs.getString("host"));
+				dto.setPrice(rs.getString("price"));
+				dto.setCreatedDate(rs.getString("created"));
+				dto.setImageFilename(rs.getString("imagefilename"));
+				dto.setContent(rs.getString("content"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		
+		return dto;
+	}
+	
+	public int updateFest(FestDTO dto) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql= "UPDATE event SET eventname= ?, address= ?, startdate= ?, enddate= ?, tel= ?, "
+					+ " homepage= ?, host= ?, price= ?, imagefilename= ?, content=? WHERE num = ?";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getEventName());
+			pstmt.setString(2, dto.getAddress());
+			pstmt.setString(3, dto.getStartDate());
+			pstmt.setString(4, dto.getEndDate());
+			pstmt.setString(5, dto.getTel());
+			pstmt.setString(6, dto.getHomepage());
+			pstmt.setString(7, dto.getHost());
+			pstmt.setString(8, dto.getPrice());
+			pstmt.setString(9, dto.getImageFilename());
+			pstmt.setString(10, dto.getContent());
+			pstmt.setInt(11, dto.getNum());
+			
+			result=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public int deleteFest(int num) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="DELETE FROM event WHERE num=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+	}
+	
+	
 }
