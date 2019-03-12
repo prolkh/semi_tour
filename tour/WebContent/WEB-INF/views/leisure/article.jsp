@@ -183,7 +183,7 @@ function listPage(page){
         				
         				<div id="tab-map" class="tab-content">        				
         					<h5>지도</h5>
-        					<script type="text/javascript">    				    
+        					<script type="text/javascript">
 	        				    var mapContainer = document.getElementById('tab-map'), // 지도를 표시할 div 
 	        				    mapOption = { 
 	        				        center: new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"), // 지도의 중심좌표
