@@ -47,8 +47,8 @@ public class LeisureDAO {
 				}
 			}catch(Exception e2) {
 			}
-		}		
-		return result;		
+		}
+		return result;
 	}
 	
 	public int deleteLeisure(int num) {
@@ -63,15 +63,12 @@ public class LeisureDAO {
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
 			
-			
 		}catch(Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
-
 					pstmt.close();
-
 				} catch (Exception e2) {
 				}
 			}
@@ -137,9 +134,9 @@ public class LeisureDAO {
 		int result=0;
 		
 		try {
-			sql="update set subject=?, opening=?, useTime=?, address=?,";
+			sql="update leisure set subject=?, opening=?, useTime=?, address=?,";
 			sql+="longitude=?, latitude=?, tel=?, content=?, introduction=?, imageFilename=?";
-			sql+="from leisure where num=?";
+			sql+="where num=?";
 			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getSubject());
@@ -236,8 +233,8 @@ public class LeisureDAO {
 		try {
 			sb.append("select * from (");
 			sb.append("	select ROWNUM rnum, tb.*from(");
-			sb.append("	select num, subject, opening, useTime, tel, address, longitude,");
-			sb.append("	latitude, created, introduction, content, hitCount");
+			sb.append("	select num, userId, subject, opening, useTime, tel, address, longitude,");
+			sb.append("	latitude, created, introduction, content, hitCount, imageFilename");
 			sb.append("	from leisure where INSTR(address,?)>=1 order by num DESC) tb where ROWNUM <=?");
 			sb.append("	)where rnum >= ?");
 			
@@ -361,7 +358,7 @@ public class LeisureDAO {
 			result=pstmt.executeUpdate();
 			
 		}catch(Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}finally {
 			if(pstmt!=null) {
 				try {
@@ -371,5 +368,124 @@ public class LeisureDAO {
 			}
 		}		
 		return result;		
+	}
+	
+	public int insertReply(ReplyDTO dto) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="insert into leisurereply(replyNum, num, userId, content, created)";
+			sql+=" values(LEISUREREPLY_SEQ.NEXTVAL, ?, ?, ?, ?)";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getNum());
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setString(4, dto.getCreated());
+			
+			result=pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}
+		return result;
+	}
+	
+	public int dataCountReply(int num) {
+		int result=0;
+		PreparedStatement pstmt =null;
+		ResultSet rs=null;
+		String sql;
+		
+		try {
+			sql="select NVL(count(*),0) from leisureReply where num=?";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result=rs.getInt(1);
+			}			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				}catch(Exception e2) {					
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}
+		return result;
+	}
+	
+	public List<ReplyDTO> listReply(int num, int start, int end){
+		List<ReplyDTO> list=new ArrayList<>();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		StringBuffer sb= new StringBuffer();
+		
+		try {
+			sb.append("SELECT * FROM (");
+			sb.append("    SELECT ROWNUM rnum, tb.*  FROM (");
+			sb.append("    SELECT replyNum, l.userId, userName, num, content, created");
+			sb.append("    FROM leisureReply l");
+			sb.append("    JOIN  member m ON l.userId = m.userId");
+			sb.append("    WHERE num = ? ORDER BY l.replyNum DESC");
+			sb.append("	) tb WHERE  ROWNUM  <= ?");
+			sb.append(") WHERE rnum >= ?");
+			
+			pstmt=conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReplyDTO dto=new ReplyDTO();
+				
+				dto.setReplyNum(rs.getInt("replyNum"));
+				dto.setNum(rs.getInt("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setUserName(rs.getString("userName"));
+				dto.setContent(rs.getString("content"));
+				dto.setCreated(rs.getString("created"));
+				
+				list.add(dto);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				}catch(Exception e2) {					
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}
+		return list;
 	}
 }

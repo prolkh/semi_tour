@@ -128,8 +128,7 @@
 				return;
 			}
 			console.log(e.responseText);
-		}
-		
+		}		
 		});
 	}
 	

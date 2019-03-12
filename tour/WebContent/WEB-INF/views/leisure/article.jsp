@@ -21,22 +21,23 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=077360eee8a1e1c82e55602b5c5bcf32"></script>
 
 <script type="text/javascript">
-	function deleteLeisure(num) {
+function deleteLeisure(num) {
 	<c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
 	    if(confirm("게시물을 삭제 하시겠습니까 ?")) {
 	    	 var url="<%=cp%>/leisure/delete.do?num="+num+"&page=${page}";
 	    	 location.href=url;
 	    }	
-	</c:if>
+	    </c:if>
 	
 	<c:if test="${sessionScope.member.userId!='admin' && sessionScope.member.userId!=dto.userId}">
 	    alert("게시물을 삭제할 수  없습니다.");
 	</c:if>
-	}
+}
 	
-	function updateLeisure(num) {
+function updateLeisure(num) {
 	<c:if test="${sessionScope.member.userId==dto.userId}">
 	    var url="<%=cp%>/leisure/update.do?num="+num+"&page=${page}";
 	    location.href=url;
@@ -45,24 +46,88 @@
 	<c:if test="${sessionScope.member.userId!=dto.userId}">
 	   alert("게시물을 수정할 수  없습니다.");
 	</c:if>
-	}
+}
 	
-	$(function() {
-		$(".tab-content").hide();
-		$("ul.tabs li:first").addClass("active").show();
-		$(".tab-content:first").show();
+$(function() {
+	$(".tab-content").hide();
+	$("ul.tabs li:first").addClass("active").show();
+	$(".tab-content:first").show();
 		
-		$("ul.tabs li").click(function() {
-			$("ul.tabs li").removeClass("active");
-			$(this).addClass("active");
-			$(".tab-content").hide();
+	$("ul.tabs li").click(function() {
+		$("ul.tabs li").removeClass("active");
+		$(this).addClass("active");
+		$(".tab-content").hide();
 			
-			var activeTab = $(this).find("a").attr("href");
-			$(activeTab).fadeIn();			
-			return false;
+		var activeTab = $(this).find("a").attr("href");
+		$(activeTab).fadeIn();			
+		return false;
+	});
+});
+
+$(function(){
+	$("#sendReply").click(function(){
+		var content=$("#replyContent").val();
+		
+		if(! content){
+			$("#replyContent").focus();
+			return;
+		}
+		
+		content=encodeURIComponent(content);
+		
+		var url="<%=cp%>/leisure/insertReply.do";
+		var query="num=${dto.num}&content="+content+"&answer=0";
+		
+		$.ajax({
+			type:"post"
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data){
+				listPage(1);
+			}
+			,beforeSend:function(jqXHR){
+				jqXHR.setRequestHeader("AJAX",true);
+			}
+			,error:function(e){
+				if(e.status==403){
+					location.href="<%=cp%>/member/login.do";
+					return;
+				}
+				console.log(e.responseText);
+			}
 		});
 	});
 	
+});
+
+$(function(){
+	listPage(1);
+});
+
+function listPage(page){
+	var url="<%=cp%>/leisure/listReply.do";
+	var query="num=${dto.num}&pageNo="+page;
+	
+	$.ajax({
+		type:"get"
+		,url:url
+		,data:query
+		,success:function(data){
+			$("#listReply").html(data);
+		}
+		,beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX",true);
+		}
+		,error:function(e){
+			if(e.status==403){
+				location.href="<%=cp%>/member/login.do";
+				return;
+			}
+			console.log(e.responseText);
+		}
+	});
+}
 	
 </script>
 </head>
@@ -117,7 +182,27 @@
         				</div>
         				
         				<div id="tab-map" class="tab-content">        				
-        					<h5>지도</h5>        			
+        					<h5>지도</h5>
+        					<script type="text/javascript">    				    
+	        				    var mapContainer = document.getElementById('tab-map'), // 지도를 표시할 div 
+	        				    mapOption = { 
+	        				        center: new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"), // 지도의 중심좌표
+	        				        level: 3 // 지도의 확대 레벨
+	        				    };
+	
+	        					var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	        					
+	        					// 마커가 표시될 위치입니다 
+	        					var markerPosition  = new daum.maps.LatLng("${dto.latitude}", "${dto.longitude}"); 
+	        					
+	        					// 마커를 생성합니다
+	        					var marker = new daum.maps.Marker({
+	        					    position: markerPosition
+	        					});
+	        					
+	        					// 마커가 지도 위에 표시되도록 설정합니다
+	        					marker.setMap(map);
+        				    </script>       			
         				</div>
         			</div>        		
         		</div>
@@ -129,63 +214,33 @@
         		<br>
         		${dto.introduction}
         	</div>
-        	<div class="boxTA">
+        	<div>
         		<h3>세부설명</h3>
         		<br>
         		${dto.content}        	
         	</div>  	
         	
         	<div>
-            
-             <form name="replyForm" method="post" action="">
-             <div class="reply-write">
-                 <div style="clear: both; padding: 10px 5px;">
-                         <span style="font-weight: bold;">전체댓글</span>
-                 </div>
-                 <div style="clear: both; padding-top: 10px;">
-                       <textarea name="content" id="content" class="boxTF" rows="3" style="display:block; width: 100%; padding: 6px 12px; box-sizing:border-box;" required="required"></textarea>
-                  </div>
-                  <div style="text-align: right; padding-top: 10px;">
-                       <button type="button" class="btn" onclick="sendReply();" style="padding:8px 25px;"> 등록하기 </button>
-                  </div>           
-            </div>
-           </form>
-         
-           <div id="listReply" style="width:100%; margin: 0px auto;">
-             <c:if test="${dataCount != 0}">
-                 <table style='width: 100%; margin: 10px auto 0px; border-spacing: 0px; border-collapse: collapse;'>
-                    <tr height='35'>
-                        <td width='50%'>
-                            <span style='color: #3EA9CD; font-weight: 700;'>댓글 ${dataCount}개</span>
-                            <span>[목록 ${page}/${total_page} 페이지]</span>
-                        </td>
-                        <td width='50%'>
-                            &nbsp;
-                        </td>
-                    </tr>
-                    
-                    <c:forEach var="dto" items="${list}">
-                         <tr height='35' bgcolor='#eeeeee'>
-                               <td width='50%' style='padding-left: 5px; border:1px solid #cccccc; border-right:none;'>
-                                       작성자 : 으디보자
-                                </td>
-                                <td width='50%' align='right' style='padding-right: 5px; border:1px solid #cccccc; border-left:none;'>
-                                       ${dto.created}
-                                       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">    
-                                           | <a href="javascript:deleteReply('${dto.num}');">삭제</a>
-                                        </c:if>
-                                    </td>
-                         </tr>
-                          
-                         <tr height='50'><td colspan='2' style='padding: 5px;' valign='top'>${dto.content}</td></tr>
-                    </c:forEach>  
-                          
-                         <tr><td colspan='2' height='30' align='center'>${paging}</td></tr>
-                 </table>
-             </c:if>
-           </div>
-        	</div>
-        	
+	            <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+	            <tr height='30'> 
+		            <td align='left'>
+		            	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+		            </td>
+	            </tr>
+	            <tr>
+	               <td style='padding:5px 5px 0px;'>
+	                    <textarea id='replyContent' class='boxTA' style='width:99%; height: 70px;'></textarea>
+	                </td>
+	            </tr>
+	            <tr>
+	               <td align='right'>
+	                    <button type='button' class='btn' style='padding:10px 20px;' id="sendReply">댓글 등록</button>
+	                </td>
+	            </tr>
+	            </table>
+	            
+	            <div id="listReply"></div>
+ 	       </div>        	
         	
 			<div class="board-footer">
 				<div class="left-footer">
