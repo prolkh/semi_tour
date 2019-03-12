@@ -390,7 +390,7 @@ public class LeisureServlet extends MyServlet{
 		req.setAttribute("pageNo", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("replyCount", replyCount);
-		req.setAttribute("paging", paging);
+		req.setAttribute("paging", paging);		
 		
 		forward(req,resp,"/WEB-INF/views/leisure/listReply.jsp");
 				

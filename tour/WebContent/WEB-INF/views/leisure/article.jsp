@@ -97,8 +97,7 @@ $(function(){
 				console.log(e.responseText);
 			}
 		});
-	});
-	
+	});	
 });
 
 $(function(){
@@ -115,7 +114,7 @@ function listPage(page){
 		,data:query
 		,success:function(data){
 			$("#listReply").html(data);
-		}
+		}	
 		,beforeSend:function(jqXHR){
 			jqXHR.setRequestHeader("AJAX",true);
 		}
@@ -128,7 +127,6 @@ function listPage(page){
 		}
 	});
 }
-	
 </script>
 </head>
 <body>
