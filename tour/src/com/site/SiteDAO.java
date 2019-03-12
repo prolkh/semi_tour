@@ -76,7 +76,7 @@ public class SiteDAO {
 			pstmt.setString(8, dto.getIntroduction());
 			pstmt.setString(9, dto.getInquiry());
 			pstmt.setString(10, dto.getImageFilename());
-			pstmt.setString(11, dto.getUserId());
+			pstmt.setInt(11, dto.getNum());
 
 			result = pstmt.executeUpdate();
 
