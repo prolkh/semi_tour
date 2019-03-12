@@ -118,7 +118,7 @@ public class NoticeDAO   {
 			
 			if(searchKey.equalsIgnoreCase("created")) {
 				searchValue=searchValue.replace("-", "");
-				sb.append("	WHERE TO_CHAR(created, 'YYYY-MM-DD'=?");
+				sb.append("	WHERE TO_CHAR(created, 'YYYYMMDD')=?");
 			}else {
 				sb.append(" WHERE INSTR(" +searchKey+", ?)>=1");
 			}
