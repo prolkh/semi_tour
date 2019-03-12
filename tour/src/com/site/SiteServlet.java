@@ -30,15 +30,22 @@ public class SiteServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		String uri = req.getRequestURI();
 
-		// String cp = req.getContextPath();
-
-		HttpSession session = req.getSession();
-		/*
-		 * SessionInfo info = (SessionInfo) session.getAttribute("member");
-		 * 
-		 * if (info == null) { // 로그인되지 않은 경우 resp.sendRedirect(cp +
-		 * "/member/login.do"); // 포워딩이나 리다이렉팅 return; }
-		 */
+		// 세션 정보 
+		HttpSession session = req.getSession();		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		  
+		// AJAX에서 로그인이 안된 경우 403이라는 에러 코드를 던짐
+		String header = req.getHeader("AJAX");
+		if(header != null && header.equals("true") && info == null) {
+			resp.sendError(403);
+			return;
+		}
+		
+		// AJAX가 아닌 경우에 로그인이 안된경우
+		if(info==null) {
+			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			return;
+		}		
 
 		// 이미지를 저장할 경로
 		String root = session.getServletContext().getRealPath("/");
@@ -62,10 +69,12 @@ public class SiteServlet extends MyServlet {
 			updateForm(req, resp);
 		} else if (uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req, resp);
-		} else if (uri.indexOf("reply.do") != -1) {
-			replyForm(req, resp);
-		} else if (uri.indexOf("reply_ok.do") != -1) {
-			replySubmit(req, resp);
+		} else if (uri.indexOf("insertReply.do") != -1) { // AJAX
+			insertReply(req, resp);
+		} else if (uri.indexOf("listReply.do") != -1) { // AJAX
+			listReply(req, resp);
+		} else if (uri.indexOf("deleteReply.do") != -1) { // AJAX
+			deleteReply(req, resp);
 		} else if (uri.indexOf("delete.do") != -1) {
 			delete(req, resp);
 		}
@@ -81,64 +90,63 @@ public class SiteServlet extends MyServlet {
 		int current_page = 1;
 		if (page != null)
 			current_page = Integer.parseInt(page);
-		
+
 		String search = req.getParameter("search");
 
-		if(search==null) {
-			search="";
+		if (search == null) {
+			search = "";
 		}
-		if(req.getMethod().equalsIgnoreCase("GET")) {
+		if (req.getMethod().equalsIgnoreCase("GET")) {
 			search = URLDecoder.decode(search, "utf-8");
 		}
-		
+
 		int rows = 5;
 		int dataCount, total_page;
-		
+
 		// 전체 데이터 개수
-		if(search.length() != 0 )
+		if (search.length() != 0)
 			dataCount = dao.dataCount(search); // search
 		else
 			dataCount = dao.dataCount();
 		total_page = util.pageCount(rows, dataCount);
-		
-		if(current_page>total_page)
-			current_page=total_page;
-		
-		int start = (current_page-1)*rows+1;
-		int end = current_page*rows;
-		
+
+		if (current_page > total_page)
+			current_page = total_page;
+
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+
 		List<SiteDTO> list;
-		if(search.length() != 0)
+		if (search.length() != 0)
 			list = dao.listSite(start, end, search);
 		else
 			list = dao.listSite(start, end);
-		
+
 		String query = "";
 		String listUrl;
 		String articleUrl;
-		
-		if(search.length()==0) {
-			listUrl = cp +"/site/list.do";
-			articleUrl = cp +"/site/article.do?page=" + current_page;
+
+		if (search.length() == 0) {
+			listUrl = cp + "/site/list.do";
+			articleUrl = cp + "/site/article.do?page=" + current_page;
 		} else {
 			query += "&search=" + URLEncoder.encode(search, "utf-8");
-			
-			
-			listUrl = cp + "/site/list.do?"+query;
-			articleUrl = cp + "/site/article.do?page="+current_page+"&"+query;
+
+			listUrl = cp + "/site/list.do?" + query;
+			articleUrl = cp + "/site/article.do?page=" + current_page + "&" + query;
 		}
-		
+
 		String paging = util.paging(current_page, total_page, listUrl);
-		
+
 		// 포워딩 jsp에 넘길 데이터
 		req.setAttribute("list", list);
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
-		req.setAttribute("paging", paging);		
-		req.setAttribute("search", search);	
-		
+		req.setAttribute("paging", paging);
+		req.setAttribute("search", search);
+
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/site/list.jsp");
 
@@ -215,19 +223,19 @@ public class SiteServlet extends MyServlet {
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 보기
-		
+
 		SiteDAO dao = new SiteDAO();
-		String cp = req.getContextPath();		
+		String cp = req.getContextPath();
 
 		int num = Integer.parseInt(req.getParameter("num"));
-		String page = req.getParameter("page");		
+		String page = req.getParameter("page");
 
 		String search = req.getParameter("search");
 
-		if(search==null) {
-			search="";
+		if (search == null) {
+			search = "";
 		}
-		
+
 		// 조회수
 		dao.updateHitCount(num);
 
@@ -249,36 +257,36 @@ public class SiteServlet extends MyServlet {
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정 폼
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
 		SiteDAO dao = new SiteDAO();
 		String cp = req.getContextPath();
-		
-		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.do");
+
+		if (info == null) {
+			resp.sendRedirect(cp + "/member/login.do");
 			return;
 		}
-		
+
 		String page = req.getParameter("page");
 		int num = Integer.parseInt(req.getParameter("num"));
-		
+
 		SiteDTO dto = dao.readSite(num);
-		
-		if(dto==null) {
-			resp.sendRedirect(cp+"/site/list.do?page="+page);
+
+		if (dto == null) {
+			resp.sendRedirect(cp + "/site/list.do?page=" + page);
 			return;
 		}
-		
+
 		// 글을 등록한 사람만 수정가능
-		if(! info.getUserId().equals(dto.getUserId())) {
-			resp.sendRedirect(cp+"/site/list.do?page="+page);
+		if (!info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp + "/site/list.do?page=" + page);
 			return;
 		}
-		
+
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
 		req.setAttribute("mode", "update");
-		
+
 		forward(req, resp, "/WEB-INF/views/site/created.jsp");
 	}
 
@@ -288,23 +296,23 @@ public class SiteServlet extends MyServlet {
 		SiteDAO dao = new SiteDAO();
 
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-				
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
 		String encType = "UTF-8";
 		int maxSize = 5 * 1024 * 1024;
 
 		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
 
 		String page = mreq.getParameter("page");
-		if(! mreq.getParameter("uesrId").equals(info.getUserId())) {
-			resp.sendRedirect(cp+"/site/list.do?page="+page);
+		if (!mreq.getParameter("uesrId").equals(info.getUserId())) {
+			resp.sendRedirect(cp + "/site/list.do?page=" + page);
 		}
-		
+
 		int num = Integer.parseInt(mreq.getParameter("num"));
-		
+
 		SiteDTO dto = new SiteDTO();
-		
-		dto.setNum(num);		
+
+		dto.setNum(num);
 		dto.setSubject(mreq.getParameter("subject"));
 		dto.setUseTime(mreq.getParameter("useTime"));
 		dto.setZip(Integer.parseInt(mreq.getParameter("zip")));
@@ -314,8 +322,8 @@ public class SiteServlet extends MyServlet {
 		dto.setContent(mreq.getParameter("content"));
 		dto.setIntroduction(mreq.getParameter("introduction"));
 		dto.setImageFilename(mreq.getParameter("imageFilename"));
-		
-		if(mreq.getFile("upload") != null) {
+
+		if (mreq.getFile("upload") != null) {
 			// 기존 파일 지우기
 			FileManager.doFiledelete(pathname, dto.getImageFilename());
 
@@ -329,15 +337,19 @@ public class SiteServlet extends MyServlet {
 		}
 
 		dao.updateSite(dto);
-		
-		resp.sendRedirect(cp + "/site/article.do?num="+dto.getNum()+"&page="+page);
+
+		resp.sendRedirect(cp + "/site/article.do?num=" + dto.getNum() + "&page=" + page);
 	}
 
-	protected void replyForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}
 
-	protected void replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+	
+	protected void deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}
 
@@ -346,24 +358,24 @@ public class SiteServlet extends MyServlet {
 		// 수정 완료
 		String cp = req.getContextPath();
 		SiteDAO dao = new SiteDAO();
-		
+
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
 		int num = Integer.parseInt(req.getParameter("num"));
 		String page = req.getParameter("page");
-		
+
 		// DB에서 가져오기
 		SiteDTO dto = dao.readSite(num);
-		if(dto == null || (!dto.getUserId().equals(info.getUserId()) && info.getUserRoll() < 3)) {
-			resp.sendRedirect(cp +"/site/list.do?page="+page);
+		if (dto == null || (!dto.getUserId().equals(info.getUserId()) && info.getUserRoll() < 3)) {
+			resp.sendRedirect(cp + "/site/list.do?page=" + page);
 			return;
 		}
-		
+
 		FileManager.doFiledelete(pathname, dto.getImageFilename());
-		
+
 		dao.deleteSite(num);
-		resp.sendRedirect(cp+"/site/list.do?page="+page);
+		resp.sendRedirect(cp + "/site/list.do?page=" + page);
 	}
 
 }

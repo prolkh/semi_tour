@@ -421,5 +421,136 @@ public class SiteDAO {
 		
 		return result;
 	}
+	
+	public int insertReply(ReplyDTO dto) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("INSERT INTO siteReply(replyNum, num, userId, content)");
+			sb.append(" VALUES(siteReply_seq.NEXTVAL, ?, ?, ?) ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, dto.getNum());
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setString(3, dto.getContent());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}	
+		
+		return result;
+	}
+	
+	public int dataCountReply(int num) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM siteReply WHERE num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			if (pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<ReplyDTO> listReply(int num, int start, int end) {
+		List<ReplyDTO> list = new ArrayList<ReplyDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("SELECT * FROM (");
+			sb.append("    SELECT ROWNUM rnum, tb.*  FROM (");
+			sb.append("	      SELECT r.replyNum, r.userId, userName, num, content, r.created");
+			sb.append("		  FROM bbsReply r");
+			sb.append("		  JOIN  member m ON r.userId = m.userId");
+			sb.append("		  WHERE num = ?");
+			sb.append("		  ORDER BY  r.replyNum DESC");
+			sb.append("	) tb  WHERE  ROWNUM  <= ?");
+			sb.append(")  WHERE rnum >= ?");	
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReplyDTO dto = new ReplyDTO();
+				
+				dto.setReplyNum(rs.getInt("replyNum"));
+				dto.setNum(rs.getInt("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setUserName(rs.getString("userName"));
+				dto.setContent(rs.getString("content"));
+				dto.setCreated(rs.getString("created"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			if (pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}	
+		
+		return list;
+	}
+	
+	/*
+	 * public ReplyDTO readReply(int replyNum) {
+	 * 
+	 * }
+	 */
 
 }
