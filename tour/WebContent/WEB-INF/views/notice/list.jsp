@@ -5,6 +5,8 @@
 <%
 	String cp = request.getContextPath();
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +14,14 @@
 <title>어서옵쇼 관광지쇼</title>
 
 <link rel="stylesheet" href="<%=cp %>/resource/css/layout.css" type="text/css">
+<style type="text/css">
+*{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+
+</style>
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript">
 	function searchList() {
