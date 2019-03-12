@@ -24,7 +24,7 @@ import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-@WebServlet("/notice/*")
+@WebServlet("/notice/*") 
 public class NoticeServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -98,26 +98,155 @@ public class NoticeServlet extends MyServlet {
 		}
 		
 	}
-
-	private void delete(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+	private void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException ,IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		NoticeDTO dto=dao.readNotice(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		if(info==null || ! info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		FileManager.doFiledelete(pathname, dto.getSaveFilename());
+		dto.setOriginalFilename("");
+		dto.setSaveFilename("");
+		dto.setFilesize(0);
+
+		dao.updateNotice(dto);
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		req.setAttribute("mode", "update");
+		
+		forward(req, resp, "WEB-INF/views/notice/created.jsp");
+}
+
+	private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException ,IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		NoticeDTO dto=dao.readNotice(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page );
+			return;
+		}
+		
+		if(! info.getUserId().equals(dto.getUserId()) && ! info.getUserId().equals("admin")) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0) {
+			FileManager.doFiledelete(pathname, dto.getSaveFilename());
+		}
+		
+		dao.deleteNotice(num);
+		
+		resp.sendRedirect(cp+"/notice/list.do?page="+page);
 	}
 
-	private void deleteFile(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+
+	private void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException ,IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String page=req.getParameter("page");
+		int num=Integer.parseInt(req.getParameter("num"));
+		
+		NoticeDTO dto=dao.readNotice(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		if(! info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		req.setAttribute("mode", "update");
+		
+		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
+	}
+	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException ,IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String encType="utf-8";
+		int maxFilesize=10*10*1024;
+		
+		
+		MultipartRequest mreq=new MultipartRequest(req, pathname, maxFilesize, encType, new DefaultFileRenamePolicy());
+		
+		NoticeDTO dto=new NoticeDTO();
+		
+		int num=Integer.parseInt(mreq.getParameter("num")); 
+		String page=mreq.getParameter("page");
+		
+		dto.setNum(num);
+		if(mreq.getParameter("notice")!=null)
+			dto.setNotice(Integer.parseInt(mreq.getParameter("notice")));
+			dto.setSubject(mreq.getParameter("subject"));
+			dto.setContent(mreq.getParameter("content"));
+			dto.setSaveFilename(mreq.getParameter("saveFilename"));
+			dto.setOriginalFilename(mreq.getParameter("originalFilename"));
+			dto.setFilesize(Long.parseLong(mreq.getParameter("filesize")));			
+			
+		 if(mreq.getFile("upload")!=null) {
+			 FileManager.doFiledelete(pathname, mreq.getParameter("saveFilename"));
+			 
+			dto.setSaveFilename(mreq.getFilesystemName("upload"));
+			dto.setOriginalFilename(mreq.getParameter("upload"));
+			dto.setFilesize(mreq.getParameter("upload").length());
+		 }
+		 dao.updateNotice(dto);
+		 
+		 resp.sendRedirect(cp+"/notice/list.do?page="+page);
 	}
 
-	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void updateForm(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session=req.getSession();

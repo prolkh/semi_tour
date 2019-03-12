@@ -29,11 +29,17 @@ function sendNotice() {
 		return;
 	}
 	
-	
 	f.action="<%=cp%>/notice/${mode}_ok.do";
 
 	f.submit();
 }
+
+<c:if test="${mode=='update'}">
+	function deletFile(num){
+		var url="<%=cp%>/notice/deleteFile.do?num="+num+"&page=${page}";
+		location.href=url;
+	}
+</c:if>	
 
 </script>
 
@@ -77,7 +83,7 @@ function sendNotice() {
 			</td>
 			
 		</tr>
-		
+
 		<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			<td width="100" bgcolor="#eeeeee" style="text-align: center;">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
 			<td style="padding-left:10px;"> 
@@ -85,14 +91,18 @@ function sendNotice() {
 			</td>
 		</tr>
 		
+		<c:if test="${mode=='update' }">	
 		 <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			 <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 			 <td style="padding-left:10px;"> 
-				              <a href="#">삭제</a>   
+				<c:if test="${not empty dto.saveFilename }">
+				${dto.originalFilename }
+				 <a href="javascript:deleteFile('${dto.num }')">삭제</a>   
+			 	</c:if>
 			 </td>
 		 </tr> 
+		</c:if>			
 		
-			
 		</table>
 		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
@@ -101,6 +111,13 @@ function sendNotice() {
 			<button type="button" class="btn" onclick="sendNotice()">${mode=='update'? '수정완료':'등록하기' }</button>
 			<button type="reset" class="btn">다시입력</button>
 			<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do';">${mode=='update'?'수정취소':'등록취소' }</button>
+			<c:if test="${mode=='update' }">
+				<input type="hidden" name="num" value="${dto.num }">
+				<input type="hidden" name="page" value="${page }">
+				<input type="hidden" name="filesize" value="${dto.filesize}">
+				<input type="hidden" name="saveFilename" value="${dto.saveFilename }">
+				<input type="hidden" name="originalFilename" value="${dto.originalFilename }">
+			</c:if>
 			</td>
 		</tr>		
 		</table>

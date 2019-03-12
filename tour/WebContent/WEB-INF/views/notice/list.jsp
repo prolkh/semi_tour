@@ -123,9 +123,9 @@
 						<button type="button" class="btn" onclick="searchList()">검색</button>	
 					</form>
 				<td align="right" width="100">
-			          
-					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created.do'">글올리기</button>					
-				
+			          <c:if test="${sessionScope.member.userId=='admin'}">
+			              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created.do';">글올리기</button>
+			          </c:if>			
 				</td>		
 			</tr>
 		</table>

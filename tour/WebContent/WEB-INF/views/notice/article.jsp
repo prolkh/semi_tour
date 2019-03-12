@@ -13,6 +13,23 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 
+<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+<c:if test="${sessionScope.member.userId=='admin'}">
+function deleteNotice(num){
+	if(confirm("게시물을 삭제 하실?")){
+		var url="<%=cp%>/notice/delete.do?num="+num;
+		url+="&page=${page}";
+		location.href=url;
+	}
+}
+
+
+</c:if>
+
+
+</script>
 </head>
 <body>
 
@@ -54,7 +71,7 @@
 			   첨&nbsp;&nbsp;부 :
 			   <c:if test="${not empty dto.saveFilename }">
 			   <a href="<%=cp%>/notice/download.do?num=${dto.num}">${dto.originalFilename}</a>
-				(<fmt:formatNumber value="${dto.fileSize/1024}" pattern="0.00"/> Kbyte)
+				(<fmt:formatNumber value="${dto.filesize/1024}" pattern="0.00"/> Kbyte)
 				</c:if>
 			</td>
 		</tr>
@@ -81,12 +98,11 @@
 		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 		<tr>
 			<td width="300" align="left">
-			<c:if test="${sessionScope.member.userId=dto.userId }">
-				<button type="button" class="btn" onclick="">수정</button>
-			</c:if>	
-			<c:if test="${sessionScope.member.userId=dto.userId || sessionScope.member.userId=='admin'}">
-				<button type="button" class="btn" onclick="">삭제</button>	
-			</c:if>			
+			       <c:if test="${sessionScope.member.userId==dto.userId}">	
+						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/update.do?num=${dto.num}&page=${page}';">수정</button>
+					</c:if>
+				<button type="button" class="btn" onclick="deleteNotice('${dto.num}');">삭제</button>	
+			
 			</td>
 			<td align="right">
 				<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list.do?${query}';">리스트</button>
@@ -96,5 +112,6 @@
 	</div>
 	</div>
 </div>
+
 </body>
 </html>
