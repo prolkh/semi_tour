@@ -2,6 +2,7 @@ package com.site;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -19,6 +20,8 @@ import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import net.sf.json.JSONObject;
+
 @WebServlet("/site/*")
 public class SiteServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,8 +35,9 @@ public class SiteServlet extends MyServlet {
 
 		// 세션 정보 
 		HttpSession session = req.getSession();		
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		  
+		// SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		/*  
 		// AJAX에서 로그인이 안된 경우 403이라는 에러 코드를 던짐
 		String header = req.getHeader("AJAX");
 		if(header != null && header.equals("true") && info == null) {
@@ -45,7 +49,8 @@ public class SiteServlet extends MyServlet {
 		if(info==null) {
 			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 			return;
-		}		
+		}	
+		*/	
 
 		// 이미지를 저장할 경로
 		String root = session.getServletContext().getRealPath("/");
@@ -247,6 +252,7 @@ public class SiteServlet extends MyServlet {
 
 		MyUtil util = new MyUtil();
 		dto.setContent(util.htmlSymbols(dto.getContent()));
+		dto.setIntroduction(util.htmlSymbols(dto.getIntroduction()));
 
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
@@ -342,15 +348,87 @@ public class SiteServlet extends MyServlet {
 	}
 
 	protected void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		// 댓글 
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		SiteDAO dao = new SiteDAO();
+		ReplyDTO dto = new ReplyDTO();
+		
+		dto.setUserId(info.getUserId());
+		dto.setNum(Integer.parseInt(req.getParameter("num")));
+		dto.setContent(req.getParameter("content"));
+		
+		dao.insertReply(dto);
+		
+		String state = "true";
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());		
 	}
 
 	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		// 댓글 리스트
+		SiteDAO dao = new SiteDAO();
+		MyUtil util = new MyUtil();
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		int current_page = 1;
+		String pageNo = req.getParameter("pageNo");
+		if(pageNo != null)
+			current_page = Integer.parseInt(pageNo);
+		
+		int rows = 5;
+		int total_page = 0;
+		int replyCount = 0;
+		
+		replyCount = dao.dataCountReply(num);
+		total_page = util.pageCount(rows, replyCount);
+		if(current_page > total_page)
+			current_page = total_page;
+		
+		int start = (current_page-1)*rows+1;
+		int end = current_page*rows;
+		
+		List<ReplyDTO> list = dao.listReply(num, start, end);
+		
+		for(ReplyDTO dto : list) {
+			dto.setContent(util.htmlSymbols(dto.getContent()));
+		}
+		
+		String paging = util.pagingMethod(current_page, total_page, "listPage");
+		
+		req.setAttribute("list", list);
+		req.setAttribute("pageNo", current_page);
+		req.setAttribute("replyCount", replyCount);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("paging", paging);
+		
+		forward(req, resp, "/WEB-INF/views/site/listReply.jsp");
 	}
 	
 	protected void deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		int replyNum = Integer.parseInt(req.getParameter("replyNum"));
+		
+		SiteDAO dao = new SiteDAO();		
+		
+		String state="false";
+		int result=dao.deleteReply(replyNum, info.getUserId());
+		if(result==1)
+			state="true";
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

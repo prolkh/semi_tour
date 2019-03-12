@@ -66,6 +66,105 @@
 		});
 	});
 	
+	$(function() {
+		$("#sendReply").click(function() {
+			var content = $("#replyContent").val().trim();
+			
+			if(! content) {
+				$("#replyContent").focus();
+				return;
+			}
+			
+			content = encodeURIComponent(content);
+			
+			var url = "<%=cp%>/site/insertReply.do";
+			var query = "num=${dto.num}&content="+content;
+			
+			$.ajax({
+				type:"post"
+				,url:url
+				,data:query
+				,dataType:"json"
+				,success:function(data){
+					listPage(1);
+				}
+			,beforeSend:function(jqXHR){
+				jqXHR.setRequestHeader("AJAX", true);
+			}
+			,error:function(e){ // 403에러
+				if(e.status == 403){
+					location.href = "<%=cp%>/member/login.do";
+					return;
+				}
+				console.log(e.responseText);
+			}
+			
+			});
+			
+		});
+	});
+	
+	$(function() {
+		listPage(1);
+	});
+	
+	function listPage(page) {
+		var url = "<%=cp%>/site/listReply.do";
+		var query = "num=${dto.num}&pageNo="+page;
+		
+		$.ajax({
+			type:"get"
+			,url:url
+			,data:query
+			,success:function(data){
+				$("#listReply").html(data);
+			}
+		,beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		}
+		,error:function(e){ // 403에러
+			if(e.status == 403){
+				location.href = "<%=cp%>/member/login.do";
+				return;
+			}
+			console.log(e.responseText);
+		}
+		
+		});
+	}
+	
+	$(function(){
+		$("body").on("click", ".deleteReply", function(){
+			if(! confirm("게시물을 삭제하시겠습니까 ? "))
+			    return;
+			
+			var url="<%=cp%>/site/deleteReply.do";
+			var replyNum=$(this).attr("data-replyNum");
+			var page=$(this).attr("data-pageNo");
+			
+			$.ajax({
+				type:"post"
+				,url:url
+				,data:{replyNum:replyNum}
+				,dataType:"json"
+				,success:function(data) {
+					listPage(page);
+				}
+			    ,beforeSend :function(jqXHR) {
+			    	jqXHR.setRequestHeader("AJAX", true);
+			    }
+			    ,error:function(jqXHR) {
+			    	if(jqXHR.status==403) {
+			    		location.href = "<%=cp%>/member/login.do";
+			    		return;
+			    	}
+			    	console.log(jqXHR.responseText);
+			    }
+			});
+		});
+	});
+	
+	
 	
 </script>
 </head>
@@ -159,56 +258,29 @@
 				${dto.introduction}
         	</div>
         	
-        	<div>
+        	
             
-             <form name="replyForm" method="post" action="">
-             <div class="reply-write">
-                 <div style="clear: both; padding: 10px 5px;">
-                         <span style="font-weight: bold;">전체댓글</span>
-                 </div>
-                 <div style="clear: both; padding-top: 10px;">
-                       <textarea name="content" id="content" class="boxTF" rows="3" style="display:block; width: 100%; padding: 6px 12px; box-sizing:border-box;" required="required"></textarea>
-                  </div>
-                  <div style="text-align: right; padding-top: 10px;">
-                       <button type="button" class="btn" onclick="sendReply();" style="padding:8px 25px;"> 등록하기 </button>
-                  </div>           
-            </div>
-           </form>
-         
-           <div id="listReply" style="width:100%; margin: 0px auto;">
-             <c:if test="${dataCount != 0}">
-                 <table style='width: 100%; margin: 10px auto 0px; border-spacing: 0px; border-collapse: collapse;'>
-                    <tr height='35'>
-                        <td width='50%'>
-                            <span style='color: #3EA9CD; font-weight: 700;'>댓글 ${dataCount}개</span>
-                            <span>[목록, ${page}/${total_page} 페이지]</span>
-                        </td>
-                        <td width='50%'>
-                            &nbsp;
-                        </td>
-                    </tr>
-                    
-                    <c:forEach var="dto" items="${list}">
-                         <tr height='35' bgcolor='#eeeeee'>
-                               <td width='50%' style='padding-left: 5px; border:1px solid #cccccc; border-right:none;'>
-                                       작성자 : ${dto.userName}
-                                </td>
-                                <td width='50%' align='right' style='padding-right: 5px; border:1px solid #cccccc; border-left:none;'>
-                                       ${dto.created}
-                                       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">    
-                                           | <a href="javascript:deleteReply('${dto.num}');">삭제</a>
-                                        </c:if>
-                                    </td>
-                         </tr>
-                          
-                         <tr height='50'><td colspan='2' style='padding: 5px;' valign='top'>${dto.content}</td></tr>
-                    </c:forEach>  
-                          
-                         <tr><td colspan='2' height='30' align='center'>${paging}</td></tr>
-                 </table>
-             </c:if>
-           </div>
-        	</div>
+            <div>
+	            <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+	            <tr height='30'> 
+		            <td align='left'>
+		            	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+		            </td>
+	            </tr>
+	            <tr>
+	               <td style='padding:5px 5px 0px;'>
+	                    <textarea id='replyContent' class='boxTA' style='width:99%; height: 70px;'></textarea>
+	                </td>
+	            </tr>
+	            <tr>
+	               <td align='right'>
+	                    <button type='button' class='btn' style='padding:10px 20px;' id="sendReply">댓글 등록</button>
+	                </td>
+	            </tr>
+	            </table>
+	            
+	            <div id="listReply"></div>
+ 	       </div>
         	
         	
 			<div class="board-footer">
