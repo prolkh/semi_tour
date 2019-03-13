@@ -86,6 +86,7 @@
 				,data:query
 				,dataType:"json"
 				,success:function(data){
+					$("#replyContent").val("");
 					listPage(1);
 				}
 			,beforeSend:function(jqXHR){
@@ -135,7 +136,7 @@
 	
 	$(function(){
 		$("body").on("click", ".deleteReply", function(){
-			if(! confirm("게시물을 삭제하시겠습니까 ? "))
+			if(! confirm("댓글을 삭제하시겠습니까 ? "))
 			    return;
 			
 			var url="<%=cp%>/site/deleteReply.do";
