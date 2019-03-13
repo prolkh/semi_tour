@@ -31,7 +31,13 @@ public class MemberServlet extends MyServlet{
 			memberForm(req,resp);
 		} else if(uri.indexOf("member_ok.do")!=-1) {
 			memberSubmit(req,resp);
-		}
+		} else if(uri.indexOf("pwd.do")!=-1) {
+			pwdForm(req,resp);
+		} else if(uri.indexOf("pwd_ok.do")!=-1) {
+			pwdSubmit(req,resp);
+		} 
+		
+		
 	}
 	
 	private void loginForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -142,4 +148,31 @@ public class MemberServlet extends MyServlet{
 		resp.sendRedirect(cp);
 	}
 	
+	private void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 패스워드 확인 폼
+		HttpSession session=req.getSession();
+		String cp=req.getContextPath();
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		if(info==null) {
+			// 로그아웃상태이면
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String mode=req.getParameter("mode");
+		if(mode.equals("update"))
+			req.setAttribute("title", "회원 정보 수정");
+		else
+			req.setAttribute("title", "회원 탈퇴");
+		
+		req.setAttribute("mode", mode);
+		
+		forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+		
+	}
+	
+	private void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
 }

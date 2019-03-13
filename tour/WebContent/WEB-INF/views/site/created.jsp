@@ -12,6 +12,7 @@
 <title>관광지 올리기</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/board/created.css" type="text/css">
 
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
@@ -87,7 +88,7 @@
 <body>
 
 <div class="header">
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/nav.jsp"></jsp:include>
 </div>
 
 <div class="container">

@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/board/article.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <style>
 .tab-container li{
 	display:list-item;
@@ -90,7 +91,7 @@ $(function() {
 <body>
 
 <div class="header">
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/nav.jsp"></jsp:include>
 </div>
 	
 <div class="container">
@@ -106,10 +107,10 @@ $(function() {
         	
         	<div class="row-line" style="text-align: center;">
         		<div class="left-line">
-        			이름 : 
+        			${dto.address}
         		</div>
         		<div class="right-line">
-        		 	${dto.createdDate} | 
+        		 	${dto.createdDate}  
         		</div>
         	</div>
         	
@@ -129,7 +130,7 @@ $(function() {
 							<ul>
 								<li><strong>시작일</strong><span>${dto.startDate}</span></li>
 								<li><strong>종료일</strong><span>${dto.endDate}</span></li>
-								<br>
+								<li>&nbsp;</li>
 								<li><strong>주소</strong><span>${dto.address}</span></li>
 							</ul>
         				</div>
@@ -138,7 +139,7 @@ $(function() {
 							<ul>
 								<li><strong>전화번호</strong><span>${dto.tel}</span></li>
 								<li><strong>주최</strong><span>${dto.host}</span></li>
-								<br>
+								<li>&nbsp;</li>
 								<li><strong>이용요금</strong><span>${dto.price}</span></li>
 							</ul>
         				</div>
