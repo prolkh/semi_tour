@@ -5,6 +5,8 @@
 <%
 	String cp = request.getContextPath();
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +14,14 @@
 <title>어서옵쇼 관광지쇼</title>
 
 <link rel="stylesheet" href="<%=cp %>/resource/css/layout.css" type="text/css">
+<style type="text/css">
+*{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+
+</style>
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript">
 	function searchList() {
@@ -123,9 +133,9 @@
 						<button type="button" class="btn" onclick="searchList()">검색</button>	
 					</form>
 				<td align="right" width="100">
-			          
-					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created.do'">글올리기</button>					
-				
+			          <c:if test="${sessionScope.member.userId=='admin'}">
+			              <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/created.do';">글올리기</button>
+			          </c:if>			
 				</td>		
 			</tr>
 		</table>

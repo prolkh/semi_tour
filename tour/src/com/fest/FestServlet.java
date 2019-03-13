@@ -32,6 +32,15 @@ public class FestServlet extends MyServlet{
 
 		String uri=req.getRequestURI();
 		
+		//이미지를 저장할 경로
+		HttpSession session=req.getSession();
+		String root=session.getServletContext().getRealPath("/");
+		pathname=root+"uploads"+File.separator+"fest";
+		File f = new File(pathname);
+		if(! f.exists()) {
+			f.mkdirs();
+		}
+		
 		//uri에 따른 작업 구분
 		if(uri.indexOf("list.do") != -1) {
 			list(req, resp);
@@ -154,14 +163,6 @@ public class FestServlet extends MyServlet{
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//이미지를 저장할 경로
-		String root=session.getServletContext().getRealPath("/");
-		pathname=root+"uploads"+File.separator+"fest";
-		File f = new File(pathname);
-		if(! f.exists()) {
-			f.mkdirs();
-		}
-		
 		FestDAO dao=new FestDAO();
 		
 		String encType= "UTF-8";
@@ -197,15 +198,127 @@ public class FestServlet extends MyServlet{
 		
 	}	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 보기
+		String cp=req.getContextPath();
 		
+		FestDAO dao=new FestDAO();
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		FestDTO dto=dao.readFest(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/fest/list.do?page="+page);
+			return;
+		}
+		
+		dto.setContent(dto.getContent().replaceAll("&", "&amp;")
+										.replaceAll("\"", "&quot;")
+										.replaceAll(">", "&gt;")
+										.replaceAll("<", "&lt;")
+										.replaceAll("/n", "<br>")
+										.replaceAll("\\s", "&nbsp;"));
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req,resp, "/WEB-INF/views/fest/article.jsp");
 	}
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 폼
+		String cp=req.getContextPath();
+		FestDAO dao=new FestDAO();
 		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		//DB에서 해당 게시물 가져오기
+		FestDTO dto=dao.readFest(num);
+		if(dto==null || !dto.getUserId().contentEquals(info.getUserId())) {
+			resp.sendRedirect(cp+"/fest/list.do?page="+page);
+			return;
+		}
+		
+		req.setAttribute("mode", "update");
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/fest/created.jsp");
 	}
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 완료
+		String cp=req.getContextPath();
+		FestDAO dao=new FestDAO();
 		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		String encType="UTF-8";
+		int maxSize=10*1024*1024;
+		
+		MultipartRequest mreq=new MultipartRequest(req,pathname, maxSize,
+				encType, new DefaultFileRenamePolicy());
+		
+		String page=mreq.getParameter("page");
+		
+		if(! mreq.getParameter("userId").contentEquals(info.getUserId())) {
+			resp.sendRedirect(cp+"/fest/list.do?page="+page); }
+		 
+		
+		FestDTO dto=new FestDTO();
+		
+		dto.setNum(Integer.parseInt(mreq.getParameter("num")));
+		dto.setEventName(mreq.getParameter("eventName"));
+		dto.setAddress(mreq.getParameter("address"));
+		dto.setStartDate(mreq.getParameter("startDate"));
+		dto.setEndDate(mreq.getParameter("endDate"));
+		dto.setTel(mreq.getParameter("tel"));
+		dto.setHomepage(mreq.getParameter("homepage"));
+		dto.setHost(mreq.getParameter("host"));
+		dto.setPrice(mreq.getParameter("price"));
+		dto.setImageFilename(mreq.getParameter("imageFilename"));
+		dto.setContent(mreq.getParameter("content"));
+				
+		if(mreq.getFile("upload")!=null) {
+			// 기존 파일 지우기
+			FileManager.doFiledelete(pathname, dto.getImageFilename());
+			
+			// 서버에 저장된 새로운 파일명
+			String saveFilename=mreq.getFilesystemName("upload");
+			
+			// 이름 변경
+			saveFilename=FileManager.doFilerename(pathname, saveFilename);
+			
+			dto.setImageFilename(saveFilename);
+		}
+		
+		System.out.println(dao.updateFest(dto)+"개 행 업데이트");
+		
+		resp.sendRedirect(cp+"/fest/article.do?num="+dto.getNum()+"&page="+page);
 	}
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 삭제 완료
+		String cp=req.getContextPath();
+		FestDAO dao=new FestDAO();
 		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		String page=req.getParameter("page");
+		
+		//DB에서 해당 게시물 가져오기
+		FestDTO dto=dao.readFest(num);
+		if(dto==null || (!dto.getUserId().contentEquals(info.getUserId()) && !info.getUserId().equals("admin"))) {
+			resp.sendRedirect(cp+"/fest/list.do?page="+page);
+			return;
+		}
+		FileManager.doFiledelete(pathname, dto.getImageFilename());
+		
+		dao.deleteFest(num);
+		resp.sendRedirect(cp+"/fest/list.do?page="+page);
 	}
 }

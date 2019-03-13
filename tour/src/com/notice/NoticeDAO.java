@@ -501,4 +501,68 @@ public class NoticeDAO   {
 		return result;
 	}
 	
+	//article삭제 
+	public int deleteNotice(int num) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="DELETE FROM notice WHERE num=?";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			result=pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					
+				} 
+			}
+		}
+		
+		return result;
+	}
+	//article삭제 짜려면
+	public int updateNotice(NoticeDTO dto) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="UPDATE notice SET notice=?, subject=?, content=?, saveFilename=?, originalFilename=?, filesize=? " ;
+			sql=" WHERE num=?";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getNotice());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(4, dto.getSaveFilename());
+			pstmt.setString(5, dto.getOriginalFilename());
+			pstmt.setLong(6, dto.getFilesize());
+			pstmt.setInt(7, dto.getNum());
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();					
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		
+		return result;
+		
+	}
+	
 }

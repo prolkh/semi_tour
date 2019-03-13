@@ -113,6 +113,28 @@ body{
 dl, ul, ol, menu, li {
 	list-style: none;
 }
+
+.list > li .area_txt a{
+	text-decoration:none;
+	font-size:20px;
+	font-weight:bold;
+	width:100%;
+	display:inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+a {
+    cursor: pointer;
+    color: #000000;
+    text-decoration: none;
+}
+a:hover, a:active {
+    color: red;
+    text-decoration: underline;
+}
+
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
@@ -182,8 +204,7 @@ $(function() {
             </div>
         </div>
         <div class="area_tag">
-        		<ul class="tag_ul" id="edit" style="margin-bottom:10px; height:32px;">
-        		
+        		<ul class="tag_ul" id="edit" style="margin-bottom:10px; height:32px;">        		
         			<li>
         				<button style="border:1px solid #57667e;" type="button" class="btn" onclick="location.href='<%=cp%>/leisure/created.do';">글 올리기</button>
         			</li>
@@ -194,24 +215,24 @@ $(function() {
         		</ul>
 
              	<ul class="tag_ul" id="arealist" style="height:180px;">		
-                    <li class="All"><button type="button" class="btn" onclick=""><span>#전체</span></button></li>
-                    <li id="1"><button type="button" class="btn" onclick=""><span>#서울</span></button></li>
-                    <li id="6"><button type="button" class="btn" onclick=""><span>#부산</span></button></li>
-                    <li id="4"><button type="button" class="btn" onclick="">#대구</button></li>
-                    <li id="2"><button type="button" class="btn" onclick=""><span>#인천</span></button></li>
-                    <li id="5"><button type="button" class="btn" onclick=""><span>#광주</span></button></li>
-                    <li id="3"><button type="button" class="btn" onclick=""><span>#대전</span></button></li>
-                    <li id="7"><button type="button" class="btn" onclick="">#울산</button></li>
-                    <li id="8"><button type="button" class="btn" onclick=""><span>#세종</span></button></li>
-                    <li id="31"><button type="button" class="btn" onclick=""><span>#경기</span></button></li>
-                    <li id="32"><button type="button" class="btn" onclick=""><span>#강원</span></button></li>
-                    <li id="33"><button type="button" class="btn" onclick=""><span>#충북</span></button></li>
-                    <li id="34"><button type="button" class="btn" onclick=""><span>#충남</span></button></li>
-                    <li id="35"><button type="button" class="btn" onclick=""><span>#경북</span></button></li>
-                    <li id="36"><button type="button" class="btn" onclick=""><span>#경남</span></button></li>
-                    <li id="37"><button type="button" class="btn" onclick=""><span>#전북</span></button></li>
-                    <li id="38"><button type="button" class="btn" onclick=""><span>#전남</span></button></li>
-                    <li id="39"><button type="button" class="btn" onclick=""><span>#제주</span></button></li>                    
+                    <li class="All"><button type="button" class="btn" data-search="전체"><span>#전체</span></button></li>
+                    <li id="1"><button type="button" class="btn" data-search="서울"><span>#서울</span></button></li>
+                    <li id="6"><button type="button" class="btn" data-search="부산"><span>#부산</span></button></li>
+                    <li id="4"><button type="button" class="btn" data-search="대구"><span>#대구</span></button></li>
+                    <li id="2"><button type="button" class="btn" data-search="인천"><span>#인천</span></button></li>
+                    <li id="5"><button type="button" class="btn" data-search="광주"><span>#광주</span></button></li>
+                    <li id="3"><button type="button" class="btn" data-search="대전"><span>#대전</span></button></li>
+                    <li id="7"><button type="button" class="btn" data-search="울산"><span>#울산</span></button></li>
+                    <li id="8"><button type="button" class="btn" data-search="세종"><span>#세종</span></button></li>
+                    <li id="31"><button type="button" class="btn" data-search="경기"><span>#경기</span></button></li>
+                    <li id="32"><button type="button" class="btn" data-search="강원"><span>#강원</span></button></li>
+                    <li id="33"><button type="button" class="btn" data-search="충청북도"><span>#충북</span></button></li>
+                    <li id="34"><button type="button" class="btn" data-search="충청남도"><span>#충남</span></button></li>
+                    <li id="35"><button type="button" class="btn" data-search="경상북도"><span>#경북</span></button></li>
+                    <li id="36"><button type="button" class="btn" data-search="경상남도"><span>#경남</span></button></li>
+                    <li id="37"><button type="button" class="btn" data-search="전라북도"><span>#전북</span></button></li>
+                    <li id="38"><button type="button" class="btn" data-search="전라남도"><span>#전남</span></button></li>
+                    <li id="39"><button type="button" class="btn" data-search="제주"><span>#제주</span></button></li>                    
                 </ul>
         </div>
 	</div>

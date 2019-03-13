@@ -146,10 +146,18 @@
 		</ul>
 	</div>
 	<div class="backForm" style="height:40px; border:none;">
-		<ul style="float:right;">			
+		<ul style="float:right;">
+		<c:if test="${mode=='update'}">
+			<input type="hidden" name="num" value="${dto.num }">
+			<input type="hidden" name="imageFilename" value="${dto.imageFilename}">
+			<input type="hidden" name="page" value="${page }">
+			<input type="hidden" name="userId" value="${dto.userId}">
+			
+		</c:if>
 			<li class="under"><button class="btn" type="button" onclick="sendOk()">${mode=='update'?'수정완료':'등록하기'}</button></li>
 			<li class="under"><button class="btn" type="reset">다시쓰기</button></li>
 			<li class="under"><button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/WEB-INF/views/leisure/list.do';">취소</button></li>			
+		
 		</ul>
 	</div>
 	</form>

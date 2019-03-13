@@ -2,6 +2,7 @@ package com.leisure;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -18,6 +19,8 @@ import com.Util.MyUtil;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import net.sf.json.JSONObject;
 
 @WebServlet("/leisure/*")
 public class LeisureServlet extends MyServlet{
@@ -53,9 +56,15 @@ public class LeisureServlet extends MyServlet{
 		}else if(uri.indexOf("update.do")!=-1) {
 			updateForm(req, resp);
 		}else if(uri.indexOf("update_ok.do")!=-1){
-			updateSubmit(req, resp);			
+			updateSubmit(req, resp);
 		}else if(uri.indexOf("delete.do")!=-1) {
 			delete(req,resp);
+		}else if(uri.indexOf("insertReply.do")!=-1) {
+			insertReply(req, resp);
+		}else if(uri.indexOf("listReply.do")!=-1) {
+			listReply(req,resp);
+		}else if(uri.indexOf("deleteReply.do")!=-1) {
+			deleteReply(req,resp);
 		}
 	}
 	
@@ -91,8 +100,7 @@ public class LeisureServlet extends MyServlet{
 		}else {
 			dataCount=dao.dataCount();
 		}
-		
-		
+				
 		//전체 페이지 수
 		total_page=util.pageCount(rows, dataCount);
 		if(current_page>total_page) {
@@ -264,7 +272,7 @@ public class LeisureServlet extends MyServlet{
 		
 		String page=mreq.getParameter("page");
 		
-		if(!mreq.getParameter("userId").equals(info.getUserId())) {
+		if(! mreq.getParameter("userId").equals(info.getUserId())) {
 			resp.sendRedirect(cp+"/leisure/list.do?page="+page);
 		}
 				
@@ -299,6 +307,96 @@ public class LeisureServlet extends MyServlet{
 	}
 	
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		LeisureDAO dao = new LeisureDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		int num = Integer.parseInt(req.getParameter("num"));
+		String page = req.getParameter("page");
+		
+		//DB에서 해당 게시물 가져오기
+		LeisureDTO dto = dao.readLeisure(num);
+		if(dto==null || (! dto.getUserId().equals(info.getUserId()) && ! info.getUserId().equals("admin"))) {
+			resp.sendRedirect(cp+"/leisure/list.do?page="+page);
+			return;
+		}
+		FileManager.doFiledelete(pathname, dto.getImageFilename());
+		
+		dao.deleteLeisure(num);
+		resp.sendRedirect(cp+"/leisure/list.do?page="+page);		
+	}
+	
+	protected void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		LeisureDAO dao = new LeisureDAO();
+		ReplyDTO dto = new ReplyDTO();
+		
+		dto.setUserId(info.getUserId());
+		dto.setNum(Integer.parseInt(req.getParameter("num")));
+		dto.setContent(req.getParameter("content"));
+		dto.setCreated(req.getParameter("created"));
+		
+		dao.insertReply(dto);
+		
+		String state="true";
+		JSONObject job =new JSONObject();
+		job.put("state",state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
 		
 	}
+	
+	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		LeisureDAO dao= new LeisureDAO();
+		MyUtil util = new MyUtil();
+		
+		int num=Integer.parseInt(req.getParameter("num"));
+		int current_page=1;
+		String pageNo=req.getParameter("pageNo");
+		
+		if(pageNo != null) {
+			current_page=Integer.parseInt(pageNo);
+		}
+		
+		int rows=5;
+		int total_page=0;
+		int replyCount=0;
+		
+		replyCount=dao.dataCountReply(num);
+		
+		total_page=util.pageCount(rows, replyCount);
+		if(current_page>total_page) {
+			current_page=total_page;
+		}
+		
+		int start=(current_page-1)*rows+1;
+		int end=current_page*rows;
+		
+		List<ReplyDTO> list=dao.listReply(num, start, end);
+		
+		for(ReplyDTO dto:list) {
+			dto.setContent(util.htmlSymbols(dto.getContent()));
+		}
+		
+		String paging=util.pagingMethod(current_page, total_page, "listPage");
+		
+		req.setAttribute("list", list);
+		req.setAttribute("pageNo", current_page);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("replyCount", replyCount);
+		req.setAttribute("paging", paging);		
+		
+		forward(req,resp,"/WEB-INF/views/leisure/listReply.jsp");
+				
+	}
+	
+	protected void deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}	
 }

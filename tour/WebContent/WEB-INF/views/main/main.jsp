@@ -56,7 +56,16 @@
     background-size: cover; 
     color: white;
 }
-
+.leisure-bg{
+	background-image: url("/tour/resource/img/leisure.jpg");
+    background-size: cover; 
+    color: white;
+}
+.fest-bg{
+	background-image: url("/tour/resource/img/fest2.jpg");
+    background-size: cover;
+    color:white;
+}
 </style>
 </head>
 <body>
@@ -73,8 +82,8 @@
 		<div class="inner">
 			<div class="inner-row">
 				<span onclick="location.href='<%=cp%>/site/list.do'" class="site-bg">관광지</span>
-				<span onclick="location.href='<%=cp%>/leisure/list.do'">레포츠</span> 
-				<span onclick="location.href='<%=cp%>/fest/list.do'">일정</span>
+				<span onclick="location.href='<%=cp%>/leisure/list.do'" class="leisure-bg">레포츠</span> 
+				<span onclick="location.href='<%=cp%>/fest/list.do'" class="fest-bg">축제</span>
 			</div>
 			<div class="inner-row">
 				<span onclick="location.href='<%=cp%>/notice/list.do'"></span> 
