@@ -87,7 +87,7 @@
 			</div>
 			<div class="inner-row">
 				<span onclick="location.href='<%=cp%>/notice/list.do'"></span> 
-				<span></span> 
+				<span onclick="location.href='<%=cp%>/qna/list.do'"></span>
 				<span></span> 
 			</div>       
 		</div>  
