@@ -12,6 +12,7 @@
 <title>여행지 올리기</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <style>
 *{
 	margin:0;
@@ -78,7 +79,7 @@
 </head>
 <body>
 <div class="header">
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/nav.jsp"></jsp:include>
 </div>
 <div class="container" style="width:940px; height:1040px;">
 	<div class="backForm" style="border:none;">

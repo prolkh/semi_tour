@@ -14,7 +14,7 @@
 		<div id="btn-menu" class="btn-menu">메뉴</div>
 		<ul class="box-menu">
 			<li><a href="<%=cp%>/site/list.do">관광지</a></li>
-			<li><a href="<%=cp%>/leisure/list.do">여행지</a></li>
+			<li><a href="<%=cp%>/leisure/list.do">레포츠</a></li>
 			<li><a href="<%=cp%>/fest/list.do">축제일정</a></li>
 			<li><a href="<%=cp%>/notice/list.do">공지</a></li>
 		</ul>
