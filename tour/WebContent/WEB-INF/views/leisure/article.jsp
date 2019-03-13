@@ -29,25 +29,25 @@ function deleteLeisure(num) {
 	    if(confirm("게시물을 삭제 하시겠습니까 ?")) {
 	    	 var url="<%=cp%>/leisure/delete.do?num="+num+"&page=${page}";
 	    	 location.href=url;
-	    }	
+	    }
 	    </c:if>
-	
+
 	<c:if test="${sessionScope.member.userId!='admin' && sessionScope.member.userId!=dto.userId}">
 	    alert("게시물을 삭제할 수  없습니다.");
 	</c:if>
 }
-	
+
 function updateLeisure(num) {
 	<c:if test="${sessionScope.member.userId==dto.userId}">
 	    var url="<%=cp%>/leisure/update.do?num="+num+"&page=${page}";
 	    location.href=url;
 	</c:if>
-	
+
 	<c:if test="${sessionScope.member.userId!=dto.userId}">
 	   alert("게시물을 수정할 수  없습니다.");
 	</c:if>
 }
-	
+
 $(function() {
 	$(".tab-content").hide();
 	$("ul.tabs li:first").addClass("active").show();
@@ -76,7 +76,7 @@ $(function(){
 		content=encodeURIComponent(content);
 		
 		var url="<%=cp%>/leisure/insertReply.do";
-		var query="num=${dto.num}&content="+content+"&answer=0";
+		var query="num=${dto.num}&content="+content;
 		
 		$.ajax({
 			type:"post"
@@ -84,6 +84,7 @@ $(function(){
 			,data:query
 			,dataType:"json"
 			,success:function(data){
+				$("#replyContent").val("");
 				listPage(1);
 			}
 			,beforeSend:function(jqXHR){
@@ -127,6 +128,38 @@ function listPage(page){
 		}
 	});
 }
+
+$(function(){
+	$("body").on("click",".deleteReply",function(){
+		if(!confirm("댓글을 삭제하시겠습니까?")){
+			return;
+		}
+		var url="<%=cp%>/leisure/deleteReply.do";
+		var replyNum=$(this).attr("data-replyNum");
+		var page=$(this).attr("data-pageNo");
+		
+		$.ajax({
+			type:"post"
+			,url:url
+			,data:{replyNum:replyNum}
+			,dataType:"json"
+			,success:function(data){
+				listPage(page);
+			}
+			,beforeSend:function(jqXHR){
+				jqXHR.setRequestHeader("AJAX",true);
+			}
+			,error:function(jqXHR){
+				if(jqXHR,status==403){
+					location.href="<%=cp%>/member/login.do";
+					return;
+				}
+				console.log(jqXHR.responseText);
+			}
+		});		
+	});
+});
+
 </script>
 </head>
 <body>
@@ -157,14 +190,14 @@ function listPage(page){
         	
         	<div class="row-content">
         		<div class="left-content">
-        			<img src="<%=cp%>/uploads/leisure/${dto.imageFilename}" style="max-width:40%; height:auto; resize:both;">
+        			<img src="<%=cp%>/uploads/leisure/${dto.imageFilename}" style="max-width:100%; height:auto; resize:both;">
         		</div>
         		
         		<div class="right-content">        		
         			<ul class="tabs">
-        				<li><a href="#tab-basic">기본정보</a></li>
-        				<li><a href="#tab-detail">상세정보</a></li>
-        				<li><a href="#tab-map">지도</a></li>
+        				<li style="width:33%; text-align:center;"><a href="#tab-basic">기본정보</a></li>
+        				<li style="width:33%; text-align:center;"><a href="#tab-detail">상세정보</a></li>
+        				<li style="width:33%; text-align:center;"><a href="#tab-map">지 도</a></li>
         			</ul>
         			
         			<div class="tab-container">
@@ -176,7 +209,7 @@ function listPage(page){
         				<div id="tab-detail" class="tab-content">        				
         					<p>시기: ${dto.opening}<p>
         					<p>시간: ${dto.useTime}<p>        					
-        					<p>위도: ${dto.latitude} 경도: ${dto.longitude}<p><br>
+        					
         				</div>
         				
         				<div id="tab-map" class="tab-content">        				
@@ -200,7 +233,7 @@ function listPage(page){
 	        					
 	        					// 마커가 지도 위에 표시되도록 설정합니다
 	        					marker.setMap(map);
-        				    </script>       			
+        				    </script>
         				</div>
         			</div>        		
         		</div>
@@ -219,37 +252,36 @@ function listPage(page){
         	</div>  	
         	
         	<div>
-	            <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+        	<table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
 	            <tr height='30'> 
 		            <td align='left'>
-		            	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+		            	<span style='font-weight: bold;'>리뷰쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
 		            </td>
 	            </tr>
 	            <tr>
 	               <td style='padding:5px 5px 0px;'>
-	                    <textarea id='replyContent' class='boxTA' style='width:99%; height: 70px;'></textarea>
+	                    <textarea id='replyContent' class='boxTA' style='width:99%; height: 70px; resize:none;'></textarea>
 	                </td>
 	            </tr>
 	            <tr>
 	               <td align='right'>
-	                    <button type='button' class='btn' style='padding:10px 20px;' id="sendReply">댓글 등록</button>
+	                    <button type='button' class='btn' style='padding:10px 20px;' id="sendReply">리뷰 등록</button>
 	                </td>
 	            </tr>
-	            </table>
-	            
-	            <div id="listReply"></div>
- 	       </div>        	
+	            </table>				
+	           <div id="listReply"></div>	            
+ 	       </div>     	
         	
 			<div class="board-footer">
 				<div class="left-footer">
-					<c:if test="${sessionScope.member.userId==dto.userId}">				    
+					<c:if test="${sessionScope.member.userId==dto.userId}">
 			          <button type="button" class="btn" onclick="updateLeisure('${dto.num}');">수정</button>
 			       </c:if>
-			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
+			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
 			          <button type="button" class="btn" onclick="deleteLeisure('${dto.num}');">삭제</button>
 			       </c:if>
 				</div>
-				
+
 				<div class="right-footer">
 					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/leisure/list.do?page=${page}';">리스트</button>
 				</div>

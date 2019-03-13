@@ -397,6 +397,24 @@ public class LeisureServlet extends MyServlet{
 	}
 	
 	protected void deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
+		int replyNum=Integer.parseInt(req.getParameter("replyNum"));
+		
+		LeisureDAO dao = new LeisureDAO();
+		
+		String state="false";
+		
+		int result=dao.deleteReply(replyNum,info.getUserId());
+		if(result==1) {
+			state="true";
+		}
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
 	}	
 }

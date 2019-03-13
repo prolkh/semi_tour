@@ -488,4 +488,79 @@ public class LeisureDAO {
 		}
 		return list;
 	}
+	
+	public ReplyDTO readReply(int replyNum) {
+		ReplyDTO dto = null;
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		StringBuffer sb= new StringBuffer();
+		try {
+			sb.append("SELECT replyNum, num, l.userId, userName, content, created");
+			sb.append(" FROM leisureReply l JOIN member m ON l.userId=m.userId");
+			sb.append(" WHERE replyNum=?");
+			
+			pstmt=conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, replyNum);
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto=new ReplyDTO();
+				
+				dto.setReplyNum(rs.getInt("replyNum"));
+				dto.setNum(rs.getInt("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setUserName(rs.getString("userName"));
+				dto.setContent(rs.getString("content"));
+				dto.setCreated(rs.getString("created"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				}catch(Exception e2) {					
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}
+		return dto;		
+	}
+	
+	public int deleteReply(int replyNum, String userId) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		if(! userId.equals("admin")) {
+			ReplyDTO dto = readReply(replyNum);
+			if(dto==null||(!userId.equals(dto.getUserId()))) {
+				return result;
+			}
+		}
+		
+		try {
+			sql="delete from leisureReply where replyNum=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, replyNum);
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(Exception e2) {					
+				}
+			}
+		}
+		return result;
+	}
 }

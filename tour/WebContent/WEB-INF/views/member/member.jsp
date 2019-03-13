@@ -16,12 +16,12 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <style>
-	.body-container .member {font-size: 15px; }
-	.body-container .member .inner{margin-top: 5px; margin-bottom: 15px; text-align: center;}
-	.body-container .member .inner > p {line-height: 150%;}
-	.body-container .member .inner .memberTF {width: 50%; padding-top:10px; padding-bottom:10px;}
-	.body-container .member .inner > .block-title {font-weight: 700; font-size: 22px;}
-	.body-container .member .inner > .block-msg {color: #333333;}
+	.body-container .member {font-size: 14px; width:430px; margin:20px auto; padding:10px; border:1px solid; border-color:gray; border-radius:16px;}
+	.body-container .member .inner{width:430px; margin-top: 5px; margin-bottom: 15px; text-align: center;}
+	.body-container .member .inner > p {width:430px; line-height: 120%;}
+	.body-container .member .inner .memberTF {width: 390px; padding-top:5px; padding-bottom:5px;}
+	.body-container .member .inner > .block-title {width:430px; font-weight: 700; font-size: 18px;}
+	.body-container .member .inner > .block-msg {width:430px; color: #333333;}	
 </style>
 
 <script type="text/javascript">
@@ -135,8 +135,7 @@ function memberOk() {
     	f.action = "<%=cp%>/member/update_ok.do";
     }
 		
-	f.submit();
-	
+	f.submit();	
 }
 
 function isValidEmail(data){
@@ -150,16 +149,16 @@ function isValidEmail(data){
     
 <div class="container">
 	<div class="header membership" style= "margin:0 auto; text-align: center; font-size: 30px; text-decoration: none;">
-		<h1><a href="<%=cp%>/" class="logo"><span class="blind">어서옵쇼 관광지쇼</span></a></h1>
+		<h1><a href="<%=cp%>/" class="logo"><span class="blind">어서오세요</span></a></h1>
 	</div>
-          
+    <div style="">
 	<div class="body-container">
 		<form name="memberForm" method="post" action="" onsubmit="">
 			<div class="member">
 				<div class="inner">
 					<p class="block-title">아이디</p>
 					<p><input type="text" class="boxTF memberTF" name="userId"></p>
-					<p class="block-msg">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야됨</p>
+					<p class="block-msg">아이디는 5~10자이며, 첫글자는 영문자로 시작해야합니다</p>
 				</div>
 				
 				<div class="inner">
@@ -169,13 +168,13 @@ function isValidEmail(data){
 				
 				
 				<div class="inner">
-					<p class="block-title">패스워드</p>
+					<p class="block-title">비밀번호</p>
 					<p><input type="password" class="boxTF memberTF" name="userPwd"></p>
-					<p class="block-msg">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
+					<p class="block-msg">비밀번호는 5~10자이며 숫자나 특수문자가 포함되어야 합니다</p>
 				</div>
 				
 				<div class="inner">
-					<p class="block-title">패스워드 확인</p>
+					<p class="block-title">비밀번호 확인</p>
 					<p><input type="password" class="boxTF memberTF" name="userPwd2"></p>
 					<p class="block-msg">비밀번호 한번 더 입력</p>
 				</div>
@@ -184,9 +183,9 @@ function isValidEmail(data){
 				<div class="inner">
 					<p class="block-title">전화번호</p>
 					<p>
-					   <input type="text" name="tel1" class="boxTF" maxlength="3" style="width: 14%; padding-top:10px; padding-bottom:10px; "> -
-					   <input type="text" name="tel2" class="boxTF" maxlength="4" style="width: 14%; padding-top:10px; padding-bottom:10px; "> -
-					   <input type="text" name="tel3" class="boxTF" maxlength="4" style="width: 14%; padding-top:10px; padding-bottom:10px; ">
+					   <input type="text" name="tel1" class="boxTF" maxlength="3" style="width: 112px; padding-top:5px; padding-bottom:5px;"> -
+					   <input type="text" name="tel2" class="boxTF" maxlength="4" style="width: 112px; padding-top:5px; padding-bottom:5px;"> -
+					   <input type="text" name="tel3" class="boxTF" maxlength="4" style="width: 112px; padding-top:5px; padding-bottom:5px;">
 					</p>
 				</div>
 
@@ -210,7 +209,7 @@ function isValidEmail(data){
 		</form>
         
 	</div>
-    
+    </div>
     <div class="footer">
         <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
     </div>

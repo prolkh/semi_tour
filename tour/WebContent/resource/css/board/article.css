@@ -72,7 +72,7 @@
 
 .board-article .row-content .right-content {
 	box-sizing: border-box;
-	padding:10px 5px ;
+	padding:10px 0px;
 	width:50%;
 	min-height:170px;
 }
@@ -122,17 +122,19 @@ ul.tabs li{
 	margin-bottom: -1px;
 	overflow: hidden;
 	position: relative;
-	background: #e0e0e0;	
+	background: #e0e0e0;
+	
 }
 
-ul.tabs li a{
+ul.tabs li a{	
 	text-decoration: none;
 	color: #000;
 	display: block;
 	font-size: 15px;
-	padding: 0 20px;
+	padding: 0 5px;
 	border:  1px solid #fff;
 	outline: none;
+	
 }
 
 ul.tabs li a:hover{

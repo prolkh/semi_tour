@@ -113,11 +113,11 @@
 		<ul class="writeForm">
 			<li class="front">위&nbsp;도</li>
 			<li class="line" style="width:210px;">
-				<input type="text" class="line_input" name="longitude" value="${dto.longitude}">			
+				<input type="text" class="line_input" name="latitude" value="${dto.latitude}">			
 			</li>
 			<li class="front">경&nbsp;도</li>
 			<li class="line" style="width:210px;">
-				<input type="text" class="line_input" name="latitude" value="${dto.latitude}">				
+				<input type="text" class="line_input" name="longitude" value="${dto.longitude}">				
 			</li>
 		</ul>
 		<ul class="writeForm">
