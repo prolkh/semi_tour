@@ -449,7 +449,7 @@ public class NoticeServlet extends MyServlet {
 		req.setAttribute("listNotice", listNotice);
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("dataCount", dataCount);
-		req.setAttribute("page", page);
+		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
 		

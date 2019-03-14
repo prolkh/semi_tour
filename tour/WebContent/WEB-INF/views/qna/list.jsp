@@ -32,20 +32,19 @@
 </div>
 	
 <div class="container">
-    <div class="body-container" style="width: 700px;">
-        <div class="body-title">
-            <h3><img src="<%=cp %>/resource/images/qna.png">질문과 답변 </h3>
-        </div>
+
+	<div class="body-container" style="width : 700px; margin-top: 100px auto 100px 100px;">
+		<div class="body-title" style="text-align: center; font-size: 45px; font-weight: bold; margin-top: 50px; ">
+			<span style="border-top:3px solid #E1E1E1; border-bottom: 3px solid #E1E1E1; color: gray; text-transform: uppercase;     font-family: 'Roboto', Arial,sans-serif,'Nanum Gothic';">&nbsp;&nbsp;Q&nbsp;&&nbsp;A&nbsp;&nbsp;</span>
+	</div>
         
         <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 			   <tr height="35">
-			      <td align="left" width="50%">
+			      <td align="right" width="100%">
 			          ${dataCount}개(${page}/${total_page} 페이지)
 			      </td>
-			      <td align="right">
-			          &nbsp;
-			      </td>
+
 			   </tr>
 			</table>
 			
@@ -83,20 +82,20 @@
 			   </tr>
 			</table>
 			
-			<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			   <tr height="40">
 			      <td align="left" width="100">
 			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/qna/list.do';">새로고침</button>
 			      </td>
 			      <td align="center">
 			          <form name="searchForm" action="<%=cp%>/qna/list.do" method="post">
-			              <select name="searchKey" class="selectField">
+			             	<select name="searchKey" class="selectField">
 			                  <option value="subject">제목</option>
 			                  <option value="userName">작성자</option>
 			                  <option value="content">내용</option>
 			                  <option value="created">등록일</option>
 			            </select>
-			            <input type="text" name="searchValue" class="boxTF">
+			    	<input type="text" name="searchValue" class="boxTF">
 			            <button type="button" class="btn" onclick="searchList()">검색</button>
 			        </form>
 			      </td>

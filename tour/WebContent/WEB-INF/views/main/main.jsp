@@ -66,6 +66,16 @@
     background-size: cover;
     color:white;
 }
+.notice-bg{
+	background-image: url("/tour/resource/img/notice111.gif");
+    background-size: cover;
+    color:white;
+}
+.qna-bg{
+	background-image: url("/tour/resource/img/Q&A.gif");
+    background-size: cover;
+    color:white;
+}
 </style>
 </head>
 <body>
@@ -86,8 +96,8 @@
 				<span onclick="location.href='<%=cp%>/fest/list.do'" class="fest-bg">축제</span>
 			</div>
 			<div class="inner-row">
-				<span onclick="location.href='<%=cp%>/notice/list.do'"></span> 
-				<span onclick="location.href='<%=cp%>/qna/list.do'"></span>
+				<span onclick="location.href='<%=cp%>/notice/list.do'" class="notice-bg"></span> 
+				<span onclick="location.href='<%=cp%>/qna/list.do'" class="qna-bg"></span>
 				<span></span> 
 			</div>       
 		</div>  
