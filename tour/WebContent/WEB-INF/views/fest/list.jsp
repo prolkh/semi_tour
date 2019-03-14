@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <style>
 *{
 	margin:0;
@@ -19,7 +20,7 @@
 }
 
 body{
-	font:13px NotoSansKR,NotoSansJP,"돋움",Dotum,AppleGothic,Sans-serif
+	font:13px "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
 .btn{
 	border:0;
@@ -47,7 +48,7 @@ body{
 #wrap{
 	width:940px;
 	height:1000px;
-	margin:100px auto;
+	margin: 0px auto;
 }
 .contents{
 	float: left;
@@ -117,11 +118,16 @@ dl, ul, ol, menu, li {
 	text-decoration:none;
 	font-size:20px;
 	font-weight:bold;
+	color:black;
 	width:100%;
 	display:inline-block;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.list > li .area_txt a:hover, a:active{
+	text-decoration:underline;
+	color: chocolate;
 }
 
 </style>
@@ -195,16 +201,58 @@ $(function() {
 	});	
 });
 
+var didScroll;
+$(window).scroll(function(event){
+	didScroll = true;
+});
+
+setInterval(function(){
+	if(didScroll){
+		hasScrolled();
+		didScroll = false;
+	}
+}, 250);
+
+var lastScrollTop = 0;
+var delta = 5;
+var navbarHeight = $('header').outerHeight();
+function hasScrolled() {
+	var st = $(this).scrollTop();
+	
+	// Make sure they scroll more than delta
+	if(Math.abs(lastScrollTop - st) <= delta)
+		return;
+	
+	if(st > lastScrollTop && st > navbarHeight) {
+		$("nav").removeClass("nav-down").addClass("nav-up");
+	} else {
+		if(st + $(window).height() < $(document).height()){
+			$("nav").removeClass("nav-up").addClass("nav-down");
+		}
+	}
+	lastScrollTop = st;
+}
+
 </script>
+
+<style>
+.nav-up{
+	top: -64px;
+}
+</style>
 
 </head>
 <body>
 	<div class="header">
-		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+		<jsp:include page="/WEB-INF/views/layout/nav.jsp"></jsp:include>
 	</div>
 	
     <div id="wrap">
+	    <div class="title" style="padding: 15px;">
+    		<span style=" font-size: 36px; font-weight:800;">#축제</span>
+    	</div>
 	    <div class="contents">
+	    
         	<div class="inner">                    
             	<strong>총&nbsp;</strong>${dataCount}<strong>건</strong>
             </div>

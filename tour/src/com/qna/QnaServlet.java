@@ -47,7 +47,7 @@ public class QnaServlet extends HttpServlet{
 		HttpSession session=req.getSession();
 		SessionInfo  info=(SessionInfo)session.getAttribute("member");
 		if(info==null) {
-			forward(req, resp, "WEB-INF/views/member/login.jsp");
+			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 			return;
 		}
 		
@@ -55,12 +55,16 @@ public class QnaServlet extends HttpServlet{
 		
 		if(uri.indexOf("list.do")!=-1) {
 			list(req, resp);			
+		}else if(uri.indexOf("created.do")!=-1) {
+			createdForm(req, resp);
+		}else if(uri.indexOf("created_ok.do")!=-1){
+			createdSubmit(req, resp);
 		}
 		
 		
 	}
 	
-	protected void list(HttpServletRequest req, HttpServletResponse resp) {
+	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MyUtil util=new MyUtil();
 		QnaDAO dao=new QnaDAO();
 		String cp=req.getContextPath();
@@ -68,8 +72,8 @@ public class QnaServlet extends HttpServlet{
 		String page=req.getParameter("page");
 		
 		int current_page=1;
-		if(page!=null) {
-			current_page=Integer.parseInt("page");
+		if(page!=null) 
+			current_page=Integer.parseInt(page);
 		
 		String searchKey=req.getParameter("searchKey");
 		String searchValue=req.getParameter("searchValue");
@@ -80,7 +84,7 @@ public class QnaServlet extends HttpServlet{
 		}
 		
 		if(req.getMethod().equalsIgnoreCase("GET")) {
-			searchValue = URLDecoder.decode("utf-8");
+			searchValue = URLDecoder.decode(searchValue , "utf-8");
 		}
 		
 		int dataCount;
@@ -96,11 +100,11 @@ public class QnaServlet extends HttpServlet{
 			current_page=total_page;
 		}
 		
-		int start=(current_page-1)*rows-1;
+		int start=(current_page-1)*rows+1;
 		int end=current_page*rows;
 		
 		List<QnaDTO> list;
-		if(searchValue.length()!=0) 
+		if(searchValue.length()==0) 
 			list=dao.listQna(start, end);
 		else
 			list=dao.listQna(start, end, searchKey, searchValue);
@@ -118,8 +122,49 @@ public class QnaServlet extends HttpServlet{
 		if(searchValue.length()!=0) {
 			query="searchKey"+searchKey+"&searchValue"+searchValue;
 		}
+		
+		String listUrl=cp+"/qna/list.do";
+		String articleUrl=cp+"/qna/article.do?page="+current_page;
+		if(query.length()!=0) {
+			listUrl+="?"+query;
+			articleUrl+="&"+query;
 		}
 		
+		String paging=util.paging(current_page, total_page, listUrl);
+		
+		req.setAttribute("list", list);
+		req.setAttribute("dataCount", dataCount);
+		req.setAttribute("page", current_page);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("articleUrl", articleUrl);
+		req.setAttribute("paging", paging);
+		
+		forward(req, resp, "/WEB-INF/views/qna/list.jsp");
+		}
+	
+	protected void createdForm (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("mode", "created");
+		forward(req, resp, "/WEB-INF/views/qna/created.jsp");
+	}
+	
+	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp=req.getContextPath();
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp+"/qna/list.do");
+			return;
+		}
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		QnaDAO dao=new QnaDAO();
+		QnaDTO dto=new QnaDTO();
+		dto.setSubject(req.getParameter("subject"));
+		dto.setContent(req.getParameter("content"));
+		dto.setUserId(info.getUserId());
+		
+		dao.insertQna(dto, "created");
+		resp.sendRedirect(cp+"/qna/list.do");
 	}
 	
 }

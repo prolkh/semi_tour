@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <style>
 *{
 	margin:0;
@@ -48,7 +49,7 @@ body{
 #wrap{
 	width:940px;
 	height:1000px;
-	margin:100px auto;
+	margin:0px auto;
 }
 .contents{
 	float: left;
@@ -153,12 +154,12 @@ $(function() {
 </head>
 <body>
 	<div class="header">
-		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+		<jsp:include page="/WEB-INF/views/layout/nav.jsp"></jsp:include>
 	</div>
 	
     <div id="wrap">
-    	<div class="header">    	
-    	
+		<div class="title" style="padding: 15px;">
+    		<span style=" font-size: 36px; font-weight:800;">#관광지</span>
     	</div>
 	    <div class="contents">
         	<div class="inner">                    

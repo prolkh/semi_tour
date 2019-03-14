@@ -14,6 +14,7 @@
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
+<link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/board/article.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
 
@@ -165,7 +166,7 @@ $(function(){
 <body>
 
 <div class="header">
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/nav.jsp"></jsp:include>
 </div>
 	
 <div class="container">

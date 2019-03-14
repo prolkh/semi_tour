@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+.header {
+	width: 980px;
+	height: 154px;
+	margin: 0 auto;
+	padding: 60px 20px 30px 20px;
+	box-sizing: border-box;
+	background: none;
+}
+
+#gnb{
+	position:fixed;
+	top: 60px;
+	z-index: 500;
+	width: 226px;
+	opacity: 1;
+	transition: top .3s ease-in-out, opacity .3s ease-in-out
+}
+
+.menu-top{
+	width: 100%;
+	height: 64px;
+	background: #666;
+}
+
+#gnb .menu-top .btn-prev {
+	overflow: hidden;
+	position: absolute;
+	top: 14px;
+	left: 20px;
+	width: 18px;
+	height: 38px;
+	background:url("/tour/resource/images/gnb_prev.png") 500% no-repeat;
+	text-indent: -9999px;
+}
+
+#gnb .menu-top .btn-home {
+	overflow: hidden;
+	position: absolute;
+	top: 15px;
+	left: 72px;
+	width: 22px;
+	height: 38px;
+	background:url("/tour/resource/images/gnb_home.png") 500% no-repeat;
+	text-indent: -9999px;
+}
+
+#gnb .menu-top .btn-menu {
+	overflow: hidden;
+	position: absolute;
+	top: 16px;
+	left: 125px;
+	width: 24px;
+	height: 37px;
+	background:url("/tour/resource/images/gnb_menu.png") 0 0 no-repeat;
+	text-indent: -9999px;
+	border:none;
+	outline:none;
+	cursor:pointer;
+}
+
+#gnb .menu-top .btn-my {
+	overflow: hidden;
+	position: absolute;
+	top: 21px;
+	left: 175px;
+	width: 36px;
+	height: 32px;
+	background:url("/tour/resource/images/gnb_my.png") 50% no-repeat;
+	text-indent: -9999px;
+	border:none;
+	outline:none;
+	cursor:pointer;
+}
+
+#gnb .box-menu{
+	display: none;
+    position: absolute;
+    right:0;
+    top: 64px;
+    width: 72px;
+    padding: 20px 25px 0px 20px;
+    background: #666;
+}
+#gnb .box-my{
+    display: none;
+    position: absolute;
+    right:0;
+    top: 64px;
+    min-width: 72px;
+    padding: 20px 25px 0px 20px;
+    background: #666;
+}
+#gnb .box-menu li, #gnb .box-my li{
+	width: 100%;
+	margin-bottom: 26px;
+}
+
+#gnb .box-menu a, #gnb .box-my a{
+	display: block;
+    height: 24px;
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+    border:none;
+}
