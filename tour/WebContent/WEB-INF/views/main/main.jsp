@@ -141,7 +141,7 @@ span.info {
 				
 				<div class="imgTopic">
 					<h1 class="title"><a href="#">돋보기</a></h1>
-					<p class="content"><a href="#"><img src="/tour/resource/img/more2.png" alt="더보기" />
+					<p class="content"><a href="#"><img src="/tour/resource/img/more.png" alt="더보기" />
 						<span class="info">&nbsp;</span>
 					</a></p>
 				</div>

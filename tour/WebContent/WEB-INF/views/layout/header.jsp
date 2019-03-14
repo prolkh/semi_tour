@@ -19,11 +19,12 @@
 	                <a href="<%=cp%>/member/member.do" style="color:white">회원가입</a>
                 </c:if>
                 <c:if test="${not empty sessionScope.member }">
-                	<span> ${sessionScope.member.userName}</span>님
-                	&nbsp;|&nbsp;
-                    <a href="<%=cp%>/member/logout.do">로그아웃</a>
-                    &nbsp;|&nbsp;
-                    <a href="<%=cp%>/member/pwd.do?mode=update">정보수정</a>
+                	<span style="color:white"> ${sessionScope.member.userName}님
+	                	&nbsp;|&nbsp;
+	                    <a href="<%=cp%>/member/logout.do" style="color:white">로그아웃</a>
+	                    &nbsp;|&nbsp;
+	                    <a href="<%=cp%>/member/pwd.do?mode=update" style="color:white">정보수정</a>
+                    </span>
                 </c:if>
 			</div>
 		</div>
