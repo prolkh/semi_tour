@@ -241,7 +241,7 @@ $(function(){
         	
         	</div>
         	
-        	<div class="boxTA">
+        	<div>
         		<h3>개요</h3>
         		<br>
         		${dto.introduction}
