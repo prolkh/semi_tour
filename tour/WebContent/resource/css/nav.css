@@ -79,7 +79,7 @@
     position: absolute;
     right:0;
     top: 64px;
-    width: 72px;
+    min-width: 72px;
     padding: 20px 25px 0px 20px;
     background: #666;
 }

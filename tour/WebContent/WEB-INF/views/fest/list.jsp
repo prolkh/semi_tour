@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>festival</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <style>
@@ -130,6 +130,10 @@ dl, ul, ol, menu, li {
 	color: chocolate;
 }
 
+a, a:active {
+	text-decoration:none;
+	color:black;
+}
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
@@ -154,14 +158,14 @@ dl, ul, ol, menu, li {
 		
 	});	
 }); */
-
+ 
 $(function() {
 	if("${monthcode}"==""){
 		$("#monthlist .All .btn").addClass("active");		
 	} else {
 		$("#monthlist .btn[data-month=${monthcode}]").addClass("active");
 	}
-	
+	 
 	$("#monthlist .btn").click(function() {
 		$("#monthlist .btn").not($(this)).removeClass("active");
 		var month = $(this).attr("data-month");

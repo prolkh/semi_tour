@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
+<title>festival</title>
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
@@ -152,7 +152,7 @@ $(function(){
 			        <input type="text" name="homepage" maxlength="40" class="boxTF" style="width: 55%;" value="${dto.homepage}">
 			      </td>
 			  </tr>
-			  
+			   
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">주최/주관</td>
 			      <td style="padding-left:10px;" colspan="3"> 

@@ -17,6 +17,7 @@
 			<li><a href="<%=cp%>/leisure/list.do">레포츠</a></li>
 			<li><a href="<%=cp%>/fest/list.do">축제일정</a></li>
 			<li><a href="<%=cp%>/notice/list.do">공지</a></li>
+			<li><a href="<%=cp%>/qna/list.do">질문게시판</a></li>
 		</ul>
 		<button type="button" id="btn-my" class="btn-my">MyPage</button>
 		<div class="box-my">

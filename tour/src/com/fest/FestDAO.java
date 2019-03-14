@@ -94,11 +94,11 @@ public class FestDAO {
 		
 		try {
 			if(month.equals("")) {
-				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1";
+				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) = 1";
 			} else if(area.equals("")) {
 				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE TO_CHAR(startdate, 'MM') = ?";
 			} else {
-				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) >= 1 AND TO_CHAR(startdate, 'MM') = ?";
+				sql="SELECT NVL(COUNT(*), 0) FROM event WHERE INSTR(address, ?) = 1 AND TO_CHAR(startdate, 'MM') = ?";
 			}
 			
 			pstmt=conn.prepareStatement(sql);
@@ -216,11 +216,11 @@ public class FestDAO {
 			sb.append("	        SELECT num, userId, eventName, address, startDate, endDate, tel, homepage, host, price, created, imageFilename, content");
 			sb.append("	        FROM event");
 			if(month.equals("")) {
-				sb.append("		WHERE INSTR(address, ?) >= 1");
+				sb.append("		WHERE INSTR(address, ?) = 1");
 			} else if(area.equals("")) {
 				sb.append("		WHERE TO_CHAR(startdate, 'MM') = ?");
 			} else {
-				sb.append("		WHERE INSTR(address, ?) >= 1 AND TO_CHAR(startdate, 'MM') = ?");
+				sb.append("		WHERE INSTR(address, ?) = 1 AND TO_CHAR(startdate, 'MM') = ?");
 			}
 			sb.append("	        ORDER BY num DESC");
 			sb.append("	    )tb WHERE ROWNUM  <= ?");

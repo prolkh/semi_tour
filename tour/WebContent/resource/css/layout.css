@@ -21,7 +21,7 @@
     clear:both;
     width:1240px;
     margin: 0px auto 15px;
-    min-height: 450px;
+    min-height: 650px;
 }
 
 /* header */
@@ -37,7 +37,6 @@
     width: 50%;
     height: 80px;
     float: left;    
-    background-image: url("/tour/resource/img/home.png");
     background-position: left;
     background-repeat: no-repeat;
 }
