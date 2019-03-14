@@ -205,6 +205,13 @@ $(function() {
                     </li>
                     </c:forEach>
                 </ul>
+                <table style="width: 100%; border-spacing: 0">
+				<tr height="50">
+					<td align="center">
+						${dataCount==0?"등록된 게시물이 없습니다.":paging}
+					</td>
+				</tr>
+				</table> 
             </div>
         </div>
         <div class="area_tag">
