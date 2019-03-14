@@ -127,14 +127,14 @@ span.info {
 			<div class="inner-row" style="clear:both;">
 				<div class="imgTopic">
 					<h1 class="title"><a href="#">공지사항</a></h1>
-					<p class="content"><a href="<%=cp%>/notice/list.do"><img src="/tour/resource/img/notice.jpg" alt="공지사항" />
+					<p class="content"><a href="<%=cp%>/notice/list.do"><img src="/tour/resource/img/notice2.jpg" alt="공지사항" />
 						<span class="info">&nbsp;</span>
 					</a></p>
 				</div>
 				
 				<div class="imgTopic">
 					<h1 class="title"><a href="#">질문과 답변</a></h1>
-					<p class="content"><a href="<%=cp%>/qna/list.do"><img src="/tour/resource/img/QnA.jpg" alt="질문과답변" />
+					<p class="content"><a href="<%=cp%>/qna/list.do"><img src="/tour/resource/img/QnA2.jpg" alt="질문과답변" />
 						<span class="info">&nbsp;</span>
 					</a></p>
 				</div>

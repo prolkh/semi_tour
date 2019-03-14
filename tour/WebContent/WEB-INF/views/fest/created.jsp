@@ -152,7 +152,7 @@ $(function(){
 			        <input type="text" name="homepage" maxlength="40" class="boxTF" style="width: 55%;" value="${dto.homepage}">
 			      </td>
 			  </tr>
-			  
+			   
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">주최/주관</td>
 			      <td style="padding-left:10px;" colspan="3"> 
