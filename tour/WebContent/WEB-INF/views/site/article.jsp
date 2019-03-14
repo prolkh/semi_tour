@@ -176,7 +176,7 @@
 </div>
 	
 <div class="container">
-    <div class="board" style="width: 700px;">
+    <div class="board" style="width: 900px;">
         <div class="board-title">
             <h3><span>|</span> 관광지 </h3>
         </div>
