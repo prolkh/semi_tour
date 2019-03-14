@@ -144,7 +144,7 @@ span.info {
 					<p class="content"><a href="#"><img src="/tour/resource/img/more.png" alt="더보기" />
 						<span class="info">&nbsp;</span>
 					</a></p>
-				</div>
+				</div> 
 			</div>       
 		</div>  
 	</div>

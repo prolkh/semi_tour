@@ -24,7 +24,7 @@
 	                    <a href="<%=cp%>/member/logout.do" style="color:white">로그아웃</a>
 	                    &nbsp;|&nbsp;
 	                    <a href="<%=cp%>/member/pwd.do?mode=update" style="color:white">정보수정</a>
-                    </span>
+                    </span> 
                 </c:if>
 			</div>
 		</div>
