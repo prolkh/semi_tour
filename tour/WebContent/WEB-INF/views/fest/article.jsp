@@ -95,7 +95,7 @@ $(function() {
 </div>
 	
 <div class="container">
-	<div class="board" style="width: 700px;">
+	<div class="board" style="width: 900px;">
 		<div class="board-title">
 			<h3><span>|</span> 축제 정보 </h3>
 		</div>
