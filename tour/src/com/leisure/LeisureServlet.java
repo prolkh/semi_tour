@@ -142,6 +142,7 @@ public class LeisureServlet extends MyServlet{
 		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("paging", paging);
+		req.setAttribute("search", search);
 		
 		forward(req,resp, "/WEB-INF/views/leisure/list.jsp");		
 	}

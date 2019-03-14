@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/nav.css" type="text/css">
 <style>
@@ -17,7 +18,7 @@
 	margin:0;
 	padding:0;
 	list-style-type:none;
-} 
+}
 
 body{
 	font-size: 13px;
@@ -33,6 +34,7 @@ body{
 	cursor:pointer;
 	text-align:center;
 }
+
 .btn:hover{
 	background-color: #57667e;
 	border-color: #adadad;
@@ -60,9 +62,7 @@ body{
 	padding: 35px 0 20px;
 	font-size: 14px;
 }
-.photo{
-	
-}
+
 .tag_ul{
 	margin:0px 30px;
 	padding: 12px 0;
@@ -143,15 +143,16 @@ a:hover, a:active {
 $(function() {
 	var s = "${search}";
 	if(s==""){
-		s="전체";
+		s= "전체";
 	}
 	
-	$("#arealist.btn").each(function(){
+	$("#arealist .btn").each(function() {
 		if($(this).attr("data-search")==s){
 			$(this).addClass("active");
 			return;
 		}
 	});
+	
 	
 	$("#arealist .btn").click(function() {
 		$("#arealist .btn").not($(this)).removeClass("active");
@@ -160,13 +161,12 @@ $(function() {
 		} else {
 			$(this).addClass("active");
 			
-			var search=$(this).attr("data-search");
-			var url="<%=cp%>/leisure/list.do";
-			if(search !="전체"){
-				url+="?search="+encodeURIComponent(search);				
-			}
+			var search = $(this).attr("data-search");
+			var url = "<%=cp%>/leisure/list.do";
+			if(search != "전체")
+				url+="?search="+encodeURIComponent(search);
 			location.href=url;
-		}
+		} 
 	});	
 });
 
