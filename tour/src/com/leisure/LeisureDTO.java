@@ -1,20 +1,20 @@
 	package com.leisure;
 
 public class LeisureDTO {
-	private int num;
-	private String userId;
-	private String subject;
-	private String opening;
-	private String useTime;
-	private String tel;
-	private String address;
-	private float longitude;
-	private float latitude;
-	private String introduction;
-	private String content;
-	private int hitCount;
-	private String created;
-	private String imageFilename;
+	private int num;			//글 번호
+	private String userId;		//아이디
+	private String subject;		//여행지 이름
+	private String opening;		//개장시기
+	private String useTime;		//운영시간
+	private String tel;			//전화번호
+	private String address;		//주소
+	private float longitude;	//경도
+	private float latitude;		//위도
+	private String introduction;//개요
+	private String content;		//상세정보
+	private int hitCount;		//조회수
+	private String created;		//생성날짜
+	private String imageFilename;	//사진이름
 		
 	public int getNum() {
 		return num;

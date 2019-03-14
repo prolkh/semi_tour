@@ -204,12 +204,14 @@ $(function(){
         			<div class="tab-container">
         				<div id="tab-basic" class="tab-content">        				
         					<p>주소: ${dto.address}<p>
+        					<br>
         					<p>전화: ${dto.tel}<p> 
         				</div>
         				
         				<div id="tab-detail" class="tab-content">        				
-        					<p>시기: ${dto.opening}<p>
-        					<p>시간: ${dto.useTime}<p>        					
+        					<p>개장시기: ${dto.opening}<p>
+        					<br>
+        					<p>운영시간: ${dto.useTime}<p>        					
         					
         				</div>
         				
