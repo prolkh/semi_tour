@@ -144,7 +144,7 @@ public class LeisureServlet extends MyServlet{
 		req.setAttribute("paging", paging);
 		req.setAttribute("search", search);
 		
-		forward(req,resp, "/WEB-INF/views/leisure/list.jsp");		
+		forward(req,resp, "/WEB-INF/views/leisure/list.jsp");	
 	}
 	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
