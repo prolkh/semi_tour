@@ -39,7 +39,9 @@
 <div class="container">
 	<div class="body-container" style="width : 700px; margin-top: 100px auto 100px 100px;">
 		<div class="body-title" style="text-align: center; font-size: 35px; font-weight: bold; margin-top: 50px; ">
-			<span style="border-top:3px solid #E1E1E1; border-bottom: 3px solid #E1E1E1; color: gray; text-transform: uppercase;     font-family: 'Roboto', Arial,sans-serif,'Nanum Gothic';">&nbsp;&nbsp;&nbsp;notice&nbsp;&nbsp;&nbsp;</span>
+			<span style="border-top:3px solid #E1E1E1; border-bottom: 3px solid #E1E1E1; color: gray; text-transform: uppercase;     font-family: 'Roboto', Arial,sans-serif,'Nanum Gothic';">
+	
+			&nbsp;&nbsp;&nbsp;notice&nbsp;&nbsp;&nbsp;</span>
 	</div>
 	
 	<div>
