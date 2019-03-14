@@ -536,12 +536,12 @@ public class NoticeDAO   {
 		
 		try {
 			sql="UPDATE notice SET notice=?, subject=?, content=?, saveFilename=?, originalFilename=?, filesize=? " ;
-			sql=" WHERE num=?";
+			sql+=" WHERE num=?";
 			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getNotice());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(2, dto.getSubject());
+			pstmt.setString(3, dto.getContent());
 			pstmt.setString(4, dto.getSaveFilename());
 			pstmt.setString(5, dto.getOriginalFilename());
 			pstmt.setLong(6, dto.getFilesize());

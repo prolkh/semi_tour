@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항</title>
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 
@@ -39,12 +39,14 @@ function deleteNotice(num){
 
 <div class="container">
 	<div class="body-container" style="width:700px;">
-	<div class="body-title">
-		<div class="body-title"></div>
-	</div>
+
+		   <div class="body-title" style="margin-top: 20px;">
+		   <h3><span ><img src="<%=cp%>/resource/images/notice3.png"></span> 공지사항 </h3>
+		</div>
+
 	
 	<div>
-		<table style="width:100%; margin: 50px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+		<table style="width:100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 		<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="center">
 				${dto.subject }

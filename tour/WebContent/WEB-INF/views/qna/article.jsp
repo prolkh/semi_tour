@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
+<title>질문과 답변</title>
 
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
@@ -43,8 +43,8 @@ function deleteQna(num) {
 	
 <div class="container">
     <div class="body-container" style="width: 700px;">
-        <div class="body-title">
-            <h3><span><img src="<%=cp%>/uploads/leisure/"></span> 질문과 답변 </h3>
+        <div class="body-title" style="margin-top: 20px;">
+            <h3><span ><img src="<%=cp%>/resource/img/qna.png"></span> 질문과 답변 </h3>
         </div>
         
         <div>

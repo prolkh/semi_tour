@@ -238,8 +238,8 @@ public class NoticeServlet extends MyServlet {
 			 FileManager.doFiledelete(pathname, mreq.getParameter("saveFilename"));
 			 
 			dto.setSaveFilename(mreq.getFilesystemName("upload"));
-			dto.setOriginalFilename(mreq.getParameter("upload"));
-			dto.setFilesize(mreq.getParameter("upload").length());
+			dto.setOriginalFilename(mreq.getOriginalFileName("upload"));
+			dto.setFilesize(mreq.getFile("upload").length());
 		 }
 		 dao.updateNotice(dto);
 		 
@@ -323,7 +323,8 @@ public class NoticeServlet extends MyServlet {
 		  if(mreq.getFile("upload")!=null) {
 		  dto.setSaveFilename(mreq.getFilesystemName("upload"));
 		  dto.setOriginalFilename(mreq.getOriginalFileName("upload"));
-		  dto.setFilesize(mreq.getFile("upload").length()); } dao.insertNotice(dto);
+		  dto.setFilesize(mreq.getFile("upload").length()); 
+		  } dao.insertNotice(dto);
 		  
 		  resp.sendRedirect(cp+"/notice/list.do");
 		 
