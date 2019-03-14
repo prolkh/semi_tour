@@ -153,7 +153,7 @@ public class LeisureServlet extends MyServlet{
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		if(info==null) {
-			resp.sendRedirect(cp+"/member/login.jsp");
+			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
 		

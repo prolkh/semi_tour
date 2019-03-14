@@ -12,8 +12,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>tour</title>
-
+<title>tour is my love</title>
+	
 <link rel="stylesheet" href="<%=cp%>/resource/css/style.css" type="text/css">
 <link rel="stylesheet" href="<%=cp%>/resource/css/layout.css" type="text/css">
 <style type="text/css">
@@ -35,47 +35,58 @@
    margin-bottom: 10px;
 }
 
-.inner-row > span {
-   display: inline-block;
-   padding:15px 10px;
-   margin-left:15px;
-   border:1px solid black;
-   width: 400px; height: 250px;
-   box-sizing:border-box;
+
+
+div.imgTopic {
+	position:relative;
+	width: 400px; height: 250px;
+	font-family:'Malgun Gothic', "맑은 고딕",sansserif;
+	border: 1px solid #eee;
+	margin-left:15px;
+	float: left;
 }
-.inner-row > span:first-child {
+
+div.imgTopic img{
+	width: 400px; height: 250px;
+}
+
+.inner-row > div:first-child {
    margin-left:0;
 }
 
-.inner-row > span > img {
-   display: inline-block;
+div .imgTopic a {
+	text-decoration: none
+}
+h1.title {
+	position:absolute;
+	z-index:1;
+	left:15px;
+	bottom:10px;
+	display:block;
+}
+h1.title a:hover, h1.title a:focus {
+	text-decoration:underline;
+}
+h1.title a{
+	font-size:18px;
+	font-weight:bold;
+	color:#fff;
 }
 
-.site-bg{
-	background-image: url("/tour/resource/img/site.jpg");
-    background-size: cover; 
-    color: white;
+
+span.info {
+	position:absolute;
+	left:0;
+	width:400px;
+	bottom:0px;
+	height:50px;
+	padding:0px 0px 0px;
+	background: rgb(0, 0, 0, .5);
+	color: white;
 }
-.leisure-bg{
-	background-image: url("/tour/resource/img/leisure.jpg");
-    background-size: cover; 
-    color: white;
-}
-.fest-bg{
-	background-image: url("/tour/resource/img/fest2.jpg");
-    background-size: cover;
-    color:white;
-}
-.notice-bg{
-	background-image: url("/tour/resource/img/notice111.gif");
-    background-size: cover;
-    color:white;
-}
-.qna-bg{
-	background-image: url("/tour/resource/img/Q&A.gif");
-    background-size: cover;
-    color:white;
-}
+
+
+
 </style>
 </head>
 <body>
@@ -91,14 +102,49 @@
 	    
 		<div class="inner">
 			<div class="inner-row">
-				<span onclick="location.href='<%=cp%>/site/list.do'" class="site-bg">관광지</span>
-				<span onclick="location.href='<%=cp%>/leisure/list.do'" class="leisure-bg">레포츠</span> 
-				<span onclick="location.href='<%=cp%>/fest/list.do'" class="fest-bg">축제</span>
+				<div class="imgTopic" style="margin-bottom: 30px;">
+					<h1 class="title"><a href="#">관광지</a></h1>
+					<p class="content"><a href="<%=cp%>/site/list.do"><img src="/tour/resource/img/site.jpg" alt="관광지" />
+						<span class="info">&nbsp;</span>
+					</a></p>
+				</div>
+				
+				<div class="imgTopic">
+					<h1 class="title"><a href="#">레포츠</a></h1>
+					<p class="content"><a href="<%=cp%>/leisure/list.do"><img src="/tour/resource/img/leisure.jpg" alt="레포츠" />
+						<span class="info">&nbsp;</span>
+					</a></p>
+				</div>
+				
+				<div class="imgTopic">
+					<h1 class="title"><a href="#">축제</a></h1>
+					<p class="content"><a href="<%=cp%>/fest/list.do"><img src="/tour/resource/img/fest2.jpg" alt="축제" />
+						<span class="info">&nbsp;</span>
+					</a></p>
+				</div>
+	
 			</div>
-			<div class="inner-row">
-				<span onclick="location.href='<%=cp%>/notice/list.do'" class="notice-bg"></span> 
-				<span onclick="location.href='<%=cp%>/qna/list.do'" class="qna-bg"></span>
-				<span></span> 
+			<div class="inner-row" style="clear:both;">
+				<div class="imgTopic">
+					<h1 class="title"><a href="#">공지사항</a></h1>
+					<p class="content"><a href="<%=cp%>/notice/list.do"><img src="/tour/resource/img/notice.jpg" alt="공지사항" />
+						<span class="info">&nbsp;</span>
+					</a></p>
+				</div>
+				
+				<div class="imgTopic">
+					<h1 class="title"><a href="#">질문과 답변</a></h1>
+					<p class="content"><a href="<%=cp%>/qna/list.do"><img src="/tour/resource/img/QnA.jpg" alt="질문과답변" />
+						<span class="info">&nbsp;</span>
+					</a></p>
+				</div>
+				
+				<div class="imgTopic">
+					<h1 class="title"><a href="#">돋보기</a></h1>
+					<p class="content"><a href="#"><img src="/tour/resource/img/more2.png" alt="더보기" />
+						<span class="info">&nbsp;</span>
+					</a></p>
+				</div>
 			</div>       
 		</div>  
 	</div>

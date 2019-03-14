@@ -9,15 +9,14 @@
 
 
 <div class="header-top">
-	<div class="header-left" onclick="location.href='<%=cp%>/main.do'">&nbsp;</div>
-
+	<div class="header-left"></div>
 	<div class="header-right">
 		<div>
 			<div style="padding-top: 20px;  float: right;">
 				<c:if test="${empty sessionScope.member}">
-	                <a href="<%=cp%>/member/login.do">로그인</a>
-	                    <span>&nbsp;|&nbsp;</span>
-	                <a href="<%=cp%>/member/member.do">회원가입</a>
+	                <a href="<%=cp%>/member/login.do" style="color:white">로그인</a>
+	                    <span style="color:white">&nbsp;|&nbsp;</span>
+	                <a href="<%=cp%>/member/member.do" style="color:white">회원가입</a>
                 </c:if>
                 <c:if test="${not empty sessionScope.member }">
                 	<span> ${sessionScope.member.userName}</span>님
