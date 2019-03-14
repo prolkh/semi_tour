@@ -20,7 +20,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
     function sendOk() {
-        var f = document.boardForm;
+        var f = document.qnaForm;
 
     	var str = f.subject.value;
         if(!str) {
@@ -36,7 +36,7 @@
             return;
         }
 
-    	f.action="<%=cp%>/board/${mode}_ok.do";
+    	f.action="<%=cp%>/qna/${mode}_ok.do";
 
         f.submit();
     }
@@ -55,26 +55,26 @@
         </div>
         
         <div>
-			<form name="boardForm" method="post">
+			<form name="qnaForm" method="post">
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
-			        <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject }">
+			        <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
 			      </td>
 			  </tr>
 			
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			      <td style="padding-left:10px;"> 
-			    	${sessionScope.member.userName }
+			          ${sessionScope.member.userName}
 			      </td>
 			  </tr>
 			
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			        <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content }</textarea>
+			        <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
 			      </td>
 			  </tr>
 			  </table>
@@ -82,22 +82,22 @@
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center">
-					<!-- 	
-			         	 <input type="hidden" name="boardNum" value="">
-			        	 <input type="hidden" name="page" value="">
-			        	 <input type="hidden" name="searchKey" value="">
-			        	 <input type="hidden" name="searchValue" value="">
-				      
-			
-			      	     <input type="hidden" name="groupNum" value="">
-			      	     <input type="hidden" name="orderNo" value="">
-			      	     <input type="hidden" name="depth" value="">
-			      	     <input type="hidden" name="parent" value="">
-			      	     <input type="hidden" name="page" value="">
-		 -->
-			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'? '수정완료':(mode=='reply'? '답변완료':'등록하기') }</button>
+			         <c:if test="${mode=='update'}"><!--히든으로 넘김 따라다녀야 검색이 안풀리니까  -->
+			         	 <input type="hidden" name="qnaNum" value="${dto.qnaNum}">
+			        	 <input type="hidden" name="page" value="${page}">
+			        	 <input type="hidden" name="searchKey" value="${searchKey}">
+			        	 <input type="hidden" name="searchValue" value="${searchValue}">
+			        </c:if>			      
+			      	<c:if test="${mode=='reply'}">
+			      	     <input type="hidden" name="groupNum" value="${dto.groupNum}">
+			      	     <input type="hidden" name="orderNo" value="${dto.orderNo}">
+			      	     <input type="hidden" name="depth" value="${dto.depth}">
+			      	     <input type="hidden" name="parent" value="${dto.qnaNum}">
+			      	     <input type="hidden" name="page" value="${page}">
+			      	</c:if>
+			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':(mode=='reply'? '답변완료':'등록하기')}</button>
 			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick=""></button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/qna/list.do';">${mode=='update'?'수정취소':(mode=='reply'? '답변취소':'등록취소')}</button>
 			      </td>
 			    </tr>
 			  </table>

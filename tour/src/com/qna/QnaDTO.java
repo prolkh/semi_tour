@@ -12,13 +12,13 @@ public class QnaDTO {
 	private int hitCount;
 	private String created;
 	private String userName;
-	private int setListNum;
+	private int ListNum;
 
-	public int getSetListNum() {
-		return setListNum;
+	public int getListNum() {
+		return ListNum;
 	}
-	public void setSetListNum(int setListNum) {
-		this.setListNum = setListNum;
+	public void setListNum(int ListNum) {
+		this.ListNum = ListNum;
 	}
 	public int getQnaNum() {
 		return qnaNum;

@@ -23,9 +23,9 @@
 
 <c:if test="${sessionScope.member.userId==dto.userId||sessionScope.member.userId=='admin'}">
 <script type="text/javascript">
-function deleteBoard(num) {
+function deleteQna(num) {
 	if(confirm("게시물을 삭제 하시겠습니까 ?")) {
-		var url="<%=cp%>/board/delete.do?boardNum="+num+"&${query}";
+		var url="<%=cp%>/qna/delete.do?qnaNum="+num+"&${query}";
 		location.href=url;
 	}
 }
@@ -44,7 +44,7 @@ function deleteBoard(num) {
 <div class="container">
     <div class="body-container" style="width: 700px;">
         <div class="body-title">
-            <h3><span style="font-family: Webdings">2</span> 질문과 답변 </h3>
+            <h3><span><img src="<%=cp%>/uploads/leisure/"></span> 질문과 답변 </h3>
         </div>
         
         <div>
@@ -75,7 +75,7 @@ function deleteBoard(num) {
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
                   <c:if test="${not empty preReadDto}">
-                         <a href="<%=cp%>/board/article.do?boardNum=${preReadDto.boardNum}&${query}">${preReadDto.subject}</a>
+                         <a href="<%=cp%>/qna/article.do?qnaNum=${preReadDto.qnaNum}&${query}">${preReadDto.subject}</a>
                   </c:if>
 			    </td>
 			</tr>
@@ -84,7 +84,7 @@ function deleteBoard(num) {
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       다음글 :
                   <c:if test="${not empty nextReadDto}">
-                         <a href="<%=cp%>/board/article.do?boardNum=${nextReadDto.boardNum}&${query}">${nextReadDto.subject}</a>
+                         <a href="<%=cp%>/qna/article.do?qnaNum=${nextReadDto.qnaNum}&${query}">${nextReadDto.subject}</a>
                   </c:if>
 			    </td>
 			</tr>
@@ -93,15 +93,15 @@ function deleteBoard(num) {
 			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 			    <td width="300" align="left">
-			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/board/reply.do?boardNum=${dto.boardNum}&page=${page}';">답변</button>
+			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/qna/reply.do?qnaNum=${dto.qnaNum}&page=${page}';">답변</button>
 			          <c:if test="${sessionScope.member.userId==dto.userId}">
-			          	<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/board/update.do?boardNum=${dto.boardNum}&${query}';">수정</button>
+			          	<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/qna/update.do?qnaNum=${dto.qnaNum}&${query}';">수정</button>
 			          </c:if>
 			          <c:if test="${sessionScope.member.userId!=dto.userId}">
 			          	<button type="button" class="btn" disabled="disabled">수정</button>
 			          </c:if>
 			          <c:if test="${sessionScope.member.userId==dto.userId||sessionScope.member.userId=='admin'}">
-			          <button type="button" class="btn" onclick="deleteBoard('${dto.boardNum}');">삭제</button>
+			          <button type="button" class="btn" onclick="deleteQna('${dto.qnaNum}');">삭제</button>
 					  </c:if>	  
 					  <c:if test="${sessionScope.member.userId!=dto.userId&&sessionScope.member.userId!='admin'}">
 			          <button type="button" class="btn"  disabled="disabled">삭제</button>
@@ -109,7 +109,7 @@ function deleteBoard(num) {
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/board/list.do?${query}';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/qna/list.do?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>

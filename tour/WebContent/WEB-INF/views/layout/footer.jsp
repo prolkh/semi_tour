@@ -12,4 +12,4 @@
 <a href="#">제휴제안</a>&nbsp;&nbsp;&nbsp;
 <a href="#">이용약관</a>&nbsp;&nbsp;&nbsp;
 <a href="#">개인정보취급방침</a>&nbsp;&nbsp;&nbsp;
-@어서옵쇼 관광지쇼 Corp.
+ⓒ어서옵쇼 관광지쇼 Corp.
