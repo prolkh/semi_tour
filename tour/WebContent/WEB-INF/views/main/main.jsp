@@ -27,7 +27,7 @@
 }
 
 .inner {
-	clear: both;
+	clear: both;	
 }
 
 .inner-row {
