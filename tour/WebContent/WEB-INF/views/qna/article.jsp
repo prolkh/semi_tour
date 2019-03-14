@@ -90,7 +90,7 @@ function deleteQna(num) {
 			</tr>
 			</table>
 			
-			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
+			<table style="width: 100%; margin: 20px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 			    <td width="300" align="left">
 			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/qna/reply.do?qnaNum=${dto.qnaNum}&page=${page}';">답변</button>

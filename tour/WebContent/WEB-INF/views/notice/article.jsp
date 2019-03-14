@@ -40,11 +40,11 @@ function deleteNotice(num){
 <div class="container">
 	<div class="body-container" style="width:700px;">
 	<div class="body-title">
-		<div class="body-title"><span>공지사항입니다요</span></div>
+		<div class="body-title"></div>
 	</div>
 	
 	<div>
-		<table style="width:80%; margin: 50px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+		<table style="width:100%; margin: 50px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 		<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			<td colspan="2" align="center">
 				${dto.subject }
@@ -95,8 +95,8 @@ function deleteNotice(num){
 		</tr>
 		</table>
 		
-		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
-		<tr>
+		<table style="width: 100%; margin: 20px auto 20px; border-spacing: 0px;">
+		<tr height="45">
 			<td width="300" align="left">
 			       <c:if test="${sessionScope.member.userId==dto.userId}">	
 						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/update.do?num=${dto.num}&page=${page}';">수정</button>

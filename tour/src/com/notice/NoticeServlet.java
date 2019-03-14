@@ -373,7 +373,7 @@ public class NoticeServlet extends MyServlet {
 			searchValue=URLDecoder.decode(searchValue, "utf-8");
 		}
 		
-		int rows=5;
+		int rows=10;
 		int dataCount, total_page;
 		
 		if(searchValue.length()!=0)

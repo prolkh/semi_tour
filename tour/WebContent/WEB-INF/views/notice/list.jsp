@@ -54,13 +54,13 @@
 		</table >
 		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
-			  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<th width="100" style="color: #787878;">번호</th>
-				<th style="color: #787878; width: 200" >제목</th>
-				<th width="100" style="color: #787878;">작성자</th>		
-				<th width="110" style="color: #787878;">작성일</th>
-				<th width="60" style="color: #787878;">조회수</th>
-				<th width="50" style="color: #787878;">첨부</th>
+			  <tr align="center" bgcolor="#666" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				<th width="100" style="color: white;">번호</th>
+				<th style="color: white; width: 200" >제목</th>
+				<th width="100" style="color: white;">작성자</th>		
+				<th width="110" style="color: white;">작성일</th>
+				<th width="60" style="color: white;">조회수</th>
+				<th width="50" style="color: white;">첨부</th>
 			</tr>
 
 			<c:forEach var="dto" items="${listNotice}">
