@@ -35,7 +35,9 @@ public class MemberServlet extends MyServlet{
 			pwdForm(req,resp);
 		} else if(uri.indexOf("pwd_ok.do")!=-1) {
 			pwdSubmit(req,resp);
-		} 
+		} else if(uri.indexOf("update_ok.do")!=-1) {
+			updateSubmit(req, resp);
+		}
 		
 		
 	}
@@ -173,6 +175,81 @@ public class MemberServlet extends MyServlet{
 	}
 	
 	private void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		// 패스워드 확인
+		HttpSession session=req.getSession();
+		String cp=req.getContextPath();
+		MemberDAO dao=new MemberDAO();
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		if(info==null) { //로그아웃 된 경우
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		// DB에서 해당 회원 정보 가져오기
+		MemberDTO dto=dao.readMember(info.getUserId());
+		if(dto==null) {
+			session.invalidate();
+			resp.sendRedirect(cp);
+			return;
+		}
+		
+		String userPwd=req.getParameter("userPwd");
+		String mode=req.getParameter("mode");
+		if(! dto.getUserPwd().equals(userPwd)) {
+			if(mode.equals("update"))
+				req.setAttribute("title", "회원 정보 수정");
+			else
+				req.setAttribute("title", "회원 탈퇴");
+	
+			req.setAttribute("mode", mode);
+			req.setAttribute("message", 	"<span style='color:red;'>패스워드가 일치하지 않습니다.</span>");
+			forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+			return;
+		}
+		
+		// 회원수정폼으로 이동
+		req.setAttribute("title", "회원 정보 수정");
+		req.setAttribute("dto", dto);
+		req.setAttribute("mode", "update");
+		forward(req, resp, "/WEB-INF/views/member/member.jsp");
 	}
+	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 회원정보 수정 완료
+		HttpSession session=req.getSession();
+		String cp=req.getContextPath();
+		MemberDAO dao=new MemberDAO();
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		if(info==null) { //로그아웃 된 경우
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		MemberDTO dto = new MemberDTO();
+
+		dto.setUserId(req.getParameter("userId"));
+		dto.setUserPwd(req.getParameter("userPwd"));
+		dto.setUserName(req.getParameter("userName"));
+		String email = req.getParameter("email");
+		dto.setEmail(email);
+		String tel1 = req.getParameter("tel1");
+		String tel2 = req.getParameter("tel2");
+		String tel3 = req.getParameter("tel3");
+		if (tel1 != null && tel1.length() != 0 && tel2 != null
+				&& tel2.length() != 0 && tel3 != null && tel3.length() != 0) {
+			dto.setTel(tel1 + "-" + tel2 + "-" + tel3);
+		}
+		
+		dao.updateMember(dto);
+		
+		StringBuffer sb=new StringBuffer();
+		sb.append("<b>"+dto.getUserName()+ "</b>님 회원 정보가 수정 되었습니다.<br>");
+		sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
+		
+		req.setAttribute("title", "회원 정보 수정");
+		req.setAttribute("message", sb.toString());
+		
+		forward(req, resp, "/WEB-INF/views/member/complete.jsp");
+	}
+	
 }

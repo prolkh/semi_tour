@@ -84,15 +84,21 @@ public class MemberDAO {
 		return dto;
 	}
 	
-	public int updateMember() {
+	public int updateMember(MemberDTO dto) {
 		int result =0;
 		PreparedStatement pstmt=null;
-		String sql;
+		StringBuffer sb=new StringBuffer();
 		
 		try {
-			sql = "";
-			pstmt=conn.prepareStatement(sql);
+			sb.append("UPDATE member SET userPwd=?, modify_date=SYSDATE, tel=?, email=? WHERE userId=?");
+			pstmt=conn.prepareStatement(sb.toString());
 			
+			pstmt.setString(1, dto.getUserPwd());
+			pstmt.setString(2, dto.getTel());
+			pstmt.setString(3, dto.getEmail());
+			pstmt.setString(4, dto.getUserId());
+			
+			result=pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
