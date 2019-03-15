@@ -134,6 +134,24 @@ a, a:active {
 	text-decoration:none;
 	color:black;
 }
+
+header {
+	position:fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 40px;
+	transition: top 0.2s ease-in-out;
+}
+#gnb{
+	position:fixed;
+	top: 60px;
+	z-index: 500;
+	width: 226px;
+	opacity: 1;
+	transition: top .3s ease-in-out, opacity .3s ease-in-out
+}
+
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
@@ -205,45 +223,7 @@ $(function() {
 	});	
 });
 
-var didScroll;
-$(window).scroll(function(event){
-	didScroll = true;
-});
-
-setInterval(function(){
-	if(didScroll){
-		hasScrolled();
-		didScroll = false;
-	}
-}, 250);
-
-var lastScrollTop = 0;
-var delta = 5;
-var navbarHeight = $('header').outerHeight();
-function hasScrolled() {
-	var st = $(this).scrollTop();
-	
-	// Make sure they scroll more than delta
-	if(Math.abs(lastScrollTop - st) <= delta)
-		return;
-	
-	if(st > lastScrollTop && st > navbarHeight) {
-		$("nav").removeClass("nav-down").addClass("nav-up");
-	} else {
-		if(st + $(window).height() < $(document).height()){
-			$("nav").removeClass("nav-up").addClass("nav-down");
-		}
-	}
-	lastScrollTop = st;
-}
-
 </script>
-
-<style>
-.nav-up{
-	top: -64px;
-}
-</style>
 
 </head>
 <body>
@@ -335,5 +315,6 @@ function hasScrolled() {
     <div class="footer">
     	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>"
     </div>
+
 </body>
 </html>
