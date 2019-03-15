@@ -121,8 +121,8 @@ $(function() {
         		
         		<div class="right-content">        		
         			<ul class="tabs">
-        				<li><a href="#tab-basic">기본정보</a></li>
-        				<li><a href="#tab-detail">상세정보</a></li>
+        				<li style="width:50%; text-align:center;"><a href="#tab-basic" >기본정보</a></li>
+        				<li style="width:49.5%; text-align:center;"><a href="#tab-detail">상세정보</a></li>
         			</ul>
         			
         			<div class="tab-container">

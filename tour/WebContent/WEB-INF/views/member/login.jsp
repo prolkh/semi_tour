@@ -69,6 +69,7 @@ body{
 
 
 <script type="text/javascript">
+
 function labelHidden(ob, id){
 	if(!ob.value){
 		document.getElementById(id).style.display="";
@@ -95,6 +96,12 @@ function sendLogin(){
 	
 	f.action = "<%=cp%>/member/login_ok.do";
 	f.submit();
+}
+
+function enterkey() {
+	if(window.event.keyCode== 13){
+		sendLogin();
+	}
 }
 </script>
 
@@ -124,7 +131,8 @@ function sendLogin(){
 						<label for="userPwd" id="lblUserPwd" class="lbl">패스워드</label>
 						<input type="password" name="userPwd" id="userPwd" class="loginText" maxlength="20"
 								onfocus="document.getElementById('lblUserPwd').style.display='none';"
-								onblur="labelHidden(this, 'lblUserPwd')">
+								onblur="labelHidden(this, 'lblUserPwd')" 
+								onkeyup="enterkey();">
 								
 					</td>
 				</tr>
