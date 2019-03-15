@@ -129,8 +129,8 @@ public class NoticeServlet extends MyServlet {
 		req.setAttribute("page", page);
 		
 		req.setAttribute("mode", "update");
-		
-		forward(req, resp, "WEB-INF/views/notice/created.jsp");
+
+		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 }
 
 	private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException ,IOException {
@@ -159,9 +159,9 @@ public class NoticeServlet extends MyServlet {
 			return;
 		}
 		
-		if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0) {
+		if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0) 
 			FileManager.doFiledelete(pathname, dto.getSaveFilename());
-		}
+		
 		
 		dao.deleteNotice(num);
 		
@@ -215,7 +215,7 @@ public class NoticeServlet extends MyServlet {
 		}
 		
 		String encType="utf-8";
-		int maxFilesize=10*10*1024;
+		int maxFilesize=10*1024*1024;
 		
 		
 		MultipartRequest mreq=new MultipartRequest(req, pathname, maxFilesize, encType, new DefaultFileRenamePolicy());

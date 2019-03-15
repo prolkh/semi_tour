@@ -35,8 +35,9 @@ function sendNotice() {
 }
 
 <c:if test="${mode=='update'}">
-	function deletFile(num){
+	function deleteFile(num){
 		var url="<%=cp%>/notice/deleteFile.do?num="+num+"&page=${page}";
+
 		location.href=url;
 	}
 </c:if>	
@@ -97,7 +98,7 @@ function sendNotice() {
 			 <td style="padding-left:10px;"> 
 				<c:if test="${not empty dto.saveFilename }">
 				${dto.originalFilename }
-				 <a href="javascript:deleteFile('${dto.num }')">삭제</a>   
+				 | <a href="javascript:deleteFile('${dto.num }');">삭제</a>   
 			 	</c:if>
 			 </td>
 		 </tr> 
