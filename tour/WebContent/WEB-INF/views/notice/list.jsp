@@ -71,6 +71,7 @@
 				<img src="<%=cp %>/resource/images/notice3.png">
 				</span></td>
 				<td align="center" style="padding-left:10px; width:400px;">
+				<img src="<%=cp %>/resource/images/hot.gif">
 				<a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
 				<c:if test="${dto.gap<=1}"><img src="<%=cp %>/resource/images/hot.gif"></c:if>
 				</td>
