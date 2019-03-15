@@ -254,6 +254,8 @@ $(function(){
         		<br>
         		${dto.introduction}
         	</div>
+        	<br>
+        	<hr>
         	<div>
         		<h3>세부설명</h3>
         		<br>
