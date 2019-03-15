@@ -157,13 +157,13 @@ function isValidEmail(data){
 			<div class="member">
 				<div class="inner">
 					<p class="block-title">아이디</p>
-					<p><input type="text" class="boxTF memberTF" name="userId"></p>
+					<p><input type="text" class="boxTF memberTF" name="userId" value="${dto.userId}" ${mode=="update" ? "readonly='readonly' ":""}></p>
 					<p class="block-msg">아이디는 5~10자이며, 첫글자는 영문자로 시작해야합니다</p>
 				</div>
 				
 				<div class="inner">
 					<p class="block-title">이름</p>
-					<p><input type="text" class="boxTF memberTF" name="userName"></p>
+					<p><input type="text" class="boxTF memberTF" name="userName" value="${dto.userName}" ${mode=="update" ? "readonly='readonly' ":""}></p>
 				</div>
 				
 				
@@ -198,9 +198,9 @@ function isValidEmail(data){
 
 				<div class="inner">
 					<p>
-					   <button type="button" name="sendButton" class="btn" onclick="memberOk();">회원가입</button>
+					   <button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="created"?"회원가입":"정보수정"}</button>
 					   <button type="reset" class="btn">다시입력</button>
-					   <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/';">가입취소</button>
+					   <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/';">${mode=="created"?"가입취소":"수정취소"}</button>
 					</p>
 				</div>
 				

@@ -78,29 +78,26 @@ function labelHidden(ob, id){
 	
 }
 
-function sendLogin(){
-	var f=document.loginForm;
-	
-	if(! f.userId.value){
-		alert("아이디를 입력하세요.");
-		f.userId.focus();
-		return;
-	}
-	
-	if(! f.userPwd.value){
-		alert("패스워드를 입력하세요.");
-		f.userPwd.focus();
-		return;
-	}
-	
-	f.action = "<%=cp%>/member/login_ok.do";
-	f.submit();
+function sendOk() {
+    var f = document.pwdForm;
+
+    var str = f.userPwd.value;
+    if(!str) {
+        alert("\n패스워드를 입력하세요. ");
+        f.userPwd.focus();
+        return;
+    }
+
+    f.action = "<%=cp%>/member/pwd_ok.do";
+    f.submit();
 }
 </script>
 
 </head>
 <body>
 <div style="height: 150px; background:grey;">&nbsp;</div>
+
+
 
 <div class="container" style="margin-top:50px; margin-bottom:50px;">
 	<div class="login-container">
@@ -109,7 +106,7 @@ function sendLogin(){
 		</div>
 		
 		
-		<form name="PwdForm" method="post" action="">
+		<form name="pwdForm" method="post" action="">
 			<table>
 				<tr align="center" height="60">
 					<td>
@@ -128,17 +125,10 @@ function sendLogin(){
 				</tr>
 				<tr align="center" height="65">
 					<td>
-						<button type="button" onclick="sendLogin();" class="btnConfirm">로그인</button>
+						<button type="button" onclick="sendOk();" class="btnConfirm">확인</button>
 					</td>
 				</tr>
 				
-				<tr align="center" height="45">
-					<td>
-						<a href="<%=cp%>/">아이디 찾기</a> | 
-						<a href="<%=cp%>/">패스워드 찾기</a> | 
-						<a href="<%=cp%>/member/member.do">회원가입</a>
-					</td>
-				</tr>
 				<tr align="center" height="40">
 					 <td><span style="color:blue;">${message}</span></td>
 				</tr>
