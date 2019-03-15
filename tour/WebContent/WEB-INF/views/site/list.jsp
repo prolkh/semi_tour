@@ -113,6 +113,18 @@ body{
 dl, ul, ol, menu, li {
 	list-style: none;
 }
+
+.list > li .area_txt a{
+	text-decoration:none;
+	font-size:20px;
+	font-weight:bold;
+	color:black;
+	width:100%;
+	display:inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
