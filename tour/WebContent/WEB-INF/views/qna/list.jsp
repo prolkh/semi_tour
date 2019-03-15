@@ -1,5 +1,4 @@
-
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -43,7 +42,7 @@ list-style-type:none;
 
 	<div class="body-container" style="width : 700px; margin-top: 100px auto 100px 100px;">
 		<div class="body-title" style="text-align: center; font-size: 45px; font-weight: bold; margin-top: 50px; ">
-			<span style="border-top:3px solid #E1E1E1; border-bottom: 3px solid #E1E1E1; color: gray; text-transform: uppercase;     font-family: 'Roboto', Arial,sans-serif,'Nanum Gothic';">&nbsp;&nbsp;Q&nbsp;&&nbsp;A&nbsp;&nbsp;</span>
+			<span style="border-top:3px solid #E1E1E1; border-bottom: 3px solid #E1E1E1; color: gray; text-transform: uppercase;     font-family: 'Roboto', Arial,sans-serif,'Nanum Gothic';">&nbsp;&nbsp;Q&nbsp;&amp;&nbsp;A&nbsp;&nbsp;</span>
 	</div>
         
         <div>
