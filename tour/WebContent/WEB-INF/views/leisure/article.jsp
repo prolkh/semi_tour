@@ -20,8 +20,7 @@
 <style>
 *{
 	margin:0;
-	padding:0;
-	list-style-type:none;
+	padding:0;	
 }
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
