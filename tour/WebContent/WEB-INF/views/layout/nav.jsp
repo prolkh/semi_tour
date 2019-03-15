@@ -67,7 +67,7 @@ $(function () {
 	});
 });
 
-var didscroll;
+var didScroll;
 var lastScrollTop = 0;
 var delta = 5;
 var navbarHeight = $('nav').outerHeight();
