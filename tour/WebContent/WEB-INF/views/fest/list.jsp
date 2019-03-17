@@ -155,6 +155,8 @@ header {
 </style>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+
+// 전체 버튼을 누르면 모든 달을 선택하고, 달을 하나씩 눌러서 여러개 선택할 수 있도록 monthlist의 btn에 추가한 기능
 /* $(function() {
 	$("#monthlist .btn").click(function() {
 		if($(this).parent().hasClass("All")){
@@ -176,7 +178,8 @@ header {
 		
 	});	
 }); */
- 
+
+// 선택한 month의 버튼 색상을 진하게 바꾸고, 선택한 month에 맞는 검색결과를 불러오는 함수
 $(function() {
 	if("${monthcode}"==""){
 		$("#monthlist .All .btn").addClass("active");		
@@ -199,7 +202,7 @@ $(function() {
 	});	
 });
 
-
+//선택한 area의 버튼 색상을 진하게 바꾸고, 선택한 area에 맞는 검색결과를 불러오는 함수
 $(function() {
 	if("${areacode}"==""){
 		$("#arealist .All .btn").addClass("active");		
@@ -222,7 +225,6 @@ $(function() {
 		location.href=url;
 	});	
 });
-
 </script>
 
 </head>

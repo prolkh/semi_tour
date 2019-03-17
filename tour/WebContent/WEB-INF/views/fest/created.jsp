@@ -25,7 +25,7 @@ function sendOk() {
 
 	var str = f.eventName.value;
     if(!str) {
-        alert("제목을 입력하세요. ");
+        alert("축제 이름을 입력하세요. ");
         f.eventName.focus();
         return;
     }
@@ -36,11 +36,62 @@ function sendOk() {
         f.content.focus();
         return;
     }
+    
+	str = f.startDate.value;
+    if(!str) {
+        alert("시작일을 입력하세요. ");
+        f.startDate.focus();
+        return;
+    }
+    
+	str = f.endDate.value;
+    if(!str) {
+        alert("종료일을 입력하세요. ");
+        f.endDate.focus();
+        return;
+    }
+    
+	str = f.tel.value;
+	var format = /^(01[016789])-[0-9]{3,4}-[0-9]{4}$/g;
+    if(! format.test(str)) {
+        alert("전화번호를 다시 입력해주세요.");
+        f.tel.focus();
+        return;
+    }
+    
+    str = f.homepage.value;
+    if(!str) {
+        alert("홈페이지 주소를 입력하세요. ");
+        f.homepage.focus();
+        return;
+    }
 
-	var mode="${mode}";
+    
+    str = f.host.value;
+    if(!str) {
+        alert("주최/주관란을 입력하세요. ");
+        f.host.focus();
+        return;
+    }
+    
+    str = f.address.value;
+    if(!str) {
+        alert("주소를 입력하세요. ");
+        f.address.focus();
+        return;
+    }
+    
+	str = f.price.value;
+	if(!str) {
+		alert("이용요금을 입력하세요. ");
+		f.price.focus();
+		return;
+	}
+
+	var mode="${mode}";	
 	if(mode=="created"||mode=="update" && f.upload.value!="") {
 		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(f.upload.value)) {
-			alert('이미지 파일만 가능합니다. !!!');
+			alert('이미지 파일을 등록은 필수입니다.');
 			f.upload.focus();
 			return;
 		}
@@ -52,7 +103,7 @@ function sendOk() {
 }
 
 $(function() {
-	// $("#date1").datepicker();
+	// jQuery ui를 사용한 날짜 선택창 디자인
 	$("#startDate").datepicker({
 		showMonthAfterYear:true
 		,showOn:"button"
@@ -70,6 +121,7 @@ $(function() {
 	$(".ui-datepicker-trigger").css({position:"relative", top:"3px", left:"3px"});
 });
 
+// 종료날짜가 시작날짜보다 뒤에 있는지 검사하는 함수
 $(function(){
 	$("form #endDate").change(function(){
 		var startDate = $('form #startDate').val();

@@ -38,7 +38,7 @@
 
 <script>
 $(function () {
-	// 메뉴 보이기
+	// 메뉴에 커서를 올리면 하위에 있는 메뉴들이 표시되도록 하는 함수
 	$("#btn-menu").hover(function(){
 		$(this).parent().find(".box-my").slideUp("fast");
 		$(this).parent().find(".box-menu").slideDown("fast").show();
@@ -47,7 +47,7 @@ $(function () {
 		});
 	});
 	
-	// 마이페이지 보이기
+	// 마이페이지에 커서를 올리면 아래 메뉴들이 표시되도록 하는 함수
 	$("#btn-my").hover(function(){
 		$(this).parent().find(".box-menu").slideUp("fast");
 		$(this).parent().find(".box-my").slideDown("fast").show();
@@ -56,26 +56,31 @@ $(function () {
 		});
 	});	
 	
+	// 홈에 커서를 올리면 표시되었던 다른 메뉴들에게 숨기기 적용
 	$(".btn-home").hover(function(){
 		$(this).parent().children(".box-menu").hide();
 		$(this).parent().children(".box-my").hide();
 	});
 	
+	// 이전 페이지에 커서를 올리면 다른 메뉴들에게 숨기기 적용
 	$(".btn-prev").hover(function(){
 		$(this).parent().children(".box-menu").hide();
 		$(this).parent().children(".box-my").hide();
 	});
 });
 
+// 스크롤을 내리면 position:fixed가 적용되어 있는 nav를 숨기는 함수
 var didScroll;
 var lastScrollTop = 0;
 var delta = 5;
 var navbarHeight = $('nav').outerHeight();
 
+// 스크롤이 되었는지 확인하는 함수
 $(window).scroll(function(event){
 	didScroll = true;
 });
 
+// didScroll함수 검사하는 시간을 250(단위 : ms)으로 설정
 setInterval(function() {
 	if(didScroll){
 		hasScrolled();
@@ -83,7 +88,8 @@ setInterval(function() {
 	}
 }, 250);
 
-
+// 스크롤이 발생된 경우 실행하는 함수 
+// 원래는 스크롤이 올라가면 다시 보이게 설정하려 했으나 잘 되지 않아서 주석으로 처리...
 function hasScrolled() {
 	var st= $(this).scrollTop();
 	
@@ -97,7 +103,6 @@ function hasScrolled() {
 	/* 	if(st + $(window).height() < $(document).height()) {
 			$("nav").css("top", "60px");
 		} */
-
 	}
 }
 
